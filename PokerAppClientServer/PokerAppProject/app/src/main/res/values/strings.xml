@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Psymw6MobilePokerApp</string>
+    <!-- Strings related to login -->
+    <string name="pickLogin">Choose a login method</string>
+    <string name="loggingIn">Logging in...</string>
+    <string name="attemptUserRetrieval">Attempting to retrieve user data...</string>
+    <string name="loginFailed">Login Failed\nTry again</string>
+    <string name="loginComplete">Login Successful\nTap to start</string>
+    <string name="createUser">Create Username</string>
+    <string name="server_client_id">992597545265-dd7gbt39dp4i9iakn1ts1541vc0qebn9.apps.googleusercontent.com</string>
+
+    <!-- Strings for buttons -->
+    <string name="guestLoginButton">Login as Guest</string>
+    <string name="optionsButton">Options</string>
+    <string name="playButton">Play</string>
+    <string name="profileButton">Profile</string>
+    <string name="helpButton">Help</string>
+    <string name="friendsButton">Friends</string>
+
+    <!-- Strings for shared preferences -->
+    <string name="settingsPreferences">com.game.poker.psymw6mobilepokerapp.mySettingsPreferences</string>
+    <string name="dataPreferences">com.game.poker.psymw6mobilepokerapp.myDataStats</string>
+    <string name="loginPreferences">com.game.poker.psymw6mobilepokerapp.myLoginPreferences</string>
+
+    <!-- Keys for settings preferences -->
+
+    <!-- Keys for data preferences -->
+    <string name="username">username</string>
+    <string name="currency">currency</string>
+    <string name="hands_played">hands_played</string>
+    <string name="hands_won">hands_won</string>
+    <string name="win_rate">win_rate</string>
+    <string name="max_winnings">max_winnings</string>
+    <string name="max_chips">max_chips</string>
+
+    <!-- Keys for login preferences -->
+    <string name="isLoggedIn">isLoggedIn</string>
+    <string name="existingUUID">isUUID</string>
+    <string name="currentUUID">myUUID</string>
+</resources>

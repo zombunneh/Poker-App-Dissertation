@@ -1,0 +1,35 @@
+<component name="libraryTable">
+  <library name="enu">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/lib/sqljdbc_7.0/enu" />
+      <root url="file://C:/Program Files (x86)/MySQL/Connector J 8.0" />
+      <root url="file://$PROJECT_DIR$/lib/google-api-java-client" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/lib/sqljdbc_7.0/enu/samples/adaptive" />
+      <root url="file://$PROJECT_DIR$/lib/sqljdbc_7.0/enu/samples/alwaysencrypted" />
+      <root url="file://$PROJECT_DIR$/lib/sqljdbc_7.0/enu/samples/azureactivedirectoryauthentication" />
+      <root url="file://$PROJECT_DIR$/lib/sqljdbc_7.0/enu/samples/connections" />
+      <root url="file://$PROJECT_DIR$/lib/sqljdbc_7.0/enu/samples/constrained" />
+      <root url="file://$PROJECT_DIR$/lib/sqljdbc_7.0/enu/samples/dataclassification" />
+      <root url="file://$PROJECT_DIR$/lib/sqljdbc_7.0/enu/samples/datatypes" />
+      <root url="file://$PROJECT_DIR$/lib/sqljdbc_7.0/enu/samples/resultsets" />
+      <root url="file://$PROJECT_DIR$/lib/sqljdbc_7.0/enu/samples/sparse" />
+      <root url="file://C:/Program Files (x86)/MySQL/Connector J 8.0" />
+      <root url="file://C:/Program Files (x86)/MySQL/Connector J 8.0/src/build/java" />
+      <root url="file://C:/Program Files (x86)/MySQL/Connector J 8.0/src/demo/java" />
+      <root url="file://C:/Program Files (x86)/MySQL/Connector J 8.0/src/generated/java" />
+      <root url="file://C:/Program Files (x86)/MySQL/Connector J 8.0/src/legacy/java" />
+      <root url="file://C:/Program Files (x86)/MySQL/Connector J 8.0/src/main/core-api/java" />
+      <root url="file://C:/Program Files (x86)/MySQL/Connector J 8.0/src/main/core-impl/java" />
+      <root url="file://C:/Program Files (x86)/MySQL/Connector J 8.0/src/main/protocol-impl/java" />
+      <root url="file://C:/Program Files (x86)/MySQL/Connector J 8.0/src/main/user-api/java" />
+      <root url="file://C:/Program Files (x86)/MySQL/Connector J 8.0/src/main/user-impl/java" />
+      <root url="file://C:/Program Files (x86)/MySQL/Connector J 8.0/src/test/java" />
+    </SOURCES>
+    <jarDirectory url="file://C:/Program Files (x86)/MySQL/Connector J 8.0" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/sqljdbc_7.0/enu" recursive="false" />
+    <jarDirectory url="file://C:/Program Files (x86)/MySQL/Connector J 8.0" recursive="false" type="SOURCES" />
+  </library>
+</component>
