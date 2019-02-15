@@ -3,10 +3,7 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppObjects;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Card;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class EvaluateHand {
     private List<Card> cardsForHand;
@@ -18,9 +15,9 @@ public class EvaluateHand {
     public static final int NUMBER_OF_SUITS = 4;
 
     /**
-    Evaluating hands at the end of a round.
-    Potentially add function to evaluate hands at each stage to provide player with visual feedback on the state of their hand
-    as the com.game progresses
+     * Evaluating hands at the end of a round.
+     *     Potentially add function to evaluate hands at each stage to provide player with visual feedback on the state of their hand
+     *     as the com.game progresses
      */
     public EvaluateHand()
     {
@@ -28,8 +25,10 @@ public class EvaluateHand {
     }
 
     /**
-    returns a Card array combination of community cards and the hand of the current player to evaluate
-    TODO remember to make private after testing
+     *
+     * @param currentPlayer  The player whose hand is to be combined
+     * @param communityCards The community cards currently in play
+     * @return Returns a Card array combination of community cards and the hand of the current player to evaluate
      */
     public Card[] createFullHand(PlayerUser currentPlayer, List<Card> communityCards)
     {
@@ -46,8 +45,8 @@ public class EvaluateHand {
     }
 
     /**
-    counting sort implementation to sort hand
-    change to private after done testing
+     * Implementation of counting sort, orders hand from lowest to highest
+     * @param handToSort The hand to be sorted
      */
     public void sortHand(Card[] handToSort)
     {
@@ -82,10 +81,103 @@ public class EvaluateHand {
         }
     }
 
-    /*
-    returns a hashmap of each player user and their evaluated hand
+    /**
+     *
+     * @param hashToSort The HashMap to be sorted
+     * @return Returns a HashMap of player users with the strongest hand
      */
-    public int handEvaluator(List<PlayerUser> playersToEval, List<Card> communityCards)
+    public HashMap sortHandRanks(HashMap<PlayerUser, Hand> hashToSort)
+    {
+        List<Map.Entry<PlayerUser, Hand>> list = new ArrayList<>(hashToSort.entrySet());
+        list.sort(Map.Entry.comparingByValue(new HandComparator()));
+        Map.Entry<PlayerUser, Hand> prevEntry = null;
+        HashMap<PlayerUser, Hand> result = new LinkedHashMap<>();
+        for(Map.Entry<PlayerUser, Hand> entry : list)
+        {
+            if(prevEntry == null || prevEntry.getValue() == entry.getValue())
+            {
+                result.put(entry.getKey(), entry.getValue());
+                prevEntry = entry;
+            }
+        }
+        return result;
+    }
+
+
+    public HashMap breakTie(HashMap<PlayerUser, Hand> hashToTieBreak)
+    {
+        List<Map.Entry<PlayerUser, Hand>> list = new ArrayList<>(hashToTieBreak.entrySet());
+        Hand handToBreak = Hand.HIGH_CARD;
+        PlayerUser[] tempPlayers = new PlayerUser[list.size()];
+
+        for(int i = 0; i < list.size(); i++)
+        {
+            Map.Entry<PlayerUser, Hand> entry = list.get(i);
+            handToBreak = entry.getValue();
+            tempPlayers[i] = entry.getKey();
+        }
+        switch(handToBreak)
+        {
+            case ROYAL_FLUSH:
+            {
+                break;
+            }
+            case STRAIGHT_FLUSH:
+            {
+
+                break;
+            }
+            case FOUR_KIND:
+            {
+
+                break;
+            }
+            case FULL_HOUSE:
+            {
+
+                break;
+            }
+            case FLUSH:
+            {
+
+                break;
+            }
+            case STRAIGHT:
+            {
+
+                break;
+            }
+            case THREE_KIND:
+            {
+
+                break;
+            }
+            case TWO_PAIR:
+            {
+
+                break;
+            }
+            case PAIR:
+            {
+
+                break;
+            }
+            case HIGH_CARD:
+            {
+
+                break;
+            }
+        }
+        return hashToTieBreak;
+    }
+
+    /**
+     *
+     * @param playersToEval The list of players in the current hand to evaluate
+     * @param communityCards The community cards currently in play
+     * @return Returns a hashmap of Players and their evaluated Hands
+     */
+    public HashMap handEvaluator(List<PlayerUser> playersToEval, List<Card> communityCards)
     {
         ListIterator<PlayerUser> iterator = playersToEval.listIterator();
         PlayerUser tempPlayer;
@@ -112,25 +204,35 @@ public class EvaluateHand {
             }
             evaluatedHands.put(tempPlayer, currentHand);
         }
-        //sort evaluated hands
-        //return strongest hand/hands (winners)
         evaluatedHands.forEach(((playerUser, hand) -> System.out.println(playerUser.username + " " + hand.toString())));
-        return 0;
+        return evaluatedHands;
     }
 
     /**
-    takes hashmap of player/hand and sort them and return the winner(s)
-    TODO COMPLETE
+     *
+     * @param evaluatedHandsToCheck
+     * @return
      */
-    public int getHandWinner()
+    public HashMap getHandWinner(HashMap<PlayerUser, Hand> evaluatedHandsToCheck)
     {
-     return 0;
+        //sort evaluated hands
+        //return list of winner(s) only
+        HashMap<PlayerUser, Hand> temp = sortHandRanks(evaluatedHandsToCheck);
+        temp.forEach((playerUser, hand) -> System.out.println(playerUser.username + " " + hand.toString()));
+        //break ties
+        if(temp.size() > 1)
+        {
+            //break ties
+            temp = breakTie(temp);
+        }
+        return temp;
     }
 
     /**
-    royal flush has no tie break
-    straight flush ties with same high card suit doesn't matter, no kicker used
-    TODO remember to set high card/kicker where applicable #!!!1
+     * Brute forces through different potential poker hands starting from the highest possible hand
+     * Assigns high cards and kicker when relevant
+     * @param handToCheck The hand to evaluate
+     * @return The hand found
      */
     public Hand checkHand(Card[] handToCheck)
     {
@@ -182,6 +284,13 @@ public class EvaluateHand {
         }
         else if(checkPair(handToCheck, 2))
         {
+            for(int i = handToCheck.length - 1; i >= 0; i--)
+            {
+                if(handToCheck[i].getCardRank().ordinal() != highCard.getCardRank().ordinal() || handToCheck[i].getCardRank().ordinal() != highCard2.getCardRank().ordinal())
+                {
+                    kicker = handToCheck[i];
+                }
+            }
             return Hand.TWO_PAIR;
         }
         else if(checkPair(handToCheck, 1))
@@ -190,16 +299,20 @@ public class EvaluateHand {
         }
         else
         {
+            highCard = handToCheck[6];
             return Hand.HIGH_CARD;
         }
     }
 
     /**
-    checks if hand is a royal flush by:
-        iterating through all 4 suits in outer FOR loop
-            iterating through all cards in hand in inner FOR loop
-        check if current cards suit matches current suit from outer FOR loop else increment n
-            check if current card is the next card in royal flush sequence else increment n
+     * checks if hand is a royal flush by:
+     *         iterating through all 4 suits in outer FOR loop
+     *             iterating through all cards in hand in inner FOR loop
+     *                  check if current cards suit matches current suit from outer FOR loop else increment n
+     *                      check if current card is the next card in royal flush sequence and increment rfCardCount else increment n
+     *                      if rfCardCount reaches 5 hand is a royal flush
+     * @param handToCheck The hand to evaluate
+     * @return Returns whether the hand was found or not
      */
     private boolean checkRoyalFlush(Card[] handToCheck)
     {
@@ -239,8 +352,14 @@ public class EvaluateHand {
     }
 
     /**
-    check if hand is a straight flush by:
-        iterating through all 4 suits in outer FOR loop
+     * check if hand is a straight flush by:
+     *         iterating through all 4 suits in outer FOR loop
+     *              iterating through all cards in hand in inner FOR loop
+ *                      check if current cards suit matches current suit from outer FOR loop else increment n
+     *                      check if current card is next in straight flush sequence and increment sfCardCount else reset sfCardCount
+     *                      if sfCardCount reaches 4 hand is a straight flush
+     * @param handToCheck The hand to evaluate
+     * @return Returns whether the hand was found or not
      */
     private boolean checkStraightFlush(Card[] handToCheck)
     {
@@ -317,6 +436,10 @@ public class EvaluateHand {
 
     /**
      * check if hand is a three/four of a kind by:
+     *          iterate through all different possible card ranks in outer FOR loop
+     *              iterate through all cards in hand in inner FOR loop
+     *                  check if current card matches card in outer FOR loop and increment nKind
+     *                  if nKind matches numberOfKind then hand is found
      * @param handToCheck The hand to evaluate
      * @param numberOfKind The number of cards of the same rank to check for
      * @return Returns whether the hand was found or not
@@ -327,7 +450,7 @@ public class EvaluateHand {
         for(int i = Card.Rank.values().length - 1; i >= 0; i--)
         {
             cardsForHand = new ArrayList<>();
-            for(int j = 0; j < handToCheck.length; j++)
+            for(int j = handToCheck.length - 1; j >= 0; j--)
             {
                 if(handToCheck[j].getCardRank() == Card.Rank.values()[i]) {
                     cardsForHand.add(handToCheck[j]);
@@ -345,8 +468,14 @@ public class EvaluateHand {
         return false;
     }
 
-    /*
-    check if hand is a full house by:
+    /**
+     * check if hand is a full house by:
+     *          iterating through all cards in hand
+     *              if next card is same as current card then either a pair or three of a kind is found
+     *              check current flags for pair/three of a kind and update appropriately
+     *              if both a pair and three of a kind found then hand is full house
+     * @param handToCheck The hand to evaluate
+     * @return Returns whether the hand was found or not
      */
     private boolean checkFullHouse(Card[] handToCheck)
     {
@@ -381,11 +510,13 @@ public class EvaluateHand {
     }
 
     /**
-    check if hand is a flush by:
-        iterating through all 4 suits in outer FOR loop
-            iterating through all cards in hand in inner FOR loop
-            if current card suit is equal to current suit in outer FOR loop add to list and increment fCardCount
-            if fCardCount reaches 5 hand is a flush
+     * check if hand is a flush by:
+     *         iterating through all 4 suits in outer FOR loop
+     *             iterating through all cards in hand in inner FOR loop
+     *             if current card suit is equal to current suit in outer FOR loop add to list and increment fCardCount
+     *             if fCardCount reaches 5 hand is a flush
+     * @param handToCheck The hand to evaluate
+     * @return Returns whether the hand was found or not
      */
     private boolean checkFlush(Card[] handToCheck)
     {
@@ -413,8 +544,12 @@ public class EvaluateHand {
     }
 
     /**
-    check if hand is a straight by:
-
+     * check if hand is a straight by:
+     *          iterating through all cards in hand
+     *              check if next card is in sequence and increment sCardCount else reset counter
+     *              if sCardCount reaches 4 hand is a straight
+     * @param handToCheck The hand to evaluate
+     * @return Returns whether the hand was found or not
      */
     private boolean checkStraight(Card[] handToCheck)
     {
@@ -428,7 +563,7 @@ public class EvaluateHand {
                 sCardCount++;
                 if(sCardCount == 4)
                 {
-                    cardsForHand.add(handToCheck[i+1]);
+                    cardsForHand.add(handToCheck[i-1]);
                     return true;
                 }
             }
@@ -470,9 +605,13 @@ public class EvaluateHand {
     }
 
     /**
-    check if hand is a pair/two pair by:
-        iterating through all cards in hand
-        if next card is same as current card a pair is found
+     * check if hand is a pair/two pair by:
+     *         iterating through all cards in hand
+     *         if next card is same as current card a pair is found
+     *         continues if more than one pair is needed
+     * @param handToCheck The hand to evaluate
+     * @param numberOfPair The number of pairs to find before the method returns true
+     * @return Returns whether the hand was found or not
      */
     private boolean checkPair(Card[] handToCheck, int numberOfPair)
     {
@@ -486,18 +625,29 @@ public class EvaluateHand {
                 cardsForHand.add(handToCheck[i-1]);
                 if(numberOfPair == 1)
                 {
+                    //assign high card for one pair
+                    highCard = handToCheck[i];
                     return true;
                 }
                 else
                 {
                     numPairs++;
                 }
+                if(numPairs == 1)
+                {
+                    //assign high card for first pair
+                    highCard = handToCheck[i];
+                }
                 if(numberOfPair == 2 && numPairs == 2)
                 {
+                    //assign high card for second pair
+                    highCard2 = handToCheck[i];
                     return true;
                 }
             }
         }
+        highCard = null;
+        highCard2 = null;
         return false;
     }
 }

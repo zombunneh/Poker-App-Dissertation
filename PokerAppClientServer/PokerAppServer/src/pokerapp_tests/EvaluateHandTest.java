@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EvaluateHandTest {
@@ -65,7 +66,9 @@ public class EvaluateHandTest {
     @Test
     public void testEvaluateHand()
     {
-        evaluator.handEvaluator(listPlayers, communityCards);
+        HashMap<PlayerUser, Hand> players;
+        players = evaluator.handEvaluator(listPlayers, communityCards);
+        evaluator.getHandWinner(players);
     }
 
     @DisplayName("Test for a royal flush hand")
