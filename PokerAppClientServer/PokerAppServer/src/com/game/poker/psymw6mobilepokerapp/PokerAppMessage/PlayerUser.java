@@ -5,6 +5,8 @@ public class PlayerUser extends User {
     private Card highCard;
     private Card highCard2;
     private Card kicker;
+    private Card[] fullHand;
+    private int id;
     private boolean isDealer;
     private boolean isFolded;
     private static final long serialVersionUID = 1452706986345L;
@@ -41,6 +43,16 @@ public class PlayerUser extends User {
         this.kicker = kicker;
     }
 
+    public void setFullHand(Card[] fullHand)
+    {
+        this.fullHand = fullHand;
+    }
+
+    public void setID(int id)
+    {
+        this.id = id;
+    }
+
     public Card getHighCard()
     {
         return highCard;
@@ -51,9 +63,19 @@ public class PlayerUser extends User {
         return kicker;
     }
 
-
     public Card getHighCard2()
     {
         return highCard2;
     }
+
+    public Card[] getFullHand()
+    {
+        return fullHand;
+    }
+
+    public int getID()
+    {
+        return id;
+    }
+
 }

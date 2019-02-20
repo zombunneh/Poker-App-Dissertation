@@ -120,55 +120,384 @@ public class EvaluateHand {
         {
             case ROYAL_FLUSH:
             {
-                break;
+                //no tie break required, pot is split between all those with royal flush
+                return hashToTieBreak;
             }
             case STRAIGHT_FLUSH:
             {
-
-                break;
+                Card max = findMaxHighCard(list, tempPlayers);
+                //remove all but players with the winning high card
+                for(int i = 0; i < tempPlayers.length; i++)
+                {
+                    if(tempPlayers[i].getHighCard().getCardRank().ordinal() != max.getCardRank().ordinal())
+                    {
+                        hashToTieBreak.remove(tempPlayers[i]);
+                    }
+                }
+                return hashToTieBreak;
             }
             case FOUR_KIND:
             {
+                Card max = findMaxHighCard(list, tempPlayers);
+                //remove all but players with the winning high card
+                for(int i = 0; i < tempPlayers.length; i++)
+                {
+                    if(tempPlayers[i].getHighCard().getCardRank().ordinal() != max.getCardRank().ordinal())
+                    {
+                        hashToTieBreak.remove(tempPlayers[i]);
+                        tempPlayers[i] = null;
+                    }
+                }
+                //if there is still more than one player with a winning hand, use the kicker to determine new winner or tie
+                if(hashToTieBreak.size() > 1)
+                {
+                    max = findMaxKicker(list, tempPlayers);
+                    for(int i = 0; i < list.size(); i++)
+                    {
+                        if(tempPlayers[i] != null)
+                        {
+                            if(tempPlayers[i].getKicker().getCardRank().ordinal() != max.getCardRank().ordinal())
+                            {
+                                hashToTieBreak.remove(tempPlayers[i]);
+                            }
+                        }
 
-                break;
+                    }
+                }
+                return hashToTieBreak;
             }
             case FULL_HOUSE:
             {
-
-                break;
+                Card max = findMaxHighCard(list, tempPlayers);
+                //remove all but players with the winning high card
+                for(int i = 0; i < list.size(); i++)
+                {
+                    if(tempPlayers[i].getHighCard().getCardRank().ordinal() != max.getCardRank().ordinal())
+                    {
+                        hashToTieBreak.remove(tempPlayers[i]);
+                        tempPlayers[i] = null;
+                    }
+                }
+                if(hashToTieBreak.size() > 1)
+                {
+                    max = findMaxHighCard2(list, tempPlayers);
+                    //remove all but players with the winning high card 2
+                    for(int i = 0; i < list.size(); i++)
+                    {
+                        if(tempPlayers[i] != null)
+                        {
+                            if(tempPlayers[i].getHighCard2().getCardRank().ordinal() != max.getCardRank().ordinal())
+                            {
+                                hashToTieBreak.remove(tempPlayers[i]);
+                            }
+                        }
+                    }
+                }
+                return hashToTieBreak;
             }
             case FLUSH:
             {
-
-                break;
+                Card max = null;
+                PlayerUser userWithMax = null;
+                int saveK = 0;
+                for(int j = 0; j < cardsForHand.size(); j++)
+                {
+                    max = null;
+                    for(int k = 0; k < tempPlayers.length; k++)
+                    {
+                        if(tempPlayers[k] != null)
+                        {
+                                if(max == null)
+                                {
+                                    max = tempPlayers[k].getFullHand()[j];
+                                    userWithMax = tempPlayers[k];
+                                    saveK = k;
+                                }
+                                else if(tempPlayers[k].getFullHand()[j].getCardRank().ordinal() < max.getCardRank().ordinal() && tempPlayers[k] != userWithMax)
+                                {
+                                    hashToTieBreak.remove(tempPlayers[k]);
+                                    tempPlayers[k] = null;
+                                }
+                                else if(tempPlayers[k].getFullHand()[j].getCardRank().ordinal() > max.getCardRank().ordinal())
+                                {
+                                    hashToTieBreak.remove(userWithMax);
+                                    tempPlayers[saveK] = null;
+                                    max = tempPlayers[k].getFullHand()[j];
+                                    userWithMax = tempPlayers[k];
+                                }
+                        }
+                    }
+                }
+                return hashToTieBreak;
             }
             case STRAIGHT:
             {
-
-                break;
+                Card max = findMaxHighCard(list, tempPlayers);
+                //remove all but players with the winning high card
+                for(int i = 0; i < list.size(); i++)
+                {
+                    if(tempPlayers[i].getHighCard().getCardRank().ordinal() != max.getCardRank().ordinal())
+                    {
+                        hashToTieBreak.remove(tempPlayers[i]);
+                    }
+                }
+                return hashToTieBreak;
             }
             case THREE_KIND:
             {
-
-                break;
+                Card max = findMaxHighCard(list, tempPlayers);
+                //remove all but players with the winning high card
+                for(int i = 0; i < list.size(); i++)
+                {
+                    if(tempPlayers[i].getHighCard().getCardRank().ordinal() != max.getCardRank().ordinal())
+                    {
+                        hashToTieBreak.remove(tempPlayers[i]);
+                        tempPlayers[i] = null;
+                    }
+                }
+                //check last 2 cards for kicker
+                if(hashToTieBreak.size() > 1)
+                {
+                    PlayerUser userWithMax = null;
+                    int saveJ = 0;
+                    for(int i = 3; i < cardsForHand.size(); i++)
+                    {
+                        max = null;
+                        for(int j = 0; j < tempPlayers.length; j++)
+                        {
+                            if(tempPlayers[j] != null)
+                            {
+                                if(max == null)
+                                {
+                                    max = tempPlayers[j].getFullHand()[i];
+                                    userWithMax = tempPlayers[j];
+                                    saveJ = j;
+                                }
+                                else if(tempPlayers[j].getFullHand()[i].getCardRank().ordinal() < max.getCardRank().ordinal() && tempPlayers[j] != userWithMax)
+                                {
+                                    hashToTieBreak.remove(tempPlayers[j]);
+                                    tempPlayers[j] = null;
+                                }
+                                else if(tempPlayers[j].getFullHand()[i].getCardRank().ordinal() > max.getCardRank().ordinal())
+                                {
+                                    hashToTieBreak.remove(userWithMax);
+                                    tempPlayers[saveJ] = null;
+                                    max = tempPlayers[j].getFullHand()[i];
+                                    userWithMax = tempPlayers[j];
+                                }
+                            }
+                        }
+                    }
+                }
+                return hashToTieBreak;
             }
             case TWO_PAIR:
             {
-
-                break;
+                Card max = findMaxHighCard(list, tempPlayers);
+                //remove all but players with the winning high card
+                for(int i = 0; i < list.size(); i++)
+                {
+                    if(tempPlayers[i].getHighCard().getCardRank().ordinal() != max.getCardRank().ordinal())
+                    {
+                        hashToTieBreak.remove(tempPlayers[i]);
+                        tempPlayers[i] = null;
+                    }
+                }
+                if(hashToTieBreak.size() > 1)
+                {
+                    max = findMaxHighCard2(list, tempPlayers);
+                    //remove all but players with the winning high card
+                    for(int i = 0; i < list.size(); i++)
+                    {
+                        if(tempPlayers[i] != null)
+                        {
+                            if(tempPlayers[i].getHighCard2().getCardRank().ordinal() != max.getCardRank().ordinal())
+                            {
+                                hashToTieBreak.remove(tempPlayers[i]);
+                                tempPlayers[i] = null;
+                            }
+                        }
+                    }
+                }
+                //if there is still more than one player with a winning hand, use the kicker to determine new winner or tie
+                if(hashToTieBreak.size() > 1)
+                {
+                    max = findMaxKicker(list, tempPlayers);
+                    for(int i = 0; i < list.size(); i++)
+                    {
+                        if(tempPlayers[i] != null)
+                        {
+                            if(tempPlayers[i].getKicker().getCardRank().ordinal() != max.getCardRank().ordinal())
+                            {
+                                hashToTieBreak.remove(tempPlayers[i]);
+                            }
+                        }
+                    }
+                }
+                return hashToTieBreak;
             }
             case PAIR:
             {
-
-                break;
+                Card max = findMaxHighCard(list, tempPlayers);
+                //remove all but players with the winning high card
+                for(int i = 0; i < list.size(); i++)
+                {
+                    if(tempPlayers[i].getHighCard().getCardRank().ordinal() != max.getCardRank().ordinal())
+                    {
+                        hashToTieBreak.remove(tempPlayers[i]);
+                        tempPlayers[i] = null;
+                    }
+                }
+                if(hashToTieBreak.size() > 1)
+                {
+                    PlayerUser userWithMax = null;
+                    int saveJ = 0;
+                    for(int i = 2; i < cardsForHand.size(); i++)
+                    {
+                        max = null;
+                        for(int j = 0; j < tempPlayers.length; j++)
+                        {
+                            if(tempPlayers[j] != null)
+                            {
+                                if(max == null)
+                                {
+                                    max = tempPlayers[j].getFullHand()[i];
+                                    userWithMax = tempPlayers[j];
+                                    saveJ = j;
+                                }
+                                else if(tempPlayers[j].getFullHand()[i].getCardRank().ordinal() < max.getCardRank().ordinal() && tempPlayers[j] != userWithMax)
+                                {
+                                    hashToTieBreak.remove(tempPlayers[j]);
+                                    tempPlayers[j] = null;
+                                }
+                                else if(tempPlayers[j].getFullHand()[i].getCardRank().ordinal() > max.getCardRank().ordinal())
+                                {
+                                    hashToTieBreak.remove(userWithMax);
+                                    tempPlayers[saveJ] = null;
+                                    max = tempPlayers[j].getFullHand()[i];
+                                    userWithMax = tempPlayers[j];
+                                }
+                            }
+                        }
+                    }
+                }
+                return hashToTieBreak;
             }
             case HIGH_CARD:
             {
-
-                break;
+                Card max = findMaxHighCard(list, tempPlayers);
+                //remove all but players with the winning high card
+                for(int i = 0; i < list.size(); i++)
+                {
+                    if(tempPlayers[i].getHighCard().getCardRank().ordinal() != max.getCardRank().ordinal())
+                    {
+                        hashToTieBreak.remove(tempPlayers[i]);
+                        tempPlayers[i] = null;
+                    }
+                }
+                if(hashToTieBreak.size() > 1)
+                {
+                    PlayerUser userWithMax = null;
+                    int saveJ = 0;
+                    for(int i = 1; i < cardsForHand.size(); i++)
+                    {
+                        max = null;
+                        for(int j = 0; j < tempPlayers.length; j++)
+                        {
+                            if(tempPlayers[j] != null)
+                            {
+                                if(max == null)
+                                {
+                                    max = tempPlayers[j].getFullHand()[i];
+                                    userWithMax = tempPlayers[j];
+                                    saveJ = j;
+                                }
+                                else if(tempPlayers[j].getFullHand()[i].getCardRank().ordinal() < max.getCardRank().ordinal() && tempPlayers[j] != userWithMax)
+                                {
+                                    hashToTieBreak.remove(tempPlayers[j]);
+                                    tempPlayers[j] = null;
+                                }
+                                else if(tempPlayers[j].getFullHand()[i].getCardRank().ordinal() > max.getCardRank().ordinal())
+                                {
+                                    hashToTieBreak.remove(userWithMax);
+                                    tempPlayers[saveJ] = null;
+                                    max = tempPlayers[j].getFullHand()[i];
+                                    userWithMax = tempPlayers[j];
+                                }
+                            }
+                        }
+                    }
+                }
+                return hashToTieBreak;
             }
         }
         return hashToTieBreak;
+    }
+
+    /**
+     *
+     * @param list
+     * @param players
+     * @return
+     */
+    public Card findMaxHighCard(List<Map.Entry<PlayerUser, Hand>> list, PlayerUser[] players)
+    {
+        Card max = players[0].getHighCard();
+        //find highest ranking card
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(players[i].getHighCard().getCardRank().ordinal() >= max.getCardRank().ordinal())
+            {
+                max = players[i].getHighCard();
+            }
+        }
+        return max;
+    }
+
+    /**
+     *
+     * @param list
+     * @param players
+     * @return
+     */
+    public Card findMaxHighCard2(List<Map.Entry<PlayerUser, Hand>> list, PlayerUser[] players)
+    {
+        Card max = players[0].getHighCard2();
+        //find highest ranking card
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(players[i] != null)
+            {
+                if(players[i].getHighCard2().getCardRank().ordinal() >= max.getCardRank().ordinal())
+                {
+                    max = players[i].getHighCard2();
+                }
+            }
+        }
+        return max;
+    }
+
+    /**
+     *
+     * @param list
+     * @param players
+     * @return
+     */
+    public Card findMaxKicker(List<Map.Entry<PlayerUser, Hand>> list, PlayerUser[] players)
+    {
+        Card max = players[0].getKicker();
+        //find highest ranking card
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(players[i] != null)
+            {
+                if(players[i].getKicker().getCardRank().ordinal() >= max.getCardRank().ordinal())
+                {
+                    max = players[i].getKicker();
+                }
+            }
+        }
+        return max;
     }
 
     /**
@@ -202,6 +531,12 @@ public class EvaluateHand {
             {
                 tempPlayer.setHighCard2(highCard2);
             }
+            if(cardsForHand != null)
+            {
+                Card[] cards = new Card[cardsForHand.size()];
+                cards = cardsForHand.toArray(cards);
+                tempPlayer.setFullHand(cards);
+            }
             evaluatedHands.put(tempPlayer, currentHand);
         }
         evaluatedHands.forEach(((playerUser, hand) -> System.out.println(playerUser.username + " " + hand.toString())));
@@ -218,13 +553,13 @@ public class EvaluateHand {
         //sort evaluated hands
         //return list of winner(s) only
         HashMap<PlayerUser, Hand> temp = sortHandRanks(evaluatedHandsToCheck);
-        temp.forEach((playerUser, hand) -> System.out.println(playerUser.username + " " + hand.toString()));
+
         //break ties
         if(temp.size() > 1)
         {
-            //break ties
             temp = breakTie(temp);
         }
+        temp.forEach((playerUser, hand) -> System.out.println(playerUser.username + " " + hand.toString()));
         return temp;
     }
 
@@ -280,26 +615,62 @@ public class EvaluateHand {
         else if(checkOfKind(handToCheck, 3))
         {
             highCard = cardsForHand.get(0);
+            for(int i = handToCheck.length - 1; i >= 0; i--)
+            {
+                if(cardsForHand.size() == 5)
+                {
+                    break;
+                }
+                if(!cardsForHand.contains(handToCheck[i]))
+                {
+                    cardsForHand.add(handToCheck[i]);
+                }
+            }
             return Hand.THREE_KIND;
         }
         else if(checkPair(handToCheck, 2))
         {
             for(int i = handToCheck.length - 1; i >= 0; i--)
             {
-                if(handToCheck[i].getCardRank().ordinal() != highCard.getCardRank().ordinal() || handToCheck[i].getCardRank().ordinal() != highCard2.getCardRank().ordinal())
+                if(handToCheck[i].getCardRank().ordinal() != highCard.getCardRank().ordinal() && handToCheck[i].getCardRank().ordinal() != highCard2.getCardRank().ordinal())
                 {
                     kicker = handToCheck[i];
+                    break;
                 }
             }
             return Hand.TWO_PAIR;
         }
         else if(checkPair(handToCheck, 1))
         {
+            highCard = cardsForHand.get(0);
+            for(int i = handToCheck.length - 1; i >= 0; i--)
+            {
+                if(cardsForHand.size() == 5)
+                {
+                    break;
+                }
+                if(!cardsForHand.contains(handToCheck[i]))
+                {
+                    cardsForHand.add(handToCheck[i]);
+                }
+            }
             return Hand.PAIR;
         }
         else
         {
             highCard = handToCheck[6];
+            cardsForHand.add(highCard);
+            for(int i = handToCheck.length - 1; i >= 0; i--)
+            {
+                if(cardsForHand.size() == 5)
+                {
+                    break;
+                }
+                if(!cardsForHand.contains(handToCheck[i]))
+                {
+                    cardsForHand.add(handToCheck[i]);
+                }
+            }
             return Hand.HIGH_CARD;
         }
     }

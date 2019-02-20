@@ -3,6 +3,7 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppObjects;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.SocketUser;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.User;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.PriorityBlockingQueue;
 
@@ -10,10 +11,11 @@ public class Queue implements Runnable{
     private PriorityBlockingQueue<SocketUser> userQueue = new PriorityBlockingQueue<>();
     private PriorityBlockingQueue<Table> tablePriorityQueue = new PriorityBlockingQueue<>();
     private SocketUser socketUser;
+    private Table table;
 
     private boolean endThread = false;
-
-    private static final int MIN_PLAYERS = 2;
+    //REMEMBER TO CHANGE MIN PLAYERS AFTER TESTING
+    private static final int MIN_PLAYERS = 1;
 
     private static int roomID = 1;
 
@@ -28,6 +30,7 @@ public class Queue implements Runnable{
     {
         if(!tablePriorityQueue.contains(table))
             tablePriorityQueue.add(table);
+        System.out.println("added table " + table.tableID);
     }
 
     public void removeTable(Table table)
@@ -46,6 +49,7 @@ public class Queue implements Runnable{
     else if table queue isnt empty and has open seats, remove first user from list and add them to the table
     and if table has no open seats then remove it from queue
      */
+    //TODO START TABLE THREAD U DUMBASS
     @Override
     public void run() {
         System.out.println("Queue thread started");
@@ -53,7 +57,9 @@ public class Queue implements Runnable{
         {
             if(tablePriorityQueue.peek() == null && userQueue.size() >= MIN_PLAYERS)
             {
-                new Table(roomID++);
+                table = new Table(roomID++);
+                new Thread(table).start();
+                addOpenTable(table);
             }
             else if(tablePriorityQueue.peek() != null)
             {
@@ -63,7 +69,14 @@ public class Queue implements Runnable{
                 }
                 else
                 {
-                    tablePriorityQueue.peek().addUserToTable(userQueue.poll());
+                    try
+                    {
+                        tablePriorityQueue.peek().addUserToTable(userQueue.poll());
+                    }
+                    catch(IOException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

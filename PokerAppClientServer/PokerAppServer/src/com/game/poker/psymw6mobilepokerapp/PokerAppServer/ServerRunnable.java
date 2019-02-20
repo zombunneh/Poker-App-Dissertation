@@ -11,6 +11,7 @@ import java.net.Socket;
 public class ServerRunnable implements Runnable {
 
     private Socket clientSocket = null;
+    private ObjectInputStream in;
     private QueryDBForUserDetails queryDB = new QueryDBForUserDetails();
     private GameUser user = null;
     private User newUser = null;
@@ -19,6 +20,7 @@ public class ServerRunnable implements Runnable {
     public ServerRunnable(ClientConnection clientSocket, Queue queue)
     {
         this.clientSocket = clientSocket.getClient();
+        this.in = clientSocket.getIn();
         this.queue = queue;
     }
 
@@ -28,7 +30,6 @@ public class ServerRunnable implements Runnable {
         try
         {
             ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
-            ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
             //first client line should be a boolean describing whether retrieving a user account
             //or needing to create a new one
             handleUserConnection(out, in);
