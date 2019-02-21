@@ -53,6 +53,11 @@ public class PlayerUser extends User {
         this.id = id;
     }
 
+    public void setDealer()
+    {
+     isDealer = !isDealer;
+    }
+
     public Card getHighCard()
     {
         return highCard;
@@ -76,6 +81,11 @@ public class PlayerUser extends User {
     public int getID()
     {
         return id;
+    }
+
+    public boolean getDealer()
+    {
+        return isDealer;
     }
 
 }

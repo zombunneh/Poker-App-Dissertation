@@ -32,12 +32,6 @@ public class GameRunnable implements Runnable{
         }
     }
 
-    @Override
-    public void run() {
-        System.out.println("Game thread started from table with id: " + table.tableID);
-
-    }
-
     public void updateGamePlayerList(PlayerUser user)
     {
         players.addPlayer(user);
@@ -46,5 +40,45 @@ public class GameRunnable implements Runnable{
     public void updateTable(Table table)
     {
         this.table = table;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Game thread started from table with id: " + table.tableID);
+        while(true)
+        {
+            preHand();
+        }
+    }
+
+    public void preHand()
+    {
+        players.getNextDealer();
+
+    }
+
+    public void preFlop()
+    {
+
+    }
+
+    public void flop()
+    {
+
+    }
+
+    public void turn()
+    {
+
+    }
+
+    public void river()
+    {
+
+    }
+
+    public void endHand()
+    {
+
     }
 }

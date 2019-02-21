@@ -80,16 +80,19 @@ public class Table implements Comparable<Table>, Runnable{
         players.remove(user);
     }
 
-
     public void sendToUser(int id)
     {
 
     }
 
+    public void sendToAllUser()
+    {
+
+    }
 
     public void getUserTurn(int id)
     {
-
+        playerInputMap.get(id).getPlayerMove();
     }
 
     @Override
