@@ -1,6 +1,8 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppObjects;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Card;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.ChangeDealerCommand;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.SendHandCommand;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 
 import java.util.ArrayList;
@@ -25,7 +27,6 @@ public class GameRunnable implements Runnable{
         handEvaluator = new EvaluateHand();
         players = new GamePlayerList();
         communityCards = new ArrayList<>();
-        deck.shuffleDeck();
         for(PlayerUser user : table.getPlayers())
         {
             players.addPlayer(user);
@@ -45,16 +46,39 @@ public class GameRunnable implements Runnable{
     @Override
     public void run() {
         System.out.println("Game thread started from table with id: " + table.tableID);
+        players.getDealer(); // sets initial dealer
         while(true)
         {
             preHand();
+            preFlop();
+            flop();
+            turn();
+            river();
+            endHand();
         }
     }
 
     public void preHand()
     {
-        players.getNextDealer();
-
+        communityCards.clear();
+        deck.shuffleDeck();
+        //remember need to set IDs for users and send Player List
+        PlayerUser oldDealer = players.setNextDealer();
+        PlayerUser newDealer = players.getDealer();
+        table.sendToAllUser(new ChangeDealerCommand(oldDealer.getID(), newDealer.getID()));
+        for(PlayerUser user : players.getPlayers())
+        {
+            if(user.isActive())
+            {
+                user.unFold();
+                Card[] tempHand = new Card[2];
+                tempHand[0] = deck.drawCard();
+                tempHand[1] = deck.drawCard();
+                user.setHand(tempHand);
+                table.sendToUser(user.getID(), new SendHandCommand(tempHand));
+                System.out.println("setting hand for ID: " + user.getID());
+            }
+        }
     }
 
     public void preFlop()

@@ -55,6 +55,7 @@ public class GamePlayerList {
 
     public void addPlayer(PlayerUser user)
     {
+        user.toggleActive();
         players.put(user.getID(), user);
     }
 
@@ -81,7 +82,7 @@ public class GamePlayerList {
         return randomDealer;
     }
 
-    public PlayerUser getNextDealer()
+    public PlayerUser setNextDealer()
     {
         PlayerUser prevDealer = getDealer();
         if(prevDealer == null)
@@ -89,8 +90,17 @@ public class GamePlayerList {
             return null;
         }
         prevDealer.setDealer();
-        PlayerUser newDealer = getNextPlayer(prevDealer);
-        newDealer.setDealer();
-        return newDealer;
+        getNextPlayer(prevDealer).setDealer();
+        return prevDealer;
+    }
+
+    public List<PlayerUser> getMinList()
+    {
+        List<PlayerUser> temp = new ArrayList<>();
+        for(PlayerUser user : getPlayers())
+        {
+
+        }
+        return temp;
     }
 }

@@ -31,6 +31,7 @@ public class Deck {
             swap(deckOfCards, index, rand_index);
             index += 1;
         }
+        topCard = 0;
     }
 
     public int selectRandIndex(int index, int length)

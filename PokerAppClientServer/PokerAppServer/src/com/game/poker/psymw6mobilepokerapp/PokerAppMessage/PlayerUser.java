@@ -6,9 +6,11 @@ public class PlayerUser extends User {
     private Card highCard2;
     private Card kicker;
     private Card[] fullHand;
+
     private int id;
     private boolean isDealer;
     private boolean isFolded;
+    private boolean isActive;
     private static final long serialVersionUID = 1452706986345L;
 
     public PlayerUser(String user_id, int currency, String username)
@@ -88,4 +90,22 @@ public class PlayerUser extends User {
         return isDealer;
     }
 
+    public void fold()
+    {
+        isFolded = true;
+    }
+
+    public void unFold()
+    {
+        isFolded = false;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void toggleActive()
+    {
+        isActive = !isActive;
+    }
 }

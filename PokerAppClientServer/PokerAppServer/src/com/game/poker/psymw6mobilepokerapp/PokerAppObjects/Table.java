@@ -1,5 +1,6 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppObjects;
 
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.Command;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.SocketUser;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.User;
@@ -53,6 +54,7 @@ public class Table implements Comparable<Table>, Runnable{
         playerInputMap.put(currentUserID, new ClientConnection(user.client));
         temp.setID(currentUserID);
         players.add(temp);
+        //TODO send command to client to set ID
         currentUserID++;
         noUsersAtTable++;
         if(gameStarted)
@@ -80,12 +82,12 @@ public class Table implements Comparable<Table>, Runnable{
         players.remove(user);
     }
 
-    public void sendToUser(int id)
+    public void sendToUser(int id, Command command)
     {
 
     }
 
-    public void sendToAllUser()
+    public void sendToAllUser(Command command)
     {
 
     }
