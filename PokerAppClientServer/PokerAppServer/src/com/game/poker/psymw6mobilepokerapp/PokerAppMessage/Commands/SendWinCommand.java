@@ -5,13 +5,14 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 
 import java.util.List;
 
-public class SendPlayerListCommand implements Command {
+public class SendWinCommand implements Command {
     private List<PlayerUser> players;
+    private int winnings;
 
-    public SendPlayerListCommand(List<PlayerUser> players)
+    public SendWinCommand(List<PlayerUser> players, int pot)
     {
-        System.out.println("player list command");
         this.players = players;
+        this.winnings = pot;
     }
 
     public void execute(CommandInvoker invoker) {

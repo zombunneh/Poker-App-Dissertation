@@ -8,6 +8,7 @@ public class ChangeDealerCommand implements Command {
 
     public ChangeDealerCommand(int oldDealerID, int newDealerID)
     {
+        System.out.println("change dealer command");
         this.oldID = oldDealerID;
         this.newID = newDealerID;
     }

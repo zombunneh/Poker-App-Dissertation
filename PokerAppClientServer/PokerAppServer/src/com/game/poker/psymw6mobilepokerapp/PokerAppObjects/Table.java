@@ -1,7 +1,9 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppObjects;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.Command;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.SetIDCommand;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUserTurn;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.SocketUser;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.User;
 import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ClientConnection;
@@ -36,6 +38,7 @@ public class Table implements Comparable<Table>, Runnable{
     private HashMap<Integer, ClientConnection> playerInputMap;
     private List<PlayerUser> players;
 
+    //TODO AFK MONITORING THREAD ?? ?    ? ? ?   ?  ? ? ? ?? ? ? ?? ? ? ? ?
     public Table(int tableID)
     {
         this.tableID = tableID;
@@ -55,6 +58,7 @@ public class Table implements Comparable<Table>, Runnable{
         temp.setID(currentUserID);
         players.add(temp);
         //TODO send command to client to set ID
+        sendToUser(temp.getID(), new SetIDCommand(temp.getID()));
         currentUserID++;
         noUsersAtTable++;
         if(gameStarted)
@@ -82,9 +86,9 @@ public class Table implements Comparable<Table>, Runnable{
         players.remove(user);
     }
 
-    public void sendToUser(int id, Command command)
+    public PlayerUserTurn sendToUser(int id, Command command)
     {
-
+        return new PlayerUserTurn(null , 0);
     }
 
     public void sendToAllUser(Command command)

@@ -5,5 +5,7 @@ public enum PlayerUserMove {
     CHECK,
     CALL,
     RAISE,
-    FOLD
+    FOLD,
+    AWAY,
+    EXIT
 }

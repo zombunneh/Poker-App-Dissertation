@@ -11,6 +11,7 @@ public class PlayerUser extends User {
     private boolean isDealer;
     private boolean isFolded;
     private boolean isActive;
+    private int currentBet;
     private static final long serialVersionUID = 1452706986345L;
 
     public PlayerUser(String user_id, int currency, String username)
@@ -60,6 +61,12 @@ public class PlayerUser extends User {
      isDealer = !isDealer;
     }
 
+    public int getCurrency()
+    {
+        return currency;
+    }
+
+
     public Card getHighCard()
     {
         return highCard;
@@ -78,6 +85,11 @@ public class PlayerUser extends User {
     public Card[] getFullHand()
     {
         return fullHand;
+    }
+
+    public boolean isFolded()
+    {
+        return isFolded;
     }
 
     public int getID()
@@ -108,4 +120,26 @@ public class PlayerUser extends User {
     {
         isActive = !isActive;
     }
+
+    public boolean setCurrentBet(int bet)
+    {
+        if(bet > currency)
+        {
+            currentBet = currency;
+            currency = 0;
+            return false;
+        }
+        else
+        {
+            currency -= bet;
+            currentBet += bet;
+            return true;
+        }
+    }
+
+    public int getCurrentBet()
+    {
+        return currentBet;
+    }
+
 }

@@ -1,17 +1,18 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandInvoker;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerMove;
 
-public class SetIDCommand implements Command {
-    private int id;
 
-    public SetIDCommand(int id)
+public class SendPlayerMoveCommand implements Command{
+    private PlayerMove move;
+
+    public SendPlayerMoveCommand(PlayerMove move)
     {
-        System.out.println("set id command");
-        this.id = id;
+        this.move = move;
     }
 
     public void execute(CommandInvoker invoker) {
-        //implement to set players id
+
     }
 }

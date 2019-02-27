@@ -99,7 +99,35 @@ public class GamePlayerList {
         List<PlayerUser> temp = new ArrayList<>();
         for(PlayerUser user : getPlayers())
         {
+            user.setHand(null);
+            PlayerUser tempUser = user;
+            temp.add(tempUser);
+        }
+        return temp;
+    }
 
+    public List<PlayerUser> getPlayersLeft()
+    {
+        List<PlayerUser> temp = new ArrayList<>();
+        for(PlayerUser player : getPlayers())
+        {
+            if(!player.isFolded())
+            {
+                temp.add(player);
+            }
+        }
+        return temp;
+    }
+
+    public List<PlayerUser> movesLeft()
+    {
+        List<PlayerUser> temp = new ArrayList<>();
+        for(PlayerUser player : getPlayersLeft())
+        {
+            if(!player.isFolded() && player.isActive() && player.getCurrency() > 0)
+            {
+                temp.add(player);
+            }
         }
         return temp;
     }

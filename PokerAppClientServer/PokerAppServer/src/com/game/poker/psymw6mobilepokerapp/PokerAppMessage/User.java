@@ -16,4 +16,9 @@ public class User implements Serializable {
         this.currency = currency;
         this.username = username;
     }
+
+    public void setCurrency(int currency)
+    {
+        this.currency = currency;
+    }
 }
