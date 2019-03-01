@@ -105,11 +105,12 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
         int id = 0;
+        int initialCurrency = 10000;
         if(accountType == 0)
         {
             //insert into users table the retrieved details
             createSQLStatement("INSERT INTO users (google_user_id, user_name, last_login, currency) " +
-                    "VALUES ('" + google_user_id + "', '"  + username + "', '" + ts + "', '0')", 1);
+                    "VALUES ('" + google_user_id + "', '"  + username + "', '" + ts + "', '" + initialCurrency + "')", 1);
 
             //get the id of column corresponding to google user id
             try
@@ -128,13 +129,13 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
 
             //insert into details table using retrieved id
             createSQLStatement("INSERT INTO details (user_id, hands_played, hands_won, win_rate, max_winnings, max_chips) " +
-                    "VALUES ('" + id + "', '0', '0', '0', '0', '0')", 1);
+                    "VALUES ('" + id + "', '0', '0', '0', '0', '" + initialCurrency + "')", 1);
         }
         else
         {
             //insert into users table the retrieved details
             createSQLStatement("INSERT INTO users (guest_user_id, user_name, last_login, currency) " +
-                    "VALUES ('" + user_id + "', '"  + username + "', '" + ts + "', '0')", 1);
+                    "VALUES ('" + user_id + "', '"  + username + "', '" + ts + "', '" + initialCurrency + "')", 1);
 
             //get the id of column corresponding to guest user id
             try
@@ -153,7 +154,7 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
 
             //insert into details table using retrieved id
             createSQLStatement("INSERT INTO details (user_id, hands_played, hands_won, win_rate, max_winnings, max_chips) " +
-                    "VALUES ('" + id + "', '0', '0', '0', '0', '0')", 1);
+                    "VALUES ('" + id + "', '0', '0', '0', '0', '" + initialCurrency + "')", 1);
         }
     }
 

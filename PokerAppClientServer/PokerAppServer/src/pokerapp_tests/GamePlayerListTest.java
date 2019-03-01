@@ -59,8 +59,4 @@ class GamePlayerListTest {
         players.getDealer();
     }
 
-    @Test
-    void getNextDealer() {
-        players.getNextDealer();
-    }
 }

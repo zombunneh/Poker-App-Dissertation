@@ -142,4 +142,9 @@ public class PlayerUser extends User {
         return currentBet;
     }
 
+    public void resetBet()
+    {
+        currentBet = 0;
+    }
+
 }

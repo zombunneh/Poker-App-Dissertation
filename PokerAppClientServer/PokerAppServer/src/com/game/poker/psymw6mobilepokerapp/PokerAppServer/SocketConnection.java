@@ -33,7 +33,7 @@ public class SocketConnection {
         System.out.println("hello from listenForClientConnection");
         //start queue thread
         Queue queue = new Queue();
-        new Thread(queue).start();
+        new Thread(queue, "queue thread").start();
         Socket clientSocket = null;
          while(!isServerStopped)
             {

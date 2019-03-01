@@ -40,6 +40,9 @@
         <activity
             android:name=".PokerAppShared.GameOptions"
             android:screenOrientation="userLandscape" />
+        <activity
+            android:name=".PokerAppShared.GameView"
+            android:screenOrientation="userLandscape" />
     </application>
 
 </manifest>

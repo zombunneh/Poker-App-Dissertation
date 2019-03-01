@@ -28,7 +28,7 @@ class QueueTest {
     public void addToQueueTest()
     {
         User user = new User("asd", 100, "zombunny");
-        queue.addToQueue(client, user);
+        //queue.addToQueue(client, user);
     }
 
 
@@ -37,9 +37,9 @@ class QueueTest {
     public void testTableCreation()
     {
         User testUser = new User("asd", 100, "zombunny");
-        queue.addToQueue(client, testUser);
+        //queue.addToQueue(client, testUser);
         User testUser2 = new User("asd", 100, "zombunny");
-        queue.addToQueue(client, testUser2);
+        //queue.addToQueue(client, testUser2);
     }
 
 }

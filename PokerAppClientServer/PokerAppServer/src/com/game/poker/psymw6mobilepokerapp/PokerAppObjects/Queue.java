@@ -2,8 +2,11 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppObjects;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.SocketUser;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.User;
+import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ClientConnection;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.PriorityBlockingQueue;
 
@@ -19,18 +22,20 @@ public class Queue implements Runnable{
 
     private static int roomID = 1;
 
-    public void addToQueue(Socket client, User user)
+    public void addToQueue(ClientConnection connection, User user, ObjectOutputStream out, ObjectInputStream in)
     {
-        socketUser = new SocketUser(user.user_id, user.currency, user.username, client);
+        System.out.println("User added: " + user.user_id + " " + user.username + " number of current users: " + userQueue.size());
+        socketUser = new SocketUser(user.user_id, user.currency, user.username, connection);
         userQueue.add(socketUser);
-        System.out.println("user added: " + user.user_id + " " + user.username + " number of current users: " + userQueue.size());
     }
 
     public void addOpenTable(Table table)
     {
         if(!tablePriorityQueue.contains(table))
+        {
             tablePriorityQueue.add(table);
-        System.out.println("added table " + table.tableID);
+            System.out.println("Added table " + table.tableID + " to open tables");
+        }
     }
 
     public void removeTable(Table table)
@@ -55,10 +60,11 @@ public class Queue implements Runnable{
         System.out.println("Queue thread started");
         while(!endThread)
         {
-            if(tablePriorityQueue.peek() == null && userQueue.size() >= MIN_PLAYERS)
+            if(tablePriorityQueue.isEmpty() && userQueue.size() >= MIN_PLAYERS)
             {
+                System.out.println("in queue loop");
                 table = new Table(roomID++);
-                new Thread(table).start();
+                new Thread(table, "table" + (roomID-1)).start();
                 addOpenTable(table);
             }
             else if(tablePriorityQueue.peek() != null)
@@ -67,10 +73,11 @@ public class Queue implements Runnable{
                 {
                     tablePriorityQueue.poll();
                 }
-                else
+                else if(!userQueue.isEmpty())
                 {
                     try
                     {
+                        System.out.println("adding user to table");
                         tablePriorityQueue.peek().addUserToTable(userQueue.poll());
                     }
                     catch(IOException e)

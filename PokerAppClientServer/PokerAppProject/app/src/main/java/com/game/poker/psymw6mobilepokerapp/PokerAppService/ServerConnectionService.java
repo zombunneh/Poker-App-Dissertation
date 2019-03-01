@@ -5,11 +5,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Paint;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.game.poker.psymw6mobilepokerapp.PokerAppRunnable.JoinQueue;
 import com.game.poker.psymw6mobilepokerapp.PokerAppRunnable.RetrieveUserLoginData;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
@@ -17,6 +19,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.util.concurrent.TimeoutException;
 
 public class ServerConnectionService extends Service {
 
@@ -144,12 +148,18 @@ public class ServerConnectionService extends Service {
 
     public void joinQueue()
     {
-        try
+        if(isServerConnected())
         {
-            out.writeObject("join_queue");
-        } catch(IOException e)
+            JoinQueue queue = new JoinQueue(clientSocket, out, in, this);
+            Thread t = new Thread(queue);
+            t.start();
+        }
+        else
         {
-            Log.d(TAG, e.toString());
+            connectToServer();
+            JoinQueue queue = new JoinQueue(clientSocket, out, in, this);
+            Thread t = new Thread(queue);
+            t.start();
         }
     }
 
@@ -168,4 +178,6 @@ public class ServerConnectionService extends Service {
             }
         }
     };
+
+
 }

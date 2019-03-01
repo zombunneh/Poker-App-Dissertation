@@ -10,8 +10,10 @@ import java.net.Socket;
 
 public class ServerRunnable implements Runnable {
 
+    private ClientConnection connection;
     private Socket clientSocket = null;
     private ObjectInputStream in;
+    private ObjectOutputStream out;
     private QueryDBForUserDetails queryDB = new QueryDBForUserDetails();
     private GameUser user = null;
     private User newUser = null;
@@ -19,8 +21,10 @@ public class ServerRunnable implements Runnable {
 
     public ServerRunnable(ClientConnection clientSocket, Queue queue)
     {
+        this.connection = clientSocket;
         this.clientSocket = clientSocket.getClient();
         this.in = clientSocket.getIn();
+        this.out = clientSocket.getOut();
         this.queue = queue;
     }
 
@@ -29,7 +33,6 @@ public class ServerRunnable implements Runnable {
         System.out.println("server runnable started");
         try
         {
-            ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
             //first client line should be a boolean describing whether retrieving a user account
             //or needing to create a new one
             handleUserConnection(out, in);
@@ -92,6 +95,7 @@ public class ServerRunnable implements Runnable {
                         newUser = new User(user.user_id, user.currency, user.username);
                         //if user clicks play
                         addUserToQueue(newUser);
+                        out.writeObject("queue_joined");
                         requestType = "default";
                         break;
                     }
@@ -138,8 +142,6 @@ public class ServerRunnable implements Runnable {
         return queryDB.verifyIdRetrieveDetails(user_id);
     }
 
-
-    //register a new first time user
     public void registerNewUser(String username, String user_id, int accountType) throws IOException
     {
         System.out.println("register new user");
@@ -148,6 +150,6 @@ public class ServerRunnable implements Runnable {
 
     public void addUserToQueue(User user)
     {
-        queue.addToQueue(clientSocket, user);
+        queue.addToQueue(connection, user, out, in);
     }
 }

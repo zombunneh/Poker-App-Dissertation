@@ -59,6 +59,10 @@ public class GameRunnable implements Runnable{
     @Override
     public void run() {
         System.out.println("Game thread started from table with id: " + table.tableID);
+        while(players.getPlayers().size() < 1)
+        {
+
+        }
         dealer = players.getDealer(); // sets initial dealer
         while(true)
         {
@@ -68,6 +72,11 @@ public class GameRunnable implements Runnable{
             turn();
             river();
             endHand();
+
+            while(true)
+            {
+
+            }
         }
     }
 
@@ -77,6 +86,7 @@ public class GameRunnable implements Runnable{
         deck.shuffleDeck();
         pot = 0;
         currentGameState = 0;
+        gameEnd = false;
         //remember need to set IDs for users and send Player List
         PlayerUser oldDealer = players.setNextDealer();
         dealer = players.getDealer();
@@ -90,6 +100,7 @@ public class GameRunnable implements Runnable{
                 tempHand[0] = deck.drawCard();
                 tempHand[1] = deck.drawCard();
                 user.setHand(tempHand);
+                user.resetBet();
                 table.sendToUser(user.getID(), new SendHandCommand(tempHand));
                 System.out.println("setting hand for ID: " + user.getID());
             }
@@ -163,7 +174,7 @@ public class GameRunnable implements Runnable{
 
         for(int i = 0; i < winnerList.size(); i++)
         {
-            System.out.println("winner: " + winnerList.get(i) + " with hand " + winners.get(winnerList.get(i)).toString());
+            System.out.println("winner: " + winnerList.get(i).username + " with hand " + winners.get(winnerList.get(i)).toString());
         }
 
         table.sendToAllUser(new SendWinCommand(winnerList, pot));

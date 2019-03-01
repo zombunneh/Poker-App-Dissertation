@@ -38,6 +38,8 @@ public class Table implements Comparable<Table>, Runnable{
     private HashMap<Integer, ClientConnection> playerInputMap;
     private List<PlayerUser> players;
 
+    private boolean tableClosed = false;
+
     //TODO AFK MONITORING THREAD ?? ?    ? ? ?   ?  ? ? ? ?? ? ? ?? ? ? ? ?
     public Table(int tableID)
     {
@@ -53,8 +55,8 @@ public class Table implements Comparable<Table>, Runnable{
     public void addUserToTable(SocketUser user) throws IOException
     {
         PlayerUser temp = new PlayerUser(user.user_id, user.currency, user.username);
-        playerOutputMap.put(currentUserID, new ObjectOutputStream(user.client.getOutputStream()));
-        playerInputMap.put(currentUserID, new ClientConnection(user.client));
+        playerOutputMap.put(currentUserID, user.getConnection().getOut());
+        playerInputMap.put(currentUserID, user.getConnection());
         temp.setID(currentUserID);
         players.add(temp);
         //TODO send command to client to set ID
@@ -66,6 +68,7 @@ public class Table implements Comparable<Table>, Runnable{
             game.updateGamePlayerList(temp);
             game.updateTable(this);
         }
+        System.out.println("user added to table: " + temp.username);
     }
 
     public int getOpenSeats()
@@ -105,24 +108,21 @@ public class Table implements Comparable<Table>, Runnable{
     public void run() {
         while(true)
         {
-            System.out.println("runnable started");
             game = new GameRunnable(this);
-            Thread gameThread = new Thread(game);
+            Thread gameThread = new Thread(game, "game" + tableID);
             gameThread.start();
             gameStarted = true;
             System.out.println("Created new game in separate thread.");
             System.out.println("Now monitoring players in this table thread with id: " + tableID);
 
-            while(noUsersAtTable > 0)
+            while(noUsersAtTable >= 0)
             {
-                if(getOpenSeats() == 0)
-                {
-                    queue.removeTable(this);
-                }
-                else
+                if(getOpenSeats() != 0)
                 {
                     queue.addOpenTable(this);
                 }
+                if(tableClosed)
+                    break;
             }
             break;
         }
@@ -133,4 +133,10 @@ public class Table implements Comparable<Table>, Runnable{
     public int compareTo(Table otherTable) {
         return (this.noUsersAtTable - otherTable.noUsersAtTable);
     }
+
+    public void closeTable()
+    {
+        tableClosed = true;
+    }
+
 }

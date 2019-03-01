@@ -1,18 +1,24 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppMessage;
 
-import java.net.Socket;
+import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ClientConnection;
+
 import java.util.Random;
 
 public class SocketUser extends User implements Comparable<SocketUser>{
-    public Socket client;
+    private ClientConnection connection;
     private int priority;
     private static final long serialVersionUID = 15489315874512L;
 
-    public SocketUser(String user_id, int currency, String username, Socket clientSocket)
+    public SocketUser(String user_id, int currency, String username, ClientConnection connection)
     {
         super(user_id, currency, username);
-        this.client = clientSocket;
         this.priority = new Random().nextInt(10);
+        this.connection = connection;
+    }
+
+    public ClientConnection getConnection()
+    {
+        return connection;
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppAccessibleLayout.ui.mainmenu;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,6 +42,7 @@ public class MainMenuAccessibleFragment extends Fragment {
         view.findViewById(R.id.friendsButton).setOnClickListener(onClick);
         view.findViewById(R.id.optionsButton).setOnClickListener(onClick);
 
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(SERVICE_INTENT));
         return view;
     }
 
@@ -82,4 +86,22 @@ public class MainMenuAccessibleFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
+    private final BroadcastReceiver myReceiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("message");
+            switch(message)
+            {
+                case "queue_joined":
+                    Log.d(TAG, "queue joined");
+                    break;
+                case "unable_to_join_queue":
+                    Log.d(TAG, "unable to join queue");
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }
