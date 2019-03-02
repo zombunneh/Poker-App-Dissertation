@@ -1,5 +1,7 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppObjects;
 
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.CanCallCommand;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.CanCheckCommand;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.Command;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.SetIDCommand;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
@@ -91,12 +93,41 @@ public class Table implements Comparable<Table>, Runnable{
 
     public PlayerUserTurn sendToUser(int id, Command command)
     {
-        return new PlayerUserTurn(null , 0);
+        if(playerOutputMap.containsKey(id))
+        {
+            try
+            {
+                ObjectOutputStream out = playerOutputMap.get(id);
+                out.writeObject(command);
+                out.flush();
+
+                if(command.getClass() == CanCallCommand.class || command.getClass() == CanCheckCommand.class)
+                {
+                    return playerInputMap.get(id).getPlayerMove();
+                }
+            }
+            catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     public void sendToAllUser(Command command)
     {
-
+        for(ObjectOutputStream out : playerOutputMap.values())
+        {
+            try
+            {
+                out.writeObject(command);
+                out.flush();
+            }
+            catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void getUserTurn(int id)

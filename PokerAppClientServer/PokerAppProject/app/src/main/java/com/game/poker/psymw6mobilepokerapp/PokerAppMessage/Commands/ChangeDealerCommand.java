@@ -14,6 +14,7 @@ public class ChangeDealerCommand implements Command {
     }
 
     public void execute(CommandInvoker invoker) {
-
+        invoker.model.getPlayer(oldID).setDealer();
+        invoker.model.getPlayer(newID).setDealer();
     }
 }

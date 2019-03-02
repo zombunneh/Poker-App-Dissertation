@@ -26,6 +26,7 @@ public class GameRunnable implements Runnable{
     private int betCall;
     private int currentGameState;
     private boolean gameEnd;
+    private boolean gameRunning = true;
 
     public GameRunnable(Table table)
     {
@@ -48,6 +49,7 @@ public class GameRunnable implements Runnable{
 
     public void updateGamePlayerList(PlayerUser user)
     {
+        user.toggleInGame();
         players.addPlayer(user);
     }
 
@@ -55,6 +57,13 @@ public class GameRunnable implements Runnable{
     {
         this.table = table;
     }
+
+    public void endGame()
+    {
+        gameRunning = false;
+    }
+
+
 //TODO CONDITION TO END HAND EARLY IF ALL ALL IN
     @Override
     public void run() {
@@ -64,7 +73,7 @@ public class GameRunnable implements Runnable{
 
         }
         dealer = players.getDealer(); // sets initial dealer
-        while(true)
+        while(gameRunning)
         {
             preHand();
             preFlop();
@@ -88,6 +97,8 @@ public class GameRunnable implements Runnable{
         currentGameState = 0;
         gameEnd = false;
         //remember need to set IDs for users and send Player List
+        table.sendToAllUser(new SendPlayerListCommand(players.getMinList()));
+
         PlayerUser oldDealer = players.setNextDealer();
         dealer = players.getDealer();
         table.sendToAllUser(new ChangeDealerCommand(oldDealer.getID(), dealer.getID()));
@@ -95,6 +106,10 @@ public class GameRunnable implements Runnable{
         {
             if(user.isActive())
             {
+                if(!user.isInGame())
+                {
+                    user.toggleInGame();
+                }
                 user.unFold();
                 Card[] tempHand = new Card[2];
                 tempHand[0] = deck.drawCard();

@@ -11,6 +11,7 @@ public class PlayerUser extends User {
     private boolean isDealer;
     private boolean isFolded;
     private boolean isActive;
+    private boolean inGame;
     private int currentBet;
     private static final long serialVersionUID = 1452706986345L;
 
@@ -19,6 +20,9 @@ public class PlayerUser extends User {
         super(user_id, currency, username);
         hand = new Card[2];
         isFolded = false;
+        isActive = true;
+        inGame = true;
+        isDealer = false;
     }
 
     public void setHand(Card[] hand)
@@ -65,7 +69,6 @@ public class PlayerUser extends User {
     {
         return currency;
     }
-
 
     public Card getHighCard()
     {
@@ -119,6 +122,16 @@ public class PlayerUser extends User {
     public void toggleActive()
     {
         isActive = !isActive;
+    }
+
+    public boolean isInGame()
+    {
+        return inGame;
+    }
+
+    public void toggleInGame()
+    {
+        inGame = !inGame;
     }
 
     public boolean setCurrentBet(int bet)

@@ -1,4 +1,4 @@
-package com.game.poker.psymw6mobilepokerapp.PokerAppShared;
+package com.game.poker.psymw6mobilepokerapp.PokerAppShared.game;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

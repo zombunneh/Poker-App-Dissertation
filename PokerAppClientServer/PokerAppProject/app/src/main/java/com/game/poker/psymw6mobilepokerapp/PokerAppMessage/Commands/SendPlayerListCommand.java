@@ -15,6 +15,6 @@ public class SendPlayerListCommand implements Command {
     }
 
     public void execute(CommandInvoker invoker) {
-
+        invoker.model.updatePlayerList(players);
     }
 }

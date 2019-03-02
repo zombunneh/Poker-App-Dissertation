@@ -1,6 +1,8 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppServer;
 
 
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUserTurn;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -8,7 +10,7 @@ import java.net.Socket;
 import java.net.SocketException;
 
 public class ClientConnection {
-    private static final int TIMEOUT = 30;
+    private static final int TIMEOUT = 300;
     private Socket client;
     private ObjectInputStream in;
     private ObjectOutputStream out;
@@ -36,15 +38,19 @@ public class ClientConnection {
     }
 
     //code to receive a client response for a game turn
-    public void getPlayerMove()
+    public PlayerUserTurn getPlayerMove()
     {
+        PlayerUserTurn turn = null;
         try
         {
             client.setSoTimeout(TIMEOUT);
+            turn = (PlayerUserTurn) in.readObject();
+            return turn;
         }
-        catch(SocketException e)
+        catch(ClassNotFoundException | IOException e)
         {
             e.printStackTrace();
+            return null;
         }
     }
 
