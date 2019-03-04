@@ -33,7 +33,7 @@ public class EvaluateHand {
     public Card[] createFullHand(PlayerUser currentPlayer, List<Card> communityCards)
     {
         Card[] temp = new Card[7];
-        for(int i = 0; i <5; i++)
+        for(int i = 0; i < 5; i++)
         {
             temp[i] = communityCards.get(i);
         }

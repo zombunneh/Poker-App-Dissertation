@@ -1,5 +1,7 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly;
 
+import android.util.Log;
+
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.Command;
 
 import java.util.ArrayList;
@@ -7,6 +9,8 @@ import java.util.List;
 
 public class CommandQueue {
     private List<Command> commands;
+
+    public static final String TAG = "command_queue";
 
     public CommandQueue()
     {
@@ -25,6 +29,7 @@ public class CommandQueue {
 
     public synchronized void addCommand(Command command)
     {
+        Log.d(TAG, "command added");
         commands.add(command);
         notify();
     }

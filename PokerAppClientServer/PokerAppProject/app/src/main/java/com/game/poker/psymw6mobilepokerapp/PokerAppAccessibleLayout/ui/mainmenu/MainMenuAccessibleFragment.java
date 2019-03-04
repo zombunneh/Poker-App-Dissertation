@@ -19,6 +19,7 @@ import android.widget.Button;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.GameHelp;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.GameOptions;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.GameProfile;
+import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.GameView;
 import com.game.poker.psymw6mobilepokerapp.R;
 
 public class MainMenuAccessibleFragment extends Fragment {
@@ -56,7 +57,7 @@ public class MainMenuAccessibleFragment extends Fragment {
                         Log.d(TAG, "play");
                         Intent broadcastIntent = new Intent(SERVICE_INTENT);
                         broadcastIntent.putExtra("message", "join_queue");
-                        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(broadcastIntent);
+                        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(broadcastIntent); // add fragment or something to show we joined queue
                         //intent = new Intent(getContext(),);
                         break;
                     case R.id.helpButton:

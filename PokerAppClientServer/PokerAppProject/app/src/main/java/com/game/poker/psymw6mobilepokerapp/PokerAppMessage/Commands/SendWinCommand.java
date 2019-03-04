@@ -6,6 +6,8 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 import java.util.List;
 
 public class SendWinCommand implements Command {
+
+    private static final long serialVersionUID = 321655784L;
     private List<PlayerUser> players;
     private int winnings;
 

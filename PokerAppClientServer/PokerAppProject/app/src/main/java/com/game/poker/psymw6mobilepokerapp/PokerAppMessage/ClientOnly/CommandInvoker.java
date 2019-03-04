@@ -1,5 +1,6 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.Command;
@@ -13,24 +14,27 @@ import java.net.Socket;
 public class CommandInvoker implements Runnable{
     public final GameViewModel model;
     public final GameViewController controller;
-    public final GameView view;
+    public final Context viewContext;
     private CommandQueue queue;
 
-    private boolean invoked = false;
+    private boolean invoked;
 
     public static final String TAG = "command_invoker";
 
-    public CommandInvoker(Socket client, ObjectOutputStream out, CommandQueue queue )
+    public CommandInvoker(Socket client, ObjectOutputStream out, CommandQueue queue, Context viewContext )
     {
         this.model = new GameViewModel(client, out);
-        this.controller = new GameViewController();
-        this.view = new GameView();
+        this.viewContext = viewContext;
+
+        this.controller = new GameViewController(model, viewContext);
         this.queue = queue;
+        Log.d(TAG, "invoker started");
     }
 
     @Override
     public void run() {
         Command command;
+        Log.d(TAG, "invoker running");
         while(invoked)
         {
             synchronized (queue)
@@ -51,8 +55,8 @@ public class CommandInvoker implements Runnable{
                     command = queue.getNextCommand();
                     if(command != null)
                     {
-                        command.execute(this);
                         Log.d(TAG,"executing command");
+                        command.execute(this);
                     }
                     else
                     {
@@ -63,9 +67,16 @@ public class CommandInvoker implements Runnable{
         }
     }
 
-    public void stopInvoker()
+    public void startInvoker(boolean invoke)
     {
-        invoked = true;
+        invoked = invoke;
     }
 
+    public boolean isInvoked() {
+        return invoked;
+    }
+
+    public GameViewModel getModel() {
+        return model;
+    }
 }

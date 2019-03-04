@@ -104,7 +104,7 @@ public class ServerRunnable implements Runnable {
                     default:
                         break;
                 }
-            } catch (ClassNotFoundException c) {
+            } catch (ClassNotFoundException c) { // need to catch socket exception for crashed/closed clients
                 System.out.println("exception: " + c.toString());
             }
         }

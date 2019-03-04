@@ -98,7 +98,7 @@ public class GameRunnable implements Runnable{
         gameEnd = false;
         //remember need to set IDs for users and send Player List
         table.sendToAllUser(new SendPlayerListCommand(players.getMinList()));
-
+        //need to tell client to start activity
         PlayerUser oldDealer = players.setNextDealer();
         dealer = players.getDealer();
         table.sendToAllUser(new ChangeDealerCommand(oldDealer.getID(), dealer.getID()));
@@ -149,38 +149,44 @@ public class GameRunnable implements Runnable{
 
     public void flop()
     {
-        communityCards.add(deck.drawCard());
-        communityCards.add(deck.drawCard());
-        communityCards.add(deck.drawCard());
+        Card[] flopCards = new Card[3];
+        for(int i = 0; i < 3; i++)
+        {
+            flopCards[i] = deck.drawCard();
+            communityCards.add(flopCards[i]);
+        }
         System.out.println("flop added to table cards");
 
-        table.sendToAllUser(new SendFlopCommand());
+        table.sendToAllUser(new SendFlopCommand(flopCards));
 
         bettingRound(2);
     }
 
     public void turn()
     {
-        communityCards.add(deck.drawCard());
+        Card turnCard = deck.drawCard();
+        communityCards.add(turnCard);
         System.out.println("turn added to table cards");
 
-        table.sendToAllUser(new SendTurnCommand());
+        table.sendToAllUser(new SendTurnCommand(turnCard));
 
         bettingRound(3);
     }
 
     public void river()
     {
-        communityCards.add(deck.drawCard());
+        Card riverCard = deck.drawCard();
+        communityCards.add(riverCard);
         System.out.println("river added to table cards");
 
-        table.sendToAllUser(new SendRiverCommand());
+        table.sendToAllUser(new SendRiverCommand(riverCard));
 
         bettingRound(4);
     }
 
     public void endHand()
     {
+        System.out.println("hand ending");
         HashMap<PlayerUser, Hand> winners;
         List<PlayerUser> winnerList = new ArrayList<>();
         winners = handEvaluator.handEvaluator(players.getPlayersLeft(), communityCards);
@@ -193,6 +199,7 @@ public class GameRunnable implements Runnable{
         }
 
         table.sendToAllUser(new SendWinCommand(winnerList, pot));
+        System.out.println("hand ended");
     }
 
     public void raise(int bet)
@@ -211,7 +218,7 @@ public class GameRunnable implements Runnable{
         {
             do
             {
-                if(!better.isFolded() && better.getCurrency()>0 && better.isActive()) // remember to
+                if(!better.isFolded() && better.getCurrency() > 0 && better.isActive()) // remember to
                 {
                     if(better.getCurrentBet()==betCall)
                     {
@@ -228,7 +235,7 @@ public class GameRunnable implements Runnable{
                         turn = new PlayerUserTurn(PlayerUserMove.AWAY, 1);
                     }
 
-                    System.out.println("player: " + better.username + "move: " + turn.move.toString());
+                    System.out.println("player: " + better.username + " move: " + turn.move.toString());
 
                     switch(turn.move)
                     {

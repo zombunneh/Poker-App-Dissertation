@@ -111,7 +111,7 @@ public class GamePlayerList {
         List<PlayerUser> temp = new ArrayList<>();
         for(PlayerUser player : getPlayers())
         {
-            if(!player.isFolded())
+            if(!player.isFolded() && player.isActive())
             {
                 temp.add(player);
             }

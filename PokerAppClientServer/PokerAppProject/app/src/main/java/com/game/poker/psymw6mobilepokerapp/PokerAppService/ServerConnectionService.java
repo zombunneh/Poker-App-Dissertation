@@ -163,6 +163,19 @@ public class ServerConnectionService extends Service {
         }
     }
 
+    public Socket getClientSocket()
+    {
+        return clientSocket;
+    }
+
+    public ObjectInputStream getIn() {
+        return in;
+    }
+
+    public ObjectOutputStream getOut() {
+        return out;
+    }
+
     private final BroadcastReceiver myReceiver = new BroadcastReceiver()
     {
         @Override

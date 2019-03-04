@@ -1,12 +1,16 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands;
 
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Card;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandInvoker;
 
 public class SendTurnCommand implements Command {
 
-    public SendTurnCommand()
-    {
+    private static final long serialVersionUID = 3016634784L;
+    private Card card;
 
+    public SendTurnCommand(Card card)
+    {
+        this.card = card;
     }
 
     public void execute(CommandInvoker invoker) {

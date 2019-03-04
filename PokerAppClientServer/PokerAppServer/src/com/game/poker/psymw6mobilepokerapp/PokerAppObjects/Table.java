@@ -56,6 +56,8 @@ public class Table implements Comparable<Table>, Runnable{
 
     public void addUserToTable(SocketUser user) throws IOException
     {
+        user.getConnection().getOut().writeObject("game_joined");
+        System.out.println("sent game joined");
         PlayerUser temp = new PlayerUser(user.user_id, user.currency, user.username);
         playerOutputMap.put(currentUserID, user.getConnection().getOut());
         playerInputMap.put(currentUserID, user.getConnection());
@@ -70,7 +72,8 @@ public class Table implements Comparable<Table>, Runnable{
             game.updateGamePlayerList(temp);
             game.updateTable(this);
         }
-        System.out.println("user added to table: " + temp.username);
+        System.out.println("user added to table: " + temp.username + " \ncurrent users at table = " + players.size());
+
     }
 
     public int getOpenSeats()

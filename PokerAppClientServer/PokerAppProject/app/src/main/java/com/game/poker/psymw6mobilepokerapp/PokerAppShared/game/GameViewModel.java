@@ -1,5 +1,7 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppShared.game;
 
+import android.util.Log;
+
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Card;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 
@@ -7,8 +9,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class GameViewModel {
+public class GameViewModel extends Observable {
     private Socket client;
     private ObjectOutputStream out;
 
@@ -17,6 +20,8 @@ public class GameViewModel {
     private Card[] communityCards;
     private int myID;
     private State state;
+
+    public static final String TAG = "gameModel";
 
     public GameViewModel(Socket client, ObjectOutputStream out)
     {
@@ -29,6 +34,7 @@ public class GameViewModel {
     public void setID(int id)
     {
         myID = id;
+        Log.d(TAG,"setID");
     }
 
     public int getID()
@@ -38,6 +44,7 @@ public class GameViewModel {
 
     public void updatePlayerList(List<PlayerUser> newPlayers)
     {
+        Log.d(TAG,"updateList");
         players.addAll(newPlayers);
     }
 
@@ -50,10 +57,12 @@ public class GameViewModel {
                 player.setHand(hand);
             }
         }
+        Log.d(TAG,"setHand");
     }
 
     public Card[] getHand(int id)
     {
+        Log.d(TAG,"getHand");
         for(PlayerUser player : players)
         {
             if(player.getID() == id)
@@ -80,6 +89,7 @@ public class GameViewModel {
 
     public PlayerUser getPlayer(int id)
     {
+        Log.d(TAG,"getPlayer");
         PlayerUser temp;
         for(PlayerUser player : players)
         {
@@ -99,6 +109,7 @@ public class GameViewModel {
 
     public void setFlop(Card[] cards)
     {
+        Log.d(TAG,"setFlop");
         for(int i = 0; i < cards.length; i++)
         {
             communityCards[i] = cards[i];
@@ -115,9 +126,16 @@ public class GameViewModel {
         communityCards[4] = card;
     }
 
+    public State getState()
+    {
+     return this.state;
+    }
+
     public void updateState(State state)
     {
         this.state = state;
+        setChanged();
+        notifyObservers(state);
     }
 
     public void updateController()
@@ -129,6 +147,7 @@ public class GameViewModel {
     {
         READY,
         CHECK,
-        CALL
+        CALL,
+        PLAY
     }
 }

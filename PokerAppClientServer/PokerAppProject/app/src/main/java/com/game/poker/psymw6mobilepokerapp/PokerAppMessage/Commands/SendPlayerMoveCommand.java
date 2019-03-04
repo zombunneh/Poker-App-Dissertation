@@ -5,6 +5,8 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerMove;
 
 
 public class SendPlayerMoveCommand implements Command{
+
+    private static final long serialVersionUID = 2340594748L;
     private PlayerMove move;
 
     public SendPlayerMoveCommand(PlayerMove move)

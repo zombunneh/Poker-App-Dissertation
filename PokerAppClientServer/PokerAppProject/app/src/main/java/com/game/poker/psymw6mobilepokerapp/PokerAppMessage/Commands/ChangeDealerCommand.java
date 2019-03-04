@@ -3,6 +3,8 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandInvoker;
 
 public class ChangeDealerCommand implements Command {
+
+    private static final long serialVersionUID = 19285733483L;
     private int oldID;
     private int newID;
 

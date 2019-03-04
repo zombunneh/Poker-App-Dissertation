@@ -37,4 +37,11 @@
     <string name="isLoggedIn">isLoggedIn</string>
     <string name="existingUUID">isUUID</string>
     <string name="currentUUID">myUUID</string>
+
+    <!-- Strings for in game buttons -->
+    <string name="callButton">Call</string>
+    <string name="foldButton">Fold</string>
+    <string name="betButton">Bet</string>
+    <string name="checkButton">Check</string>
+    <string name="raiseButton">Raise</string>
 </resources>

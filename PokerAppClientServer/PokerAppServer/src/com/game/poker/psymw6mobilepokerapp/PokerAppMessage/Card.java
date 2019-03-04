@@ -1,12 +1,17 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppMessage;
 
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
+
+    public static final long serialVersionUID = 12923034298L;
+
     public enum Suit
     {
+        Spades,
         Hearts,
         Diamonds,
-        Clubs,
-        Spades
+        Clubs
     }
 
     public enum Rank

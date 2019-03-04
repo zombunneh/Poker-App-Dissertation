@@ -8,9 +8,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 public class ClientConnection {
-    private static final int TIMEOUT = 300;
+    private static final int TIMEOUT = 15000;
     private Socket client;
     private ObjectInputStream in;
     private ObjectOutputStream out;
@@ -40,6 +41,7 @@ public class ClientConnection {
     //code to receive a client response for a game turn
     public PlayerUserTurn getPlayerMove()
     {
+        System.out.println("getplayermove");
         PlayerUserTurn turn = null;
         try
         {
