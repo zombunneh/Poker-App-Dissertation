@@ -28,6 +28,9 @@ public class CommandInvoker implements Runnable{
 
         this.controller = new GameViewController(model, viewContext);
         this.queue = queue;
+
+        model.addObserver(controller);
+        model.bet.addObserver(controller);
         Log.d(TAG, "invoker started");
     }
 

@@ -52,31 +52,6 @@ public class JoinQueue implements Runnable {
             if(game.equals("game_joined"))
             {
                 mContext.startActivity(new Intent(mContext, GameView.class));
-
-                /*CommandQueue queue = new CommandQueue();
-                CommandInvoker invoker = new CommandInvoker(clientSocket, out, queue);
-                invoker.startInvoker(true);
-
-                GameListener listener = new GameListener(clientSocket, in, queue);
-                listener.setRunning(true);
-
-                Thread invokerThread = new Thread(invoker, "invokerThread");
-                Thread listenerThread = new Thread(listener, "listenerThread");
-
-                invokerThread.start();
-                listenerThread.start();
-
-                while(invoker.isInvoked() && listener.isRunning())
-                {
-                    try
-                    {
-                        Thread.sleep(500);
-                    }
-                    catch(InterruptedException e)
-                    {
-
-                    }
-                }*/
             }
 
         } catch(IOException | ClassNotFoundException e)

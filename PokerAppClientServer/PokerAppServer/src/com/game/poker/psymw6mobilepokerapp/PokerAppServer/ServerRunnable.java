@@ -48,7 +48,7 @@ public class ServerRunnable implements Runnable {
     public void handleUserConnection(ObjectOutputStream out, ObjectInputStream in) throws IOException
     {
         String requestType = "default";
-        while(clientSocket!= null) {
+        while(clientSocket != null) {
             try {
                 requestType = (String) in.readObject();
 
@@ -88,7 +88,6 @@ public class ServerRunnable implements Runnable {
                             sendUserLoginDetails(out, user_id, getAccountType);
 
                         }
-                        requestType = "default";
                         break;
                     }
                     case "join_queue": {
@@ -96,7 +95,7 @@ public class ServerRunnable implements Runnable {
                         //if user clicks play
                         addUserToQueue(newUser);
                         out.writeObject("queue_joined");
-                        requestType = "default";
+                        clientSocket = null;
                         break;
                     }
                     case "default":
@@ -113,12 +112,6 @@ public class ServerRunnable implements Runnable {
         {
 
         }
-
-
-        //constructs user object to be used for com.game play
-        //newUser = new User(user.user_id, user.currency, user.username);
-        //if user clicks play
-        //addUserToQueue(newUser);
     }
 
     public void sendUserLoginDetails(ObjectOutputStream out, String user_id, int accountType) throws IOException

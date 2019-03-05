@@ -195,7 +195,7 @@ public class GameRunnable implements Runnable{
 
         for(int i = 0; i < winnerList.size(); i++)
         {
-            System.out.println("winner: " + winnerList.get(i).username + " with hand " + winners.get(winnerList.get(i)).toString());
+            System.out.println("winner: " + winnerList.get(i).username + " with hand " + winners.get(winnerList.get(i)).toString() + " wins: " + pot);
         }
 
         table.sendToAllUser(new SendWinCommand(winnerList, pot));
@@ -204,9 +204,14 @@ public class GameRunnable implements Runnable{
 
     public void raise(int bet)
     {
-        if(bet>betCall)
+        if(bet>=betCall)
         {
             betCall = bet;
+            pot += bet;
+        }
+        else
+        {
+            pot += bet;
         }
     }
 
@@ -216,11 +221,12 @@ public class GameRunnable implements Runnable{
         PlayerUserTurn turn;
         while(currentGameState<round)
         {
+            System.out.println("betting round: " + round);
             do
             {
                 if(!better.isFolded() && better.getCurrency() > 0 && better.isActive()) // remember to
                 {
-                    if(better.getCurrentBet()==betCall)
+                    if(better.getCurrentBet()>=betCall)
                     {
                         //send command for check option
                         turn = table.sendToUser(better.getID(), new CanCheckCommand());
@@ -259,6 +265,7 @@ public class GameRunnable implements Runnable{
                         case CALL:
                         {
                             better.setCurrentBet(betCall - better.getCurrentBet());
+                            raise(better.getCurrentBet());
                             table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.CALL, better.getID(), better.getCurrentBet(), better.getCurrency())));
                             System.out.println("player: " + better.username + " calls");
 ;                        }
@@ -286,10 +293,11 @@ public class GameRunnable implements Runnable{
                         }
                             break;
                     }
-                    if(players.getPlayersLeft().size()<2 && players.movesLeft().size()<2) // 1 extra condition
+                   /* if(players.getPlayersLeft().size()<2 && players.movesLeft().size()<2 && currentGameState == 3) // 1 extra condition
                     {
+                        //need to check for flop/river/turn and set if not set
                         endHand();
-                    }
+                    }*/
                 }
                 better = players.getNextPlayer(better);
             }

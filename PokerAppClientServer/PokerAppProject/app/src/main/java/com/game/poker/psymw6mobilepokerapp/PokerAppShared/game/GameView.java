@@ -15,6 +15,7 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandInv
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandQueue;
 import com.game.poker.psymw6mobilepokerapp.PokerAppRunnable.GameListener;
 import com.game.poker.psymw6mobilepokerapp.PokerAppService.ServerConnectionService;
+import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Bet_Slider;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Call_Button;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Check_Button;
 import com.game.poker.psymw6mobilepokerapp.R;
@@ -26,9 +27,11 @@ public class GameView extends AppCompatActivity {
     private ServerConnectionService.ServerBinder serviceBinder;
     private ServerConnectionService serviceInstance;
     private GameViewModel model;
+    private GameViewActions actions;
 
     private Call_Button call_button_frag;
     private Check_Button check_button_frag;
+    public Bet_Slider bet_slider_frag;
 
     public static final String TAG = "gameView";
 
@@ -39,10 +42,13 @@ public class GameView extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+
+
         call_button_frag = Call_Button.newInstance();
         check_button_frag = Check_Button.newInstance();
-
-        addCallFrag();
+        bet_slider_frag = Bet_Slider.newInstance();
+        addSliderFrag();
+        //addCallFrag();
         setContentView(R.layout.game_view_activity);
     }
 
@@ -82,6 +88,7 @@ public class GameView extends AppCompatActivity {
                     listenerThread.start();
 
                     model = invoker.getModel();
+                    actions = new GameViewActions(model);
 
                     while (invoker.isInvoked() && listener.isRunning()) {
                         try {
@@ -119,6 +126,21 @@ public class GameView extends AppCompatActivity {
     public void addCheckFrag()
     {
         getSupportFragmentManager().beginTransaction().replace(R.id.callcheckbutton, check_button_frag).commitNow();
+    }
+
+    public void addSliderFrag()
+    {
+        getSupportFragmentManager().beginTransaction().replace(R.id.betSliderLayout, bet_slider_frag).commitNow();
+    }
+
+    public void hideSliderFrag()
+    {
+        getSupportFragmentManager().beginTransaction().hide(bet_slider_frag).commitNow();
+    }
+
+    public GameViewActions getActions()
+    {
+        return actions;
     }
 
     private ServiceConnection connection = new ServiceConnection() {

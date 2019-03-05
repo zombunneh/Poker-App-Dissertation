@@ -19,8 +19,8 @@
 
     <FrameLayout
         android:id="@+id/callcheckbutton"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="256dp"
         android:layout_marginLeft="256dp"
         android:layout_marginTop="256dp"
@@ -28,6 +28,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/betSliderLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="256dp"
+        android:layout_marginLeft="256dp"
+        android:layout_marginTop="196dp"
+        app:layout_constraintBottom_toTopOf="@id/callcheckbutton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gameSurface">
 
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>

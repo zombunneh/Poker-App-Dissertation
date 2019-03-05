@@ -2,6 +2,7 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandInvoker;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerMove;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUserMove;
 
 
 public class SendPlayerMoveCommand implements Command{
@@ -15,6 +16,9 @@ public class SendPlayerMoveCommand implements Command{
     }
 
     public void execute(CommandInvoker invoker) {
-
+        if(move.move == PlayerUserMove.BLIND)
+        {
+            invoker.model.bet.setBlind(move.bet);
+        }
     }
 }

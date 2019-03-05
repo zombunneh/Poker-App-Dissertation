@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.GameView;
 import com.game.poker.psymw6mobilepokerapp.R;
 
 public class Check_Button extends Fragment {
@@ -22,7 +23,31 @@ public class Check_Button extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.check_button_fragment, container, false);
+        View view = inflater.inflate(R.layout.check_button_fragment, container, false);
+
+        view.findViewById(R.id.foldButtonCh).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((GameView)getActivity()).getActions().pressedFold();
+            }
+        });
+
+        view.findViewById(R.id.checkButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((GameView)getActivity()).getActions().pressedCheck();
+            }
+        });
+
+        view.findViewById(R.id.betButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int bet = ((GameView)getActivity()).bet_slider_frag.getBetSlider().getProgress();
+                ((GameView)getActivity()).getActions().pressedRaise(bet);
+            }
+        });
+
+        return view;
     }
 
     @Override

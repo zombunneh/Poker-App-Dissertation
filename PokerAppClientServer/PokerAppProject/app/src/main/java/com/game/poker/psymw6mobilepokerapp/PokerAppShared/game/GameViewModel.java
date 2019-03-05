@@ -4,7 +4,10 @@ import android.util.Log;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Card;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUserMove;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUserTurn;
 
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ public class GameViewModel extends Observable {
     private Card[] communityCards;
     private int myID;
     private State state;
+    public final Bet bet;
 
     public static final String TAG = "gameModel";
 
@@ -29,6 +33,7 @@ public class GameViewModel extends Observable {
         this.out = out;
         communityCards = new Card[5];
         players = new ArrayList<>();
+        this.bet = new Bet();
     }
 
     public void setID(int id)
@@ -133,9 +138,33 @@ public class GameViewModel extends Observable {
 
     public void updateState(State state)
     {
+        Log.d(TAG, "changed state " + state.toString());
         this.state = state;
         setChanged();
         notifyObservers(state);
+    }
+
+    public void pressedButton(final PlayerUserMove move, final int bet)
+    {
+        if(getState() == State.CALL || getState() == State.CHECK)
+        {
+            Log.d(TAG, "pressed button");
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try
+                    {
+                        out.writeObject(new PlayerUserTurn(move, bet));
+                    }
+                    catch(IOException e )
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            t.start();
+            Log.d(TAG, "pressed button");
+        }
     }
 
     public void updateController()
@@ -149,5 +178,17 @@ public class GameViewModel extends Observable {
         CHECK,
         CALL,
         PLAY
+    }
+
+    public class Bet extends Observable
+    {
+        private int blind;
+        private int pot;
+        private int betCall;
+
+        public void setBlind(int blind)
+        {
+            this.blind = blind;
+        }
     }
 }
