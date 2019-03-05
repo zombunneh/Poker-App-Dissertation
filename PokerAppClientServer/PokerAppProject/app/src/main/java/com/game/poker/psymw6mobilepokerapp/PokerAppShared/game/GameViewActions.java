@@ -33,7 +33,6 @@ public class GameViewActions {
         model.pressedButton(PlayerUserMove.CHECK, 0);
     }
 
-
     public void pressedRaise(int bet)
     {
         Log.d(TAG, "bet/raise");

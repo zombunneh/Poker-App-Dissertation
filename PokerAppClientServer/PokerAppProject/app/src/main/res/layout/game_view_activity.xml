@@ -8,8 +8,8 @@
     android:background="@drawable/green_bg"
     tools:context=".PokerAppShared.game.GameView">
 
-    <com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.GameViewSurface
-        android:id="@+id/gameSurface"
+    <com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.Surface.GameViewSurface
+        android:id="@+id/gameViewSurface"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,11 +37,81 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="256dp"
         android:layout_marginLeft="256dp"
-        android:layout_marginTop="196dp"
+        android:layout_marginTop="256dp"
         app:layout_constraintBottom_toTopOf="@id/callcheckbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/gameSurface">
+        app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/handLayout"
+        android:layout_width="256dp"
+        android:layout_height="128dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/handCard1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/handCard2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/communityLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginLeft="128dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginRight="128dp"
+        android:layout_marginBottom="128dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/gameViewSurface"
+        app:layout_constraintEnd_toEndOf="@+id/gameViewSurface"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/gameViewSurface"
+        app:layout_constraintTop_toTopOf="@+id/gameViewSurface"
+        app:layout_constraintVertical_bias="0.369">
+
+        <ImageView
+            android:id="@+id/communityCard1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/communityCard2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/communityCard3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/communityCard4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/communityCard5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

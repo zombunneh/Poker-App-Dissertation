@@ -28,6 +28,8 @@ public class GameRunnable implements Runnable{
     private boolean gameEnd;
     private boolean gameRunning = true;
 
+    private int gameDelay;
+
     public GameRunnable(Table table)
     {
         this.table = table;
@@ -45,6 +47,7 @@ public class GameRunnable implements Runnable{
         betCall = 0;
         currentGameState = 0;
         gameEnd = false;
+        gameDelay = 10;
     }
 
     public void updateGamePlayerList(PlayerUser user)
@@ -63,7 +66,6 @@ public class GameRunnable implements Runnable{
         gameRunning = false;
     }
 
-
 //TODO CONDITION TO END HAND EARLY IF ALL ALL IN
     @Override
     public void run() {
@@ -75,17 +77,24 @@ public class GameRunnable implements Runnable{
         dealer = players.getDealer(); // sets initial dealer
         while(gameRunning)
         {
+            for(int i = gameDelay; i > 0; i--)
+            {
+                try
+                {
+                    System.out.println("next hand in: " + i);
+                    Thread.sleep(1000);
+                }
+                catch(InterruptedException e)
+                {
+
+                }
+            }
             preHand();
             preFlop();
             flop();
             turn();
             river();
             endHand();
-
-            while(true)
-            {
-
-            }
         }
     }
 

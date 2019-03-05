@@ -18,12 +18,12 @@ public class GameViewModel extends Observable {
     private Socket client;
     private ObjectOutputStream out;
 
-    private PlayerUser myPlayer;
     private List<PlayerUser> players;
     private Card[] communityCards;
     private int myID;
     private State state;
     public final Bet bet;
+    public final MyPlayer myPlayer;
 
     public static final String TAG = "gameModel";
 
@@ -34,6 +34,7 @@ public class GameViewModel extends Observable {
         communityCards = new Card[5];
         players = new ArrayList<>();
         this.bet = new Bet();
+        myPlayer = new MyPlayer();
     }
 
     public void setID(int id)
@@ -51,45 +52,13 @@ public class GameViewModel extends Observable {
     {
         Log.d(TAG,"updateList");
         players.addAll(newPlayers);
+        setChanged();
+        notifyObservers(players);
     }
 
-    public void setHand(Card[] hand)
+    public List<PlayerUser> getPlayers()
     {
-        for(PlayerUser player : players)
-        {
-            if(player.getID() == myID)
-            {
-                player.setHand(hand);
-            }
-        }
-        Log.d(TAG,"setHand");
-    }
-
-    public Card[] getHand(int id)
-    {
-        Log.d(TAG,"getHand");
-        for(PlayerUser player : players)
-        {
-            if(player.getID() == id)
-            {
-                return player.getHand();
-            }
-        }
-        return null;
-    }
-
-    public PlayerUser getMyPlayer()
-    {
-        PlayerUser temp;
-        for(PlayerUser player : players)
-        {
-            if(player.getID() == myID)
-            {
-                temp = player;
-                return temp;
-            }
-        }
-        return null;
+        return players;
     }
 
     public PlayerUser getPlayer(int id)
@@ -119,16 +88,24 @@ public class GameViewModel extends Observable {
         {
             communityCards[i] = cards[i];
         }
+        setChanged();
+        notifyObservers(cards);
     }
 
     public void setTurn(Card card)
     {
+        Log.d(TAG,"setTurn");
         communityCards[3] = card;
+        setChanged();
+        notifyObservers(card);
     }
 
     public void setRiver(Card card)
     {
+        Log.d(TAG,"setTurn");
         communityCards[4] = card;
+        setChanged();
+        notifyObservers(card);
     }
 
     public State getState()
@@ -188,7 +165,42 @@ public class GameViewModel extends Observable {
 
         public void setBlind(int blind)
         {
+            Log.d(TAG, "blind set");
             this.blind = blind;
+            setChanged();
+            notifyObservers(blind);
+        }
+    }
+
+    public class MyPlayer extends Observable
+    {
+        public void setHand(Card[] hand)
+        {
+            getMyPlayer().setHand(hand);
+
+            setChanged();
+            notifyObservers(hand);
+            Log.d(TAG,"setHand");
+        }
+
+        public Card[] getMyHand()
+        {
+            Log.d(TAG,"getHand");
+            return getMyPlayer().getHand();
+        }
+
+        public PlayerUser getMyPlayer()
+        {
+            PlayerUser temp;
+            for(PlayerUser player : players)
+            {
+                if(player.getID() == myID)
+                {
+                    temp = player;
+                    return temp;
+                }
+            }
+            return null;
         }
     }
 }

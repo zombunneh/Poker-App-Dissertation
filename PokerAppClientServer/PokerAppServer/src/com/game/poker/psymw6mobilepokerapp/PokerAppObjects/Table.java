@@ -31,7 +31,7 @@ import java.util.List;
 public class Table implements Comparable<Table>, Runnable{
     public int tableID;
     private int currentUserID;
-    private static final int MAX_USERS = 8;
+    private static final int MAX_USERS = 6;
     private int noUsersAtTable = 0;
     private boolean gameStarted = false;
     private GameRunnable game;

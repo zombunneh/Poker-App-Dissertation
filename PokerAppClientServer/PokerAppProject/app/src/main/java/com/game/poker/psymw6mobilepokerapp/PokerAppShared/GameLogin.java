@@ -71,8 +71,11 @@ public class GameLogin extends AppCompatActivity {
     private boolean loginDetailsUpdated = false;
     private boolean loginCompleted = false;
     private boolean accountNotFound = false;
+    private boolean createdUser = false;
 
     private GameLoginFragment signInFragment;
+    private GameLoginSuccessfulFragment successfulFragment;
+    private GameLoginCreateUserFragment createUserFragment;
 
     private SharedPreferences loginPrefs;
 
@@ -86,6 +89,9 @@ public class GameLogin extends AppCompatActivity {
                     .replace(R.id.signInLayout, signInFragment)
                     .commitNow();
         }
+
+        successfulFragment = GameLoginSuccessfulFragment.newInstance();
+        createUserFragment = GameLoginCreateUserFragment.newInstance();
 
         loginPrefs = getSharedPreferences(getString(R.string.loginPreferences), MODE_PRIVATE);
         isLoggedIn = loginPrefs.getBoolean(getString(R.string.isLoggedIn), false);
@@ -102,7 +108,7 @@ public class GameLogin extends AppCompatActivity {
             Log.d(TAG, id.toString());
             SharedPreferences.Editor edit = loginPrefs.edit();
             edit.putBoolean(getString(R.string.existingUUID), true);
-            edit.putString("", id.toString());
+            edit.putString(getString(R.string.currentUUID), id.toString());
             edit.apply();
         }
 
@@ -135,6 +141,11 @@ public class GameLogin extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         if(connection!= null)
         {
             unbindService(connection);
@@ -145,11 +156,6 @@ public class GameLogin extends AppCompatActivity {
             serviceInstance = null;
         }
         Log.d(TAG, "activity stopped");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
         Log.d(TAG, "activity destroyed");
     }
 
@@ -295,8 +301,15 @@ public class GameLogin extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.signInLayout, GameLoginSuccessfulFragment.newInstance())
+                                    .replace(R.id.signInLayout, successfulFragment)
                                     .commitNow();
+
+                                    if(createdUser)
+                                    {
+                                        getSupportFragmentManager().beginTransaction()
+                                                .hide(createUserFragment)
+                                                .commitNow();
+                                    }
                                 }
                             });
                             loginCompleted = true;
@@ -311,7 +324,7 @@ public class GameLogin extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         getSupportFragmentManager().beginTransaction()
-                                                .replace(R.id.createUserBox, GameLoginCreateUserFragment.newInstance())
+                                                .replace(R.id.createUserBox, createUserFragment)
                                                 .commitNow();
                                         getSupportFragmentManager().beginTransaction()
                                                 .hide(signInFragment)
@@ -319,6 +332,7 @@ public class GameLogin extends AppCompatActivity {
                                     }
                                 });
                                 creatingAccount = true;
+                                createdUser = true;
                             }
 
 

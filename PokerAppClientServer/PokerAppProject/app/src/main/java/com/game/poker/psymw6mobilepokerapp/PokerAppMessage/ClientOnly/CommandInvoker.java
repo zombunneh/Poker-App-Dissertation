@@ -31,6 +31,7 @@ public class CommandInvoker implements Runnable{
 
         model.addObserver(controller);
         model.bet.addObserver(controller);
+        model.myPlayer.addObserver(controller);
         Log.d(TAG, "invoker started");
     }
 

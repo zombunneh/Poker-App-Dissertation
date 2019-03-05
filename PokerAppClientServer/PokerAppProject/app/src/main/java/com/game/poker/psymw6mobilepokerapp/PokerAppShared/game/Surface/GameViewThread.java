@@ -1,8 +1,9 @@
-package com.game.poker.psymw6mobilepokerapp.PokerAppShared.game;
+package com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.Surface;
 
 import android.graphics.Canvas;
-import android.graphics.PixelFormat;
 import android.view.SurfaceHolder;
+
+import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.Surface.GameViewSurface;
 
 public class GameViewThread extends Thread{
 

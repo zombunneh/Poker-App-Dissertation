@@ -7,12 +7,14 @@ import android.util.Log;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandInvoker;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandQueue;
+import com.game.poker.psymw6mobilepokerapp.PokerAppService.ServerConnectionService;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.GameView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class JoinQueue implements Runnable {
     private Socket clientSocket;
@@ -51,12 +53,16 @@ public class JoinQueue implements Runnable {
             String game = (String) in.readObject();
             if(game.equals("game_joined"))
             {
-                mContext.startActivity(new Intent(mContext, GameView.class));
+                mContext.startActivity(new Intent(mContext, GameView.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
 
         } catch(IOException | ClassNotFoundException e)
         {
             Log.d(TAG, e.toString());
+            if(e instanceof SocketException)
+            {
+                //((ServerConnectionService) mContext).connectToServer();
+            }
         }
     }
 

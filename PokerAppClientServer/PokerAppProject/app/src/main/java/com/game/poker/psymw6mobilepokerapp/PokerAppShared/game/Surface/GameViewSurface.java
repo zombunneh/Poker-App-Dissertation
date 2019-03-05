@@ -1,4 +1,4 @@
-package com.game.poker.psymw6mobilepokerapp.PokerAppShared.game;
+package com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.Surface;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -12,18 +12,12 @@ import android.view.SurfaceView;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.ClientCard;
 import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.ClientPlayer;
+import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.GameViewModel;
 import com.game.poker.psymw6mobilepokerapp.R;
 
 public class GameViewSurface extends SurfaceView implements SurfaceHolder.Callback {
 
     private GameViewThread gameThread;
-    private ClientCard handCard1;
-    private ClientCard handCard2;
-    private ClientCard flop1;
-    private ClientCard flop2;
-    private ClientCard flop3;
-    private ClientCard river;
-    private ClientCard turn;
     private ClientPlayer myPlayer;
 
     private GameViewModel.State state;
@@ -38,6 +32,7 @@ public class GameViewSurface extends SurfaceView implements SurfaceHolder.Callba
 
         this.setZOrderOnTop(true);
         this.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+
     }
 
     public GameViewSurface(Context context, AttributeSet attrs) {
@@ -71,13 +66,10 @@ public class GameViewSurface extends SurfaceView implements SurfaceHolder.Callba
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        this.handCard1.draw(canvas);
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Bitmap handCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 400, 400);
-        this.handCard1 = new ClientCard(this, handCardBitmap1, 100, 500, 0, 1);
 
         this.gameThread = new GameViewThread(this, holder);
         this.gameThread.setRunning(true);

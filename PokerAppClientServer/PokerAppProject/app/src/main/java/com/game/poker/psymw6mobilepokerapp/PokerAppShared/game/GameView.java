@@ -4,17 +4,24 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Card;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandInvoker;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandQueue;
+import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.ClientCard;
 import com.game.poker.psymw6mobilepokerapp.PokerAppRunnable.GameListener;
 import com.game.poker.psymw6mobilepokerapp.PokerAppService.ServerConnectionService;
+import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.Surface.GameViewSurface;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Bet_Slider;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Call_Button;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Check_Button;
@@ -28,10 +35,14 @@ public class GameView extends AppCompatActivity {
     private ServerConnectionService serviceInstance;
     private GameViewModel model;
     private GameViewActions actions;
+    private GameViewUpdater updater;
+    private GameViewSurface surface;
 
     private Call_Button call_button_frag;
     private Check_Button check_button_frag;
     public Bet_Slider bet_slider_frag;
+
+    private boolean stopThreads = false;
 
     public static final String TAG = "gameView";
 
@@ -42,13 +53,10 @@ public class GameView extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
-
         call_button_frag = Call_Button.newInstance();
         check_button_frag = Check_Button.newInstance();
         bet_slider_frag = Bet_Slider.newInstance();
         addSliderFrag();
-        //addCallFrag();
         setContentView(R.layout.game_view_activity);
     }
 
@@ -74,6 +82,13 @@ public class GameView extends AppCompatActivity {
                 }
 
                 if(serviceInstance.isServerConnected()) {
+                    surface = findViewById(R.id.gameViewSurface);
+                    updater = new GameViewUpdater(surface);
+                    if(surface == null)
+                    {
+                        Log.d(TAG, "surface null");
+                    }
+
                     CommandQueue queue = new CommandQueue();
                     CommandInvoker invoker = new CommandInvoker(serviceInstance.getClientSocket(), serviceInstance.getOut(), queue, GameView.this);
                     invoker.startInvoker(true);
@@ -90,11 +105,17 @@ public class GameView extends AppCompatActivity {
                     model = invoker.getModel();
                     actions = new GameViewActions(model);
 
+
                     while (invoker.isInvoked() && listener.isRunning()) {
                         try {
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
 
+                        }
+                        if(stopThreads == true)
+                        {
+                            invoker.startInvoker(false);
+                            listener.setRunning(false);
                         }
                     }
                 }
@@ -104,8 +125,8 @@ public class GameView extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         if(connection!= null)
         {
             unbindService(connection);
@@ -115,7 +136,108 @@ public class GameView extends AppCompatActivity {
         {
             serviceInstance = null;
         }
-        Log.d(TAG, "activity stopped");
+        stopThreads = true;
+        Log.d(TAG, "activity destroyed");
+    }
+
+    public void setCardImageViews()
+    {
+        int[][] cards = new int[2][2];
+
+        for(int i = 0; i < 2; i++)
+        {
+            cards[i][0] = model.myPlayer.getMyHand()[i].getCardSuit().ordinal();
+            cards[i][1] = model.myPlayer.getMyHand()[i].getCardRank().ordinal();
+        }
+        ImageView handCard1 = findViewById(R.id.handCard1);
+        ImageView handCard2 = findViewById(R.id.handCard2);
+
+        Bitmap handCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
+        ClientCard handCardBitmap = new ClientCard(handCardBitmap1, 100, 500, cards[0][0], cards[0][1]);
+
+        handCard1.setImageBitmap(handCardBitmap.getBitmap());
+        handCardBitmap.update(cards[1][0], cards[1][1]);
+        handCard2.setImageBitmap(handCardBitmap.getBitmap());
+
+    }
+
+    public void setCommunityImageViews()
+    {
+        int[][] cards = new int[3][2];
+
+        for(int i = 0; i < 3; i++)
+        {
+            cards[i][0] = model.getCommunityCards()[i].getCardSuit().ordinal();
+            cards[i][1] = model.getCommunityCards()[i].getCardRank().ordinal();
+        }
+
+        ImageView communityCard1 = findViewById(R.id.communityCard1);
+        ImageView communityCard2 = findViewById(R.id.communityCard2);
+        ImageView communityCard3 = findViewById(R.id.communityCard3);
+
+        Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 125, 250);
+        ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 100, 500, cards[0][0], cards[0][1]);
+
+        communityCard1.setImageBitmap(communityCardBitmap.getBitmap());
+        communityCardBitmap.update(cards[1][0], cards[1][1]);
+        communityCard2.setImageBitmap(communityCardBitmap.getBitmap());
+        communityCardBitmap.update(cards[2][0], cards[2][1]);
+        communityCard3.setImageBitmap(communityCardBitmap.getBitmap());
+    }
+
+    public void setCommunityImageView()
+    {
+
+        ImageView communityCard4 = findViewById(R.id.communityCard4);
+        ImageView communityCard5 = findViewById(R.id.communityCard5);
+
+        if(communityCard4.getDrawable() == null)
+        {
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 125, 250);
+            ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 100, 500, model.getCommunityCards()[3].getCardSuit().ordinal(),model.getCommunityCards()[3].getCardRank().ordinal());
+
+            communityCard4.setImageBitmap(communityCardBitmap.getBitmap());
+        }
+        else if(communityCard5.getDrawable() == null)
+        {
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 125, 250);
+            ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 100, 500, model.getCommunityCards()[4].getCardSuit().ordinal(),model.getCommunityCards()[4].getCardRank().ordinal());
+
+            communityCard5.setImageBitmap(communityCardBitmap.getBitmap());
+        }
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
+    {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if(height > reqHeight || width > reqWidth)
+        {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            while((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth)
+            {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
+    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resID, int reqWidth, int reqHeight)
+    {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        BitmapFactory.decodeResource(res, resID, options);
+
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(res, resID, options);
     }
 
     public void addCallFrag()
@@ -181,4 +303,7 @@ public class GameView extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 
+    public GameViewUpdater getUpdater() {
+        return updater;
+    }
 }
