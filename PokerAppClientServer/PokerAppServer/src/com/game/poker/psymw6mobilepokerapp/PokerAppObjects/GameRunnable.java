@@ -47,7 +47,7 @@ public class GameRunnable implements Runnable{
         betCall = 0;
         currentGameState = 0;
         gameEnd = false;
-        gameDelay = 10;
+        gameDelay = 5;
     }
 
     public void updateGamePlayerList(PlayerUser user)
@@ -64,6 +64,12 @@ public class GameRunnable implements Runnable{
     public void endGame()
     {
         gameRunning = false;
+    }
+
+    public void removePlayer(int id)
+    {
+        System.out.println("remove player");
+        players.removePlayer(id);
     }
 
 //TODO CONDITION TO END HAND EARLY IF ALL ALL IN
@@ -105,6 +111,8 @@ public class GameRunnable implements Runnable{
         pot = 0;
         currentGameState = 0;
         gameEnd = false;
+        Card[] dummyCards = new Card[3];
+        table.sendToAllUser(new SendFlopCommand(dummyCards));
         //remember need to set IDs for users and send Player List
         table.sendToAllUser(new SendPlayerListCommand(players.getMinList()));
         //need to tell client to start activity
@@ -138,18 +146,20 @@ public class GameRunnable implements Runnable{
         PlayerUser nextPlayer = players.getNextPlayer(dealer);
         //set small blind
         nextPlayer.setCurrentBet(blind / 2);
-        pot += blind / 2;
         table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.BLIND, nextPlayer.getID(), nextPlayer.getCurrentBet(), nextPlayer.getCurrency()))); //todo NEED TO IMPLEMENT THIUS OMFG WOWOWWOWOWOWOW
         System.out.println("set small blind for player " + nextPlayer.username);
-        raise(nextPlayer.getCurrentBet());
+        raise(nextPlayer.getLastBet());
+
+        System.out.println("pot " + pot);
 
         nextPlayer = players.getNextPlayer(nextPlayer);
         //set big blind
         nextPlayer.setCurrentBet(blind);
-        pot += blind;
         table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.BLIND, nextPlayer.getID(), nextPlayer.getCurrentBet(), nextPlayer.getCurrency())));
         System.out.println("set big blind for player " + nextPlayer.username);
-        raise(nextPlayer.getCurrentBet());
+        raise(nextPlayer.getLastBet());
+
+        System.out.println("pot " + pot);
 
         //first round of betting
         initialPlayer = players.getNextPlayer(nextPlayer);
@@ -211,6 +221,19 @@ public class GameRunnable implements Runnable{
         System.out.println("hand ended");
     }
 
+    public void endHandEarly()
+    {
+        for(Card card : communityCards)
+        {
+            if(card == null)
+            {
+                card = deck.drawCard();
+            }
+        }
+
+        endHand();
+    }
+
     public void raise(int bet)
     {
         if(bet>=betCall)
@@ -247,7 +270,7 @@ public class GameRunnable implements Runnable{
                     }
                     if(turn == null)
                     {
-                        turn = new PlayerUserTurn(PlayerUserMove.AWAY, 1);
+                        turn = new PlayerUserTurn(PlayerUserMove.AWAY, 0);
                     }
 
                     System.out.println("player: " + better.username + " move: " + turn.move.toString());
@@ -259,6 +282,7 @@ public class GameRunnable implements Runnable{
                             better.toggleActive();
                             table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.AWAY, better.getID(), better.getCurrentBet(), better.getCurrency())));
                             System.out.println("player: " + better.username + " went afk");
+                            better.incrementInactive();
                             //needs finishing
                         }
                             break;
@@ -266,15 +290,14 @@ public class GameRunnable implements Runnable{
                         {
                             better.fold();
                             table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.EXIT, better.getID(), better.getCurrentBet(), better.getCurrency())));
-                            table.removePlayer(better);
-                            players.removePlayer(better.getID());
+                            table.removeFromTable(better.getID());
                             System.out.println("player: " + better.username + " left the game");
                         }
                             break;
                         case CALL:
                         {
                             better.setCurrentBet(betCall - better.getCurrentBet());
-                            raise(better.getCurrentBet());
+                            raise(better.getLastBet());
                             table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.CALL, better.getID(), better.getCurrentBet(), better.getCurrency())));
                             System.out.println("player: " + better.username + " calls");
 ;                        }
@@ -302,11 +325,19 @@ public class GameRunnable implements Runnable{
                         }
                             break;
                     }
-                   /* if(players.getPlayersLeft().size()<2 && players.movesLeft().size()<2 && currentGameState == 3) // 1 extra condition
+                   /* if(players.getPlayersLeft().size()<2 && players.movesLeft().size()<2) // 1 extra condition
                     {
-                        //need to check for flop/river/turn and set if not set
+                        //need to check for flop/river/turn and set if not set removed whilst debugging only 1 player >:3
                         endHand();
                     }*/
+                }
+                else if(!better.isFolded() && !better.isActive() && better.getInactivity()<5)
+                {
+                    better.incrementInactive();
+                }
+                if(better.getInactivity()==5)
+                {
+                    table.removeFromTable(better.getID());
                 }
                 better = players.getNextPlayer(better);
             }

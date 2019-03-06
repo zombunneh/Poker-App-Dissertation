@@ -5,7 +5,8 @@
     android:id="@+id/mainMenuConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PokerAppShared.MainMenu">
+    tools:context=".PokerAppShared.MainMenu"
+    android:background="@drawable/green_bg">
 
     <FrameLayout
         android:id="@+id/mainMenuContainer"

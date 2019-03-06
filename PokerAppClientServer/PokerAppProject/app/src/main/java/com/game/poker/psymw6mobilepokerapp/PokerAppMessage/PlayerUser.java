@@ -13,6 +13,7 @@ public class PlayerUser extends User {
     private boolean isActive;
     private boolean inGame;
     private int currentBet;
+    private int lastBet;
     private static final long serialVersionUID = 1452706986345L;
 
     public PlayerUser(String user_id, int currency, String username)
@@ -146,6 +147,7 @@ public class PlayerUser extends User {
         {
             currency -= bet;
             currentBet += bet;
+            lastBet = bet;
             return true;
         }
     }
@@ -153,6 +155,11 @@ public class PlayerUser extends User {
     public int getCurrentBet()
     {
         return currentBet;
+    }
+
+    public int getLastBet()
+    {
+        return lastBet;
     }
 
     public void resetBet()

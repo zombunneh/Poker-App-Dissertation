@@ -84,10 +84,8 @@ public class GameViewModel extends Observable {
     public void setFlop(Card[] cards)
     {
         Log.d(TAG,"setFlop");
-        for(int i = 0; i < cards.length; i++)
-        {
-            communityCards[i] = cards[i];
-        }
+        System.arraycopy(cards, 0, communityCards, 0, cards.length);
+
         setChanged();
         notifyObservers(cards);
     }
@@ -97,15 +95,15 @@ public class GameViewModel extends Observable {
         Log.d(TAG,"setTurn");
         communityCards[3] = card;
         setChanged();
-        notifyObservers(card);
+        notifyObservers(communityCards[3]);
     }
 
     public void setRiver(Card card)
     {
-        Log.d(TAG,"setTurn");
+        Log.d(TAG,"setRiver");
         communityCards[4] = card;
         setChanged();
-        notifyObservers(card);
+        notifyObservers(communityCards[4]);
     }
 
     public State getState()
@@ -180,7 +178,7 @@ public class GameViewModel extends Observable {
 
             setChanged();
             notifyObservers(hand);
-            Log.d(TAG,"setHand");
+            Log.d(TAG,"setHand: " + hand[0].getCardRank().toString() + ", " + hand[1].getCardRank().toString());
         }
 
         public Card[] getMyHand()

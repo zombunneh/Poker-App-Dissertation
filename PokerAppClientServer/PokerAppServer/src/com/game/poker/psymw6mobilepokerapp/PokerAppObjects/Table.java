@@ -1,17 +1,16 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppObjects;
 
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.*;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.CanCallCommand;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.CanCheckCommand;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.Command;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.SetIDCommand;
-import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
-import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUserTurn;
-import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.SocketUser;
-import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.User;
 import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ClientConnection;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,14 +85,6 @@ public class Table implements Comparable<Table>, Runnable{
         return players;
     }
 
-    public void removePlayer(PlayerUser user)
-    {
-        int id = user.getID();
-        playerOutputMap.remove(id);
-        playerInputMap.remove(id);
-        players.remove(user);
-    }
-
     public PlayerUserTurn sendToUser(int id, Command command)
     {
         if(playerOutputMap.containsKey(id))
@@ -112,6 +103,13 @@ public class Table implements Comparable<Table>, Runnable{
             catch(IOException e)
             {
                 e.printStackTrace();
+                if(e instanceof SocketTimeoutException)
+                {
+
+                }
+                else {
+                    return new PlayerUserTurn(PlayerUserMove.EXIT, 0);
+                }
             }
         }
         return null;
@@ -133,9 +131,18 @@ public class Table implements Comparable<Table>, Runnable{
         }
     }
 
-    public void getUserTurn(int id)
+    public void getUserTurn(int id) throws IOException
     {
         playerInputMap.get(id).getPlayerMove();
+    }
+
+    public void removeFromTable(int id)
+    {
+        playerInputMap.remove(id);
+        playerOutputMap.remove(id);
+        players.remove(id);
+        game.updateTable(this);
+        game.removePlayer(id);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class CommandQueue {
 
     public synchronized void addCommand(Command command)
     {
-        Log.d(TAG, "command added");
+        //Log.d(TAG, "command added");
         commands.add(command);
         notify();
     }

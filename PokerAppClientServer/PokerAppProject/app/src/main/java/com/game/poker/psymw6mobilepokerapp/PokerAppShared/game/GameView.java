@@ -42,6 +42,15 @@ public class GameView extends AppCompatActivity {
     private Check_Button check_button_frag;
     public Bet_Slider bet_slider_frag;
 
+    private ImageView communityCard1;
+    private ImageView communityCard2;
+    private ImageView communityCard3;
+    private ImageView communityCard4;
+    private ImageView communityCard5;
+
+    private ImageView handCard1;
+    private ImageView handCard2;
+
     private boolean stopThreads = false;
 
     public static final String TAG = "gameView";
@@ -56,8 +65,17 @@ public class GameView extends AppCompatActivity {
         call_button_frag = Call_Button.newInstance();
         check_button_frag = Check_Button.newInstance();
         bet_slider_frag = Bet_Slider.newInstance();
-        addSliderFrag();
+
         setContentView(R.layout.game_view_activity);
+
+        communityCard1 = findViewById(R.id.communityCard1);
+        communityCard2 = findViewById(R.id.communityCard2);
+        communityCard3 = findViewById(R.id.communityCard3);
+        communityCard4 = findViewById(R.id.communityCard4);
+        communityCard5 = findViewById(R.id.communityCard5);
+
+        handCard1 = findViewById(R.id.handCard1);
+        handCard2 = findViewById(R.id.handCard2);
     }
 
     @Override
@@ -149,8 +167,6 @@ public class GameView extends AppCompatActivity {
             cards[i][0] = model.myPlayer.getMyHand()[i].getCardSuit().ordinal();
             cards[i][1] = model.myPlayer.getMyHand()[i].getCardRank().ordinal();
         }
-        ImageView handCard1 = findViewById(R.id.handCard1);
-        ImageView handCard2 = findViewById(R.id.handCard2);
 
         Bitmap handCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
         ClientCard handCardBitmap = new ClientCard(handCardBitmap1, 100, 500, cards[0][0], cards[0][1]);
@@ -163,48 +179,61 @@ public class GameView extends AppCompatActivity {
 
     public void setCommunityImageViews()
     {
-        int[][] cards = new int[3][2];
-
-        for(int i = 0; i < 3; i++)
+        if(model.getCommunityCards()[0] != null)
         {
-            cards[i][0] = model.getCommunityCards()[i].getCardSuit().ordinal();
-            cards[i][1] = model.getCommunityCards()[i].getCardRank().ordinal();
+            Log.d(TAG, "add comm");
+            int[][] cards = new int[3][2];
+
+            for(int i = 0; i < 3; i++) {
+                cards[i][0] = model.getCommunityCards()[i].getCardSuit().ordinal();
+                cards[i][1] = model.getCommunityCards()[i].getCardRank().ordinal();
+            }
+
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 194, 288);
+            ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 100, 500, cards[0][0], cards[0][1]);
+
+            communityCard1.setImageBitmap(communityCardBitmap.getBitmap());
+            communityCardBitmap.update(cards[1][0], cards[1][1]);
+            communityCard2.setImageBitmap(communityCardBitmap.getBitmap());
+            communityCardBitmap.update(cards[2][0], cards[2][1]);
+            communityCard3.setImageBitmap(communityCardBitmap.getBitmap());
         }
-
-        ImageView communityCard1 = findViewById(R.id.communityCard1);
-        ImageView communityCard2 = findViewById(R.id.communityCard2);
-        ImageView communityCard3 = findViewById(R.id.communityCard3);
-
-        Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 125, 250);
-        ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 100, 500, cards[0][0], cards[0][1]);
-
-        communityCard1.setImageBitmap(communityCardBitmap.getBitmap());
-        communityCardBitmap.update(cards[1][0], cards[1][1]);
-        communityCard2.setImageBitmap(communityCardBitmap.getBitmap());
-        communityCardBitmap.update(cards[2][0], cards[2][1]);
-        communityCard3.setImageBitmap(communityCardBitmap.getBitmap());
     }
 
     public void setCommunityImageView()
     {
-
-        ImageView communityCard4 = findViewById(R.id.communityCard4);
-        ImageView communityCard5 = findViewById(R.id.communityCard5);
-
-        if(communityCard4.getDrawable() == null)
+        if(communityCard4.getDrawable() == null && model.getCommunityCards()[3] != null)
         {
-            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 125, 250);
+            Log.d(TAG, "set tr");
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 194, 288);
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 100, 500, model.getCommunityCards()[3].getCardSuit().ordinal(),model.getCommunityCards()[3].getCardRank().ordinal());
 
             communityCard4.setImageBitmap(communityCardBitmap.getBitmap());
         }
-        else if(communityCard5.getDrawable() == null)
+        if(communityCard5.getDrawable() == null && model.getCommunityCards()[4] != null)
         {
-            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 125, 250);
+            Log.d(TAG, "set tr");
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 194, 288);
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 100, 500, model.getCommunityCards()[4].getCardSuit().ordinal(),model.getCommunityCards()[4].getCardRank().ordinal());
 
             communityCard5.setImageBitmap(communityCardBitmap.getBitmap());
         }
+    }
+
+    public void removeCommunityCards()
+    {
+        Log.d(TAG, "remove comm");
+        communityCard1.setImageDrawable(null);
+        communityCard2.setImageDrawable(null);
+        communityCard3.setImageDrawable(null);
+        communityCard4.setImageDrawable(null);
+        communityCard5.setImageDrawable(null);
+    }
+
+    public void removeHand()
+    {
+        handCard1.setImageDrawable(null);
+        handCard2.setImageDrawable(null);
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)

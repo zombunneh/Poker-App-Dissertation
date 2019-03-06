@@ -66,10 +66,13 @@ public class GameViewSurface extends SurfaceView implements SurfaceHolder.Callba
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        myPlayer.draw(canvas);
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        Bitmap playerBitmap = decodeSampledBitmapFromResource(getResources(), R.drawable.player_image, 100, 100);
+        myPlayer = new ClientPlayer(playerBitmap, 0, 10, 0, 0);
 
         this.gameThread = new GameViewThread(this, holder);
         this.gameThread.setRunning(true);

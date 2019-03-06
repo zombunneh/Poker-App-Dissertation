@@ -99,8 +99,8 @@ public class GamePlayerList {
         List<PlayerUser> temp = new ArrayList<>();
         for(PlayerUser user : getPlayers())
         {
-            user.setHand(null);
             PlayerUser tempUser = user;
+            tempUser.setHand(null);
             temp.add(tempUser);
         }
         return temp;

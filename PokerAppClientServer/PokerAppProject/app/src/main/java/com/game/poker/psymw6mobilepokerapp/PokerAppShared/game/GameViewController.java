@@ -33,6 +33,7 @@ public class GameViewController implements Observer {
             gameView.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    gameView.removeCommunityCards();
                     gameView.setCommunityImageViews();
                 }
             });
@@ -56,6 +57,7 @@ public class GameViewController implements Observer {
                     @Override
                     public void run() {
                         gameView.addCallFrag();
+                        gameView.addSliderFrag();
                     }
                 });
             }
@@ -66,6 +68,7 @@ public class GameViewController implements Observer {
                     @Override
                     public void run() {
                         gameView.addCheckFrag();
+                        gameView.addSliderFrag();
                     }
                 });
             }

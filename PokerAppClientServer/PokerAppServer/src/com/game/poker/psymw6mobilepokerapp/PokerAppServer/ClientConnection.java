@@ -39,7 +39,7 @@ public class ClientConnection {
     }
 
     //code to receive a client response for a game turn
-    public PlayerUserTurn getPlayerMove()
+    public PlayerUserTurn getPlayerMove() throws IOException
     {
         System.out.println("getplayermove");
         PlayerUserTurn turn = null;
@@ -49,7 +49,7 @@ public class ClientConnection {
             turn = (PlayerUserTurn) in.readObject();
             return turn;
         }
-        catch(ClassNotFoundException | IOException e)
+        catch(ClassNotFoundException e)
         {
             e.printStackTrace();
             return null;

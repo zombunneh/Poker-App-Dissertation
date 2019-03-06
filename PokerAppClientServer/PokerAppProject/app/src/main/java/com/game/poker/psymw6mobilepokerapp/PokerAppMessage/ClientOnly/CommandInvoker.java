@@ -32,13 +32,13 @@ public class CommandInvoker implements Runnable{
         model.addObserver(controller);
         model.bet.addObserver(controller);
         model.myPlayer.addObserver(controller);
-        Log.d(TAG, "invoker started");
+        //Log.d(TAG, "invoker started");
     }
 
     @Override
     public void run() {
         Command command;
-        Log.d(TAG, "invoker running");
+        //Log.d(TAG, "invoker running");
         while(invoked)
         {
             synchronized (queue)
@@ -59,12 +59,12 @@ public class CommandInvoker implements Runnable{
                     command = queue.getNextCommand();
                     if(command != null)
                     {
-                        Log.d(TAG,"executing command");
+                        //Log.d(TAG,"executing command");
                         command.execute(this);
                     }
                     else
                     {
-                        Log.d(TAG, "no command to execute");
+                        //Log.d(TAG, "no command to execute");
                     }
                 }
             }
