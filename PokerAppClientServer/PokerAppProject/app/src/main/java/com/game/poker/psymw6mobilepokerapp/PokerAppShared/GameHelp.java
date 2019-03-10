@@ -11,6 +11,9 @@ public class GameHelp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        onWindowFocusChanged(true);
+
         setContentView(R.layout.game_help_activity);
     }
 

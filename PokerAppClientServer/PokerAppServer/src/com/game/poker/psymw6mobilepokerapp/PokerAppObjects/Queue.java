@@ -41,6 +41,7 @@ public class Queue implements Runnable{
     public void removeTable(Table table)
     {
         tablePriorityQueue.remove(table);
+        System.out.println("table removed");
     }
 
     public void removeFromQueue(SocketUser user)
@@ -63,7 +64,7 @@ public class Queue implements Runnable{
             if(tablePriorityQueue.isEmpty() && userQueue.size() >= MIN_PLAYERS)
             {
                 System.out.println("in queue loop");
-                table = new Table(roomID++);
+                table = new Table(roomID++, this);
                 new Thread(table, "table" + (roomID-1)).start();
                 addOpenTable(table);
             }

@@ -3,6 +3,7 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppShared.game;
 import android.util.Log;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Card;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerMove;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUserMove;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUserTurn;
@@ -51,6 +52,7 @@ public class GameViewModel extends Observable {
     public void updatePlayerList(List<PlayerUser> newPlayers)
     {
         Log.d(TAG,"updateList");
+        players.clear();
         players.addAll(newPlayers);
         setChanged();
         notifyObservers(players);
@@ -121,7 +123,7 @@ public class GameViewModel extends Observable {
 
     public void pressedButton(final PlayerUserMove move, final int bet)
     {
-        if(getState() == State.CALL || getState() == State.CHECK)
+        if(getState() == State.CALL || getState() == State.CHECK || move == PlayerUserMove.EXIT)
         {
             Log.d(TAG, "pressed button");
             Thread t = new Thread(new Runnable() {
@@ -129,8 +131,8 @@ public class GameViewModel extends Observable {
                 public void run() {
                     try
                     {
-                        out.writeObject(new PlayerUserTurn(move, bet));
-                    }
+                    out.writeObject(new PlayerUserTurn(move, bet));
+                }
                     catch(IOException e )
                     {
                         e.printStackTrace();
@@ -138,13 +140,20 @@ public class GameViewModel extends Observable {
                 }
             });
             t.start();
+            updateState(State.READY);
             Log.d(TAG, "pressed button");
         }
     }
 
-    public void updateController()
+    public void lastTurn(PlayerMove move)
     {
-
+        if(move.move == PlayerUserMove.RAISE)
+        {
+            bet.addToPot(move.bet);
+            bet.setLastRaise(move.bet);
+        }
+        setChanged();
+        notifyObservers(move);
     }
 
     public enum State
@@ -160,13 +169,48 @@ public class GameViewModel extends Observable {
         private int blind;
         private int pot;
         private int betCall;
+        private int lastRaise;
 
         public void setBlind(int blind)
         {
             Log.d(TAG, "blind set");
-            this.blind = blind;
-            setChanged();
-            notifyObservers(blind);
+            if(blind > this.blind)
+            {
+                this.blind = blind;
+                setChanged();
+                notifyObservers(blind);
+            }
+            addToPot(blind);
+        }
+
+        public void addToPot(int bet)
+        {
+            pot += bet;
+        }
+
+        public void resetPot()
+        {
+            pot = 0;
+            blind = 0;
+        }
+
+        public int calcMinRaise()
+        {
+            if(lastRaise == 0)
+            {
+                return blind;
+            }
+            return pot + lastRaise;
+        }
+
+        public void setLastRaise(int raise)
+        {
+            lastRaise = raise;
+        }
+
+        public void resetLastRaise()
+        {
+            lastRaise = 0;
         }
     }
 
@@ -199,6 +243,11 @@ public class GameViewModel extends Observable {
                 }
             }
             return null;
+        }
+
+        public int getMyID()
+        {
+            return getMyPlayer().getID();
         }
     }
 }

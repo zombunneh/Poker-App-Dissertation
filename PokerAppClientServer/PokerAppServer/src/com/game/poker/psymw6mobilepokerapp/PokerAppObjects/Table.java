@@ -7,7 +7,6 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.Command;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.SetIDCommand;
 import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ClientConnection;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.SocketTimeoutException;
@@ -42,11 +41,11 @@ public class Table implements Comparable<Table>, Runnable{
     private boolean tableClosed = false;
 
     //TODO AFK MONITORING THREAD ?? ?    ? ? ?   ?  ? ? ? ?? ? ? ?? ? ? ? ?
-    public Table(int tableID)
+    public Table(int tableID, Queue queue)
     {
         this.tableID = tableID;
         currentUserID = 0;
-        queue = new Queue();
+        this.queue = queue;
         playerOutputMap = new HashMap<>();
         playerInputMap = new HashMap<>();
         players = new ArrayList<>();
@@ -61,9 +60,9 @@ public class Table implements Comparable<Table>, Runnable{
         playerOutputMap.put(currentUserID, user.getConnection().getOut());
         playerInputMap.put(currentUserID, user.getConnection());
         temp.setID(currentUserID);
-        players.add(temp);
         //TODO send command to client to set ID
         sendToUser(temp.getID(), new SetIDCommand(temp.getID()));
+        players.add(temp);
         currentUserID++;
         noUsersAtTable++;
         if(gameStarted)
@@ -72,7 +71,6 @@ public class Table implements Comparable<Table>, Runnable{
             game.updateTable(this);
         }
         System.out.println("user added to table: " + temp.username + " \ncurrent users at table = " + players.size());
-
     }
 
     public int getOpenSeats()
@@ -131,16 +129,12 @@ public class Table implements Comparable<Table>, Runnable{
         }
     }
 
-    public void getUserTurn(int id) throws IOException
-    {
-        playerInputMap.get(id).getPlayerMove();
-    }
-
     public void removeFromTable(int id)
     {
         playerInputMap.remove(id);
         playerOutputMap.remove(id);
         players.remove(id);
+        noUsersAtTable--;
         game.updateTable(this);
         game.removePlayer(id);
     }
@@ -150,7 +144,7 @@ public class Table implements Comparable<Table>, Runnable{
         while(true)
         {
             game = new GameRunnable(this);
-            Thread gameThread = new Thread(game, "game" + tableID);
+            Thread gameThread = new Thread(game, "game " + tableID);
             gameThread.start();
             gameStarted = true;
             System.out.println("Created new game in separate thread.");
@@ -178,6 +172,7 @@ public class Table implements Comparable<Table>, Runnable{
     public void closeTable()
     {
         tableClosed = true;
+        queue.removeTable(this);
     }
 
 }

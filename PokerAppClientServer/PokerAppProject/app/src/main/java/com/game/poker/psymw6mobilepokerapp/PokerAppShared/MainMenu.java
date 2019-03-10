@@ -14,6 +14,9 @@ public class MainMenu extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        onWindowFocusChanged(true);
+
         setContentView(R.layout.main_menu_activity);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

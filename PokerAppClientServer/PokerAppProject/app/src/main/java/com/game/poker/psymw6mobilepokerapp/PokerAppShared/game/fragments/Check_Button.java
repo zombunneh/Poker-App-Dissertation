@@ -42,7 +42,7 @@ public class Check_Button extends Fragment {
         view.findViewById(R.id.betButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int bet = ((GameView)getActivity()).bet_slider_frag.getBetSlider().getProgress();
+                int bet = ((GameView)getActivity()).bet_slider_frag.getBetSlider().getProgress() + ((GameView)getActivity()).getMinValue();
                 ((GameView)getActivity()).getActions().pressedRaise(bet);
             }
         });

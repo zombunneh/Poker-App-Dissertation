@@ -133,8 +133,9 @@ public class RetrieveUserLoginData implements Runnable {
                 GameUser user = (GameUser) in.readObject();
                 //TODO LOGIN DATA CALCULATION FOR DAILY BONUS
                 populateSharedPrefs(user);
-
+                out.flush();
                 sendBroadcastMessage("loginDetailsUpdated");
+
             }
         }
         catch(IOException | ClassNotFoundException e)

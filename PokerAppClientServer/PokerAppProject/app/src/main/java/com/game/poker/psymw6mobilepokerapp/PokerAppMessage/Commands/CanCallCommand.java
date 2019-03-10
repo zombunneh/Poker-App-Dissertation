@@ -11,6 +11,6 @@ public class CanCallCommand implements Command{
     }
 
     public void execute(CommandInvoker invoker) {
-        invoker.model.updateState(GameViewModel.State.CALL);
+        invoker.getModel().updateState(GameViewModel.State.CALL);
     }
 }

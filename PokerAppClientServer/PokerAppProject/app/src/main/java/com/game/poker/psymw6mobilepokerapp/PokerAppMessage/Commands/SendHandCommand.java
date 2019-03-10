@@ -15,6 +15,6 @@ public class SendHandCommand implements Command {
     }
 
     public void execute(CommandInvoker invoker) {
-        invoker.model.myPlayer.setHand(hand);
+        invoker.getModel().myPlayer.setHand(hand);
     }
 }

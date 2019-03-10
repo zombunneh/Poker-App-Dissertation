@@ -2,6 +2,7 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Card;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandInvoker;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 
 public class SendRiverCommand implements Command {
 
@@ -14,6 +15,11 @@ public class SendRiverCommand implements Command {
     }
 
     public void execute(CommandInvoker invoker) {
-        invoker.model.setRiver(card);
+        invoker.getModel().setRiver(card);
+        invoker.getModel().bet.resetLastRaise();
+        for(PlayerUser player : invoker.getModel().getPlayers())
+        {
+            player.resetBet();
+        }
     }
 }

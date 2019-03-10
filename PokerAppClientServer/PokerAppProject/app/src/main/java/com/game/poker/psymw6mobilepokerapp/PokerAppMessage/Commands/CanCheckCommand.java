@@ -13,6 +13,6 @@ public class CanCheckCommand implements Command{
     }
 
     public void execute(CommandInvoker invoker) {
-        invoker.model.updateState(GameViewModel.State.CHECK);
+        invoker.getModel().updateState(GameViewModel.State.CHECK);
     }
 }

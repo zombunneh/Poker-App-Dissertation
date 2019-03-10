@@ -3,15 +3,16 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppObjects;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *  Data structure for the players in a single game
  */
 public class GamePlayerList {
-    private HashMap<Integer, PlayerUser> players;
+    private ConcurrentHashMap<Integer, PlayerUser> players;
     public GamePlayerList()
     {
-        players = new HashMap<>();
+        players = new ConcurrentHashMap<>();
     }
 
     public List<PlayerUser> getPlayers()
@@ -24,23 +25,30 @@ public class GamePlayerList {
         int id = user.getID();
         int nextID = 0;
         boolean nextIDFound = false;
-        int maxKey = Collections.max(players.keySet());
-        int minKey = Collections.min(players.keySet());
-        for(int i = 1; i <= maxKey; i++)
+        if(players.size() < 1)
         {
-            if(players.containsKey(id+i) && !nextIDFound)
+            return null;
+        }
+        else
+        {
+            int maxKey = Collections.max(players.keySet());
+            int minKey = Collections.min(players.keySet());
+            for(int i = 1; i <= maxKey; i++)
             {
-                nextID = id+i;
-                nextIDFound = true;
+                if(players.containsKey(id+i) && !nextIDFound)
+                {
+                    nextID = id+i;
+                    nextIDFound = true;
+                }
             }
-        }
 
-        if(!nextIDFound)
-        {
-            nextID = minKey;
-        }
+            if(!nextIDFound)
+            {
+                nextID = minKey;
+            }
 
-        return players.get(nextID);
+            return players.get(nextID);
+        }
     }
 
     public PlayerUser getRandomPlayer()

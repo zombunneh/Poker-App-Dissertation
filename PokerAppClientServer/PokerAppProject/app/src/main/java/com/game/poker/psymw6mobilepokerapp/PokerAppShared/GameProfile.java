@@ -12,6 +12,9 @@ public class GameProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        onWindowFocusChanged(true);
+
         setContentView(R.layout.game_profile_activity);
 
         if (savedInstanceState == null) {

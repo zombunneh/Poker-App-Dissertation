@@ -54,6 +54,7 @@ public class GameRunnable implements Runnable{
     {
         user.toggleInGame();
         players.addPlayer(user);
+        table.sendToUser(user.getID(), new SendPlayerListCommand(players.getMinList()));
     }
 
     public void updateTable(Table table)
@@ -68,6 +69,7 @@ public class GameRunnable implements Runnable{
 
     public void removePlayer(int id)
     {
+        //will create separate thread for removal, which monitors players that !ingame
         System.out.println("remove player");
         players.removePlayer(id);
     }
@@ -76,9 +78,9 @@ public class GameRunnable implements Runnable{
     @Override
     public void run() {
         System.out.println("Game thread started from table with id: " + table.tableID);
-        while(players.getPlayers().size() < 1)
+        while(players.getPlayers().size() < 2)
         {
-
+            System.out.println("waiting for more players...");
         }
         dealer = players.getDealer(); // sets initial dealer
         while(gameRunning)
@@ -95,32 +97,45 @@ public class GameRunnable implements Runnable{
 
                 }
             }
-            preHand();
-            preFlop();
-            flop();
-            turn();
-            river();
-            endHand();
+            if(players.getPlayers().size() < 1)
+            {
+                endGame();
+                table.closeTable();
+            }
+            else
+            {
+                preHand();
+                preFlop();
+                flop();
+                turn();
+                river();
+                endHand();
+            }
         }
     }
 
     public void preHand()
     {
+        System.out.println("prehand");
         communityCards.clear();
         deck.shuffleDeck();
         pot = 0;
+        betCall = 0;
         currentGameState = 0;
         gameEnd = false;
         Card[] dummyCards = new Card[3];
         table.sendToAllUser(new SendFlopCommand(dummyCards));
+        table.sendToAllUser(new SendTurnCommand(null));
+        table.sendToAllUser(new SendRiverCommand(null));
         //remember need to set IDs for users and send Player List
-        table.sendToAllUser(new SendPlayerListCommand(players.getMinList()));
         //need to tell client to start activity
+        table.sendToAllUser(new SendPlayerListCommand(players.getMinList()));
         PlayerUser oldDealer = players.setNextDealer();
         dealer = players.getDealer();
         table.sendToAllUser(new ChangeDealerCommand(oldDealer.getID(), dealer.getID()));
         for(PlayerUser user : players.getPlayers())
         {
+            System.out.println("users setup");
             if(user.isActive())
             {
                 if(!user.isInGame())
@@ -137,8 +152,6 @@ public class GameRunnable implements Runnable{
                 System.out.println("setting hand for ID: " + user.getID());
             }
         }
-
-
     }
 
     public void preFlop()
@@ -177,7 +190,6 @@ public class GameRunnable implements Runnable{
         System.out.println("flop added to table cards");
 
         table.sendToAllUser(new SendFlopCommand(flopCards));
-
         bettingRound(2);
     }
 
@@ -188,7 +200,6 @@ public class GameRunnable implements Runnable{
         System.out.println("turn added to table cards");
 
         table.sendToAllUser(new SendTurnCommand(turnCard));
-
         bettingRound(3);
     }
 
@@ -199,7 +210,6 @@ public class GameRunnable implements Runnable{
         System.out.println("river added to table cards");
 
         table.sendToAllUser(new SendRiverCommand(riverCard));
-
         bettingRound(4);
     }
 
@@ -256,95 +266,91 @@ public class GameRunnable implements Runnable{
             System.out.println("betting round: " + round);
             do
             {
-                if(!better.isFolded() && better.getCurrency() > 0 && better.isActive()) // remember to
+                if(!gameEnd)
                 {
-                    if(better.getCurrentBet()>=betCall)
+                    if (!better.isFolded() && better.getCurrency() > 0 && better.isActive()) // remember to
                     {
-                        //send command for check option
-                        turn = table.sendToUser(better.getID(), new CanCheckCommand());
-                    }
-                    else
-                    {
-                        //send command for call option
-                        turn = table.sendToUser(better.getID(), new CanCallCommand());
-                    }
-                    if(turn == null)
-                    {
-                        turn = new PlayerUserTurn(PlayerUserMove.AWAY, 0);
-                    }
+                        System.out.println("getting user turn");
+                        if (better.getCurrentBet() == betCall) {
+                            //send command for check option
+                            turn = table.sendToUser(better.getID(), new CanCheckCommand());
+                        } else {
+                            //send command for call option
+                            turn = table.sendToUser(better.getID(), new CanCallCommand());
+                        }
+                        if (turn == null) {
+                            turn = new PlayerUserTurn(PlayerUserMove.AWAY, 0);
+                        }
 
-                    System.out.println("player: " + better.username + " move: " + turn.move.toString());
+                        System.out.println("player: " + better.username + " move: " + turn.move.toString());
 
-                    switch(turn.move)
-                    {
-                        case AWAY:
-                        {
-                            better.toggleActive();
-                            table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.AWAY, better.getID(), better.getCurrentBet(), better.getCurrency())));
-                            System.out.println("player: " + better.username + " went afk");
-                            better.incrementInactive();
-                            //needs finishing
+                        switch (turn.move) {
+                            case AWAY: {
+                                better.toggleActive();
+                                table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.AWAY, better.getID(), better.getCurrentBet(), better.getCurrency())));
+                                System.out.println("player: " + better.username + " went afk");
+                                better.incrementInactive();
+                                //needs finishing
+                            }
+                            break;
+                            case EXIT: {
+                                better.fold();
+                                table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.EXIT, better.getID(), better.getCurrentBet(), better.getCurrency())));
+                                table.removeFromTable(better.getID());
+                                System.out.println("player: " + better.username + " left the game");
+                            }
+                            break;
+                            case CALL: {
+                                better.setCurrentBet(betCall - better.getCurrentBet());
+                                raise(better.getLastBet());
+                                table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.CALL, better.getID(), better.getCurrentBet(), better.getCurrency())));
+                                System.out.println("player: " + better.username + " calls" + better.getLastBet());
+                            }
+                            break;
+                            case CHECK: {
+                                table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.CHECK, better.getID(), better.getCurrentBet(), better.getCurrency())));
+                                System.out.println("player: " + better.username + " checks");
+                            }
+                            break;
+                            case FOLD: {
+                                better.fold();
+                                table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.FOLD, better.getID(), better.getCurrentBet(), better.getCurrency())));
+                                System.out.println("player: " + better.username + " folds");
+                            }
+                            break;
+                            case RAISE: {
+                                raise(betCall + turn.getBet());
+                                better.setCurrentBet(betCall + turn.getBet());
+                                initialPlayer = better;
+                                table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.RAISE, better.getID(), better.getCurrentBet(), better.getCurrency())));
+                                System.out.println("player: " + better.username + " raises " + turn.getBet());
+                            }
+                            break;
                         }
-                            break;
-                        case EXIT:
-                        {
-                            better.fold();
-                            table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.EXIT, better.getID(), better.getCurrentBet(), better.getCurrency())));
-                            table.removeFromTable(better.getID());
-                            System.out.println("player: " + better.username + " left the game");
-                        }
-                            break;
-                        case CALL:
-                        {
-                            better.setCurrentBet(betCall - better.getCurrentBet());
-                            raise(better.getLastBet());
-                            table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.CALL, better.getID(), better.getCurrentBet(), better.getCurrency())));
-                            System.out.println("player: " + better.username + " calls");
-;                        }
-                            break;
-                        case CHECK:
-                        {
-                            table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.CHECK, better.getID(), better.getCurrentBet(), better.getCurrency())));
-                            System.out.println("player: " + better.username + " checks");
-                        }
-                            break;
-                        case FOLD:
-                        {
-                            better.fold();
-                            table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.FOLD, better.getID(), better.getCurrentBet(), better.getCurrency())));
-                            System.out.println("player: " + better.username + " folds");
-                        }
-                            break;
-                        case RAISE:
-                        {
-                            raise(turn.getBet());
-                            better.setCurrentBet(turn.getBet());
-                            initialPlayer = better;
-                            table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.RAISE, better.getID(), better.getCurrentBet(), better.getCurrency())));
-                            System.out.println("player: " + better.username + " raises");
-                        }
-                            break;
-                    }
                    /* if(players.getPlayersLeft().size()<2 && players.movesLeft().size()<2) // 1 extra condition
                     {
                         //need to check for flop/river/turn and set if not set removed whilst debugging only 1 player >:3
                         endHand();
                     }*/
+                    } else if (!better.isFolded() && !better.isActive() && better.getInactivity() < 5) {
+                        System.out.println("increment");
+                        better.incrementInactive();
+                    }
+                    if (better.getInactivity() == 5) {
+                        table.removeFromTable(better.getID());
+                    }
+                    better = players.getNextPlayer(better);
+                    if (better == null) {
+                        gameEnd = true;
+                    }
                 }
-                else if(!better.isFolded() && !better.isActive() && better.getInactivity()<5)
-                {
-                    better.incrementInactive();
-                }
-                if(better.getInactivity()==5)
-                {
-                    table.removeFromTable(better.getID());
-                }
-                better = players.getNextPlayer(better);
             }
             while(better != initialPlayer && !gameEnd);
-            if(!gameEnd)
+            currentGameState++;
+            betCall = 0;
+            for(PlayerUser player : players.getPlayers())
             {
-                currentGameState++;
+                player.resetBet();
             }
         }
     }

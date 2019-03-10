@@ -44,4 +44,20 @@
     <string name="betButton">Bet</string>
     <string name="checkButton">Check</string>
     <string name="raiseButton">Raise</string>
+    <string name="leaveButton">Exit Game</string>
+
+    <!-- String for broadcasting player moves -->
+    <string name="broadcastMove">Player %1$s %2$ss </string>
+
+    <!-- Strings for player displays -->
+    <string name="playerName"></string>
+    <string name="playerCurrency"></string>
+    <string name="playerBet"></string>
+
+    <!-- Strings for winners -->
+    <plurals name="winOrWinners">
+        <item quantity="one">%1$s wins %2$d this hand!</item>
+        <item quantity="other">%1$s win %2$d this hand!</item>
+    </plurals>
+
 </resources>

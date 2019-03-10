@@ -12,6 +12,7 @@ public class PlayerUser extends User {
     private boolean isFolded;
     private boolean isActive;
     private boolean inGame;
+    private boolean isReady;
     private int currentBet;
     private int lastBet;
     private int inactiveTurns;
@@ -23,9 +24,10 @@ public class PlayerUser extends User {
         super(user_id, currency, username);
         hand = new Card[2];
         isFolded = false;
-        isActive = true;
+        isActive = false;
         inGame = true;
         isDealer = false;
+        isReady = false;
         inactiveTurns = 0;
     }
 
@@ -178,5 +180,10 @@ public class PlayerUser extends User {
     public int getInactivity()
     {
         return inactiveTurns;
+    }
+
+    public void toggleReady()
+    {
+        isReady = !isReady;
     }
 }

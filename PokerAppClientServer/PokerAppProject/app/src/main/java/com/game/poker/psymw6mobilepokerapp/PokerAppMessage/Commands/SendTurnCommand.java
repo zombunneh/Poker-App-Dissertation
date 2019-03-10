@@ -2,6 +2,7 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Card;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandInvoker;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 
 public class SendTurnCommand implements Command {
 
@@ -14,6 +15,11 @@ public class SendTurnCommand implements Command {
     }
 
     public void execute(CommandInvoker invoker) {
-        invoker.model.setTurn(card);
+        invoker.getModel().setTurn(card);
+        invoker.getModel().bet.resetLastRaise();
+        for(PlayerUser player : invoker.getModel().getPlayers())
+        {
+            player.resetBet();
+        }
     }
 }

@@ -18,6 +18,7 @@ public class SendWinCommand implements Command {
     }
 
     public void execute(CommandInvoker invoker) {
-
+        invoker.controller.winnerList(players, winnings);
+        invoker.getModel().bet.resetPot();
     }
 }

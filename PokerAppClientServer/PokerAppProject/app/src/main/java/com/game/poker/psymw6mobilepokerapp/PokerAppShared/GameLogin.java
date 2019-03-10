@@ -82,6 +82,9 @@ public class GameLogin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        onWindowFocusChanged(true);
+
         setContentView(R.layout.game_login_activity);
         signInFragment = GameLoginFragment.newInstance();
         if (savedInstanceState == null) {

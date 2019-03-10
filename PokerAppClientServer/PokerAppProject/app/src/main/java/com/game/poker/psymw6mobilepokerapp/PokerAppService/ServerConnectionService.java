@@ -34,8 +34,6 @@ public class ServerConnectionService extends Service {
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
-    private int accountType;
-
     public static final String TAG = "g53ids-service";
     public static final String SERVICE_INTENT = "service_intent";
 
@@ -102,13 +100,20 @@ public class ServerConnectionService extends Service {
 
     public boolean isServerConnected()
     {
-        if(clientSocket == null)
+        if(clientSocket != null)
         {
-            return false;
+            if(!clientSocket.isConnected())
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         else
         {
-            return true;
+            return false;
         }
     }
 

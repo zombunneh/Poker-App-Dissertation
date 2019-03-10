@@ -15,6 +15,6 @@ public class SetIDCommand implements Command {
 
     public void execute(CommandInvoker invoker) {
         //implement to set players id
-        invoker.model.setID(id);
+        invoker.getModel().setID(id);
     }
 }
