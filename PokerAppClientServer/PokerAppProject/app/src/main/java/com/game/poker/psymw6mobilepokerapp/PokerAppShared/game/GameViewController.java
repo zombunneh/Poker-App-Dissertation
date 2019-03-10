@@ -195,7 +195,16 @@ public class GameViewController implements Observer {
 
     public void updateView(GameViewModel.Bet bet, final Object arg)
     {
-
+        if(arg instanceof Integer)
+        {
+            Log.d(TAG, "updating pot");
+            gameView.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    gameView.updatePot((int)arg);
+                }
+            });
+        }
     }
 
     public void winnerList(final List<PlayerUser> winners, final int pot)

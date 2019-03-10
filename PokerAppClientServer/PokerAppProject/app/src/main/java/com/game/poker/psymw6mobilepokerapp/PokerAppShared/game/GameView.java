@@ -57,6 +57,7 @@ public class GameView extends AppCompatActivity {
 
     private Button leaveButton;
     private TextView turnBroadcast;
+    private TextView potDisplay;
 
     private boolean stopThreads = false;
 
@@ -100,6 +101,8 @@ public class GameView extends AppCompatActivity {
         leaveButton.setOnClickListener(listener);
 
         turnBroadcast = findViewById(R.id.turnBroadcast);
+
+        potDisplay = findViewById(R.id.potDisplay);
     }
 
     @Override
@@ -359,6 +362,12 @@ public class GameView extends AppCompatActivity {
     public int getMinValue()
     {
         return model.bet.calcMinRaise();
+    }
+
+    public void updatePot(int pot)
+    {
+        String potString = String.format(getString(R.string.potString), pot);
+        potDisplay.setText(potString);
     }
 
     public View.OnClickListener listener = new View.OnClickListener() {

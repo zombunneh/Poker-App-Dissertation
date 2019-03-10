@@ -72,6 +72,11 @@ public class GamePlayerList {
         players.remove(id);
     }
 
+    public PlayerUser getPlayer(int id)
+    {
+        return players.get(id);
+    }
+
     public PlayerUser getDealer()
     {
         for(PlayerUser user: getPlayers())

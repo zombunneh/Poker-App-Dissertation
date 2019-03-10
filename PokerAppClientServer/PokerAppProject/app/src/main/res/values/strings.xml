@@ -60,4 +60,6 @@
         <item quantity="other">%1$s win %2$d this hand!</item>
     </plurals>
 
+    <!-- String for pot -->
+    <string name="potString">Pot: %1$d</string>
 </resources>

@@ -145,6 +145,7 @@ public class PlayerUser extends User {
         if(bet > currency)
         {
             currentBet = currency;
+            lastBet = currency;
             currency = 0;
             return false;
         }
@@ -185,5 +186,11 @@ public class PlayerUser extends User {
     public void toggleReady()
     {
         isReady = !isReady;
+    }
+
+    public void giveCurrency(int pot)
+    {
+        currency += pot;
+        System.out.println("given " + pot );
     }
 }

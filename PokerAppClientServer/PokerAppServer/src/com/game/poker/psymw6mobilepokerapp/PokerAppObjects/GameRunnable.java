@@ -80,7 +80,7 @@ public class GameRunnable implements Runnable{
         System.out.println("Game thread started from table with id: " + table.tableID);
         while(players.getPlayers().size() < 2)
         {
-            System.out.println("waiting for more players...");
+
         }
         dealer = players.getDealer(); // sets initial dealer
         while(gameRunning)
@@ -150,6 +150,7 @@ public class GameRunnable implements Runnable{
                 user.resetBet();
                 table.sendToUser(user.getID(), new SendHandCommand(tempHand));
                 System.out.println("setting hand for ID: " + user.getID());
+                System.out.println("player with ID: " + user.getID() + " has currency: " + user.getCurrency());
             }
         }
     }
@@ -224,7 +225,8 @@ public class GameRunnable implements Runnable{
 
         for(int i = 0; i < winnerList.size(); i++)
         {
-            System.out.println("winner: " + winnerList.get(i).username + " with hand " + winners.get(winnerList.get(i)).toString() + " wins: " + pot);
+            System.out.println("winner: " + winnerList.get(i).username + " with hand " + winners.get(winnerList.get(i)).toString() + " wins: " + (pot / winnerList.size()));
+            players.getPlayer(winnerList.get(i).getID()).giveCurrency(pot / winnerList.size());
         }
 
         table.sendToAllUser(new SendWinCommand(winnerList, pot));
@@ -303,8 +305,8 @@ public class GameRunnable implements Runnable{
                             case CALL: {
                                 better.setCurrentBet(betCall - better.getCurrentBet());
                                 raise(better.getLastBet());
-                                table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.CALL, better.getID(), better.getCurrentBet(), better.getCurrency())));
-                                System.out.println("player: " + better.username + " calls" + better.getLastBet());
+                                table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.CALL, better.getID(), better.getLastBet(), better.getCurrency())));
+                                System.out.println("player: " + better.username + " calls " + better.getLastBet());
                             }
                             break;
                             case CHECK: {
@@ -314,16 +316,16 @@ public class GameRunnable implements Runnable{
                             break;
                             case FOLD: {
                                 better.fold();
-                                table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.FOLD, better.getID(), better.getCurrentBet(), better.getCurrency())));
+                                table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.FOLD, better.getID(), better.getLastBet(), better.getCurrency())));
                                 System.out.println("player: " + better.username + " folds");
                             }
                             break;
                             case RAISE: {
-                                raise(betCall + turn.getBet());
-                                better.setCurrentBet(betCall + turn.getBet());
+                                raise(turn.getBet());
+                                better.setCurrentBet(turn.getBet());
                                 initialPlayer = better;
-                                table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.RAISE, better.getID(), better.getCurrentBet(), better.getCurrency())));
-                                System.out.println("player: " + better.username + " raises " + turn.getBet());
+                                table.sendToAllUser(new SendPlayerMoveCommand(new PlayerMove(PlayerUserMove.RAISE, better.getID(), better.getLastBet(), better.getCurrency())));
+                                System.out.println("player: " + better.username + " raises " + better.getLastBet());
                             }
                             break;
                         }

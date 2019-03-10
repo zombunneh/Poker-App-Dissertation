@@ -152,6 +152,10 @@ public class GameViewModel extends Observable {
             bet.addToPot(move.bet);
             bet.setLastRaise(move.bet);
         }
+        else if(move.move == PlayerUserMove.CALL)
+        {
+            bet.addToPot(move.bet);
+        }
         setChanged();
         notifyObservers(move);
     }
@@ -177,8 +181,8 @@ public class GameViewModel extends Observable {
             if(blind > this.blind)
             {
                 this.blind = blind;
-                setChanged();
-                notifyObservers(blind);
+                /*setChanged();
+                notifyObservers(blind);*/
             }
             addToPot(blind);
         }
@@ -186,6 +190,8 @@ public class GameViewModel extends Observable {
         public void addToPot(int bet)
         {
             pot += bet;
+            setChanged();
+            notifyObservers(pot);
         }
 
         public void resetPot()

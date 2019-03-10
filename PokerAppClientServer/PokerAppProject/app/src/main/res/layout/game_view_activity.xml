@@ -181,4 +181,19 @@
             android:layout_height="wrap_content"
             android:text="@string/leaveButton" />
     </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/potFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/handLayout"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/potDisplay"
+            android:textSize="50sp"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>
