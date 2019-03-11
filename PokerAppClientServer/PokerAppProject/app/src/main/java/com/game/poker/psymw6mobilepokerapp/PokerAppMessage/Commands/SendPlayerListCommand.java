@@ -1,5 +1,8 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands;
 
+
+import android.util.Log;
+
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandInvoker;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 
@@ -8,7 +11,7 @@ import java.util.List;
 public class SendPlayerListCommand implements Command {
 
     private static final long serialVersionUID = 17593862563L;
-    private List<PlayerUser> players;
+    public List<PlayerUser> players;
 
     public SendPlayerListCommand(List<PlayerUser> players)
     {
@@ -17,6 +20,11 @@ public class SendPlayerListCommand implements Command {
     }
 
     public void execute(CommandInvoker invoker) {
+        for(PlayerUser player : players)
+        {
+            Log.d("player command", "player has: " + Integer.toString(player.getCurrency()) + " ");
+        }
+
         invoker.getModel().updatePlayerList(players);
     }
 }

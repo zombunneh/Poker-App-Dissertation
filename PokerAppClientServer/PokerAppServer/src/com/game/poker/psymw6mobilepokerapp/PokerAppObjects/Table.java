@@ -1,10 +1,7 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppObjects;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.*;
-import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.CanCallCommand;
-import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.CanCheckCommand;
-import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.Command;
-import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.SetIDCommand;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.*;
 import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ClientConnection;
 
 import java.io.IOException;
@@ -119,6 +116,10 @@ public class Table implements Comparable<Table>, Runnable{
         {
             try
             {
+                if(command instanceof SendPlayerListCommand)
+                {
+                    System.out.println("command sendtoalluser currency = " + ((SendPlayerListCommand)command).players.get(0).getCurrency());
+                }
                 out.writeObject(command);
                 out.flush();
             }

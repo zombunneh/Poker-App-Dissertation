@@ -173,6 +173,11 @@ public class PlayerUser extends User {
         currentBet = 0;
     }
 
+    public void resetLastBet()
+    {
+        lastBet = 0;
+    }
+
     public void incrementInactive()
     {
         inactiveTurns++;

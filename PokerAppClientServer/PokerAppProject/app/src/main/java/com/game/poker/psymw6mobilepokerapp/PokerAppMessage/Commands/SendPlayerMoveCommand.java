@@ -24,7 +24,11 @@ public class SendPlayerMoveCommand implements Command{
         invoker.getModel().lastTurn(move);
         for(PlayerUser player : invoker.getModel().getPlayers())
         {
-            if(player.getID() == move.id)
+            if(player.getID() == move.id
+                    && move.move != PlayerUserMove.CHECK
+                    && move.move != PlayerUserMove.EXIT
+                    && move.move != PlayerUserMove.AWAY
+                    && move.move != PlayerUserMove.FOLD)
             {
                 player.setCurrentBet(move.bet);
             }

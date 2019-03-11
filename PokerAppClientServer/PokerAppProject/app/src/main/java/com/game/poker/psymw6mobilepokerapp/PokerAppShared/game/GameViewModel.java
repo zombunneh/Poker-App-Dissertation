@@ -54,6 +54,10 @@ public class GameViewModel extends Observable {
         Log.d(TAG,"updateList");
         players.clear();
         players.addAll(newPlayers);
+        for(PlayerUser player : newPlayers)
+        {
+            Log.d(TAG, "player has: " + Integer.toString(player.getCurrency()));
+        }
         setChanged();
         notifyObservers(players);
     }
@@ -177,7 +181,7 @@ public class GameViewModel extends Observable {
 
         public void setBlind(int blind)
         {
-            Log.d(TAG, "blind set");
+            Log.d(TAG, "blind set " + blind);
             if(blind > this.blind)
             {
                 this.blind = blind;
@@ -189,6 +193,7 @@ public class GameViewModel extends Observable {
 
         public void addToPot(int bet)
         {
+            Log.d(TAG, "adding: " + bet + " to pot");
             pot += bet;
             setChanged();
             notifyObservers(pot);

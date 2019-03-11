@@ -290,17 +290,19 @@ public class GameView extends AppCompatActivity {
             paint.setStyle(Paint.Style.FILL);
             paint.setTextSize(50);
 
+            Log.d(TAG, "" + tempPlayer.getCurrency());
+
             if(tempPlayer.getID() == model.myPlayer.getMyID())
             {
                 c.drawText("YOU", 0, 95, paint);
-                c.drawText(Integer.toString(tempPlayer.currency), 0, 125, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 0, 155, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrency()), 0, 135, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 0, 175, paint);
             }
             else
             {
                 c.drawText(tempPlayer.username, 0, 95, paint);
-                c.drawText(Integer.toString(tempPlayer.currency), 0, 125, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 0, 155, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrency()), 0, 135, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 0, 175, paint);
             }
 
             ClientPlayer playerBitmap = new ClientPlayer(newBitmap, 0, 0, 0, 0);
@@ -339,6 +341,7 @@ public class GameView extends AppCompatActivity {
 
     public void displayWinners(List<PlayerUser> winners, int pot)
     {
+        Log.d(TAG, "game ended");
         if(winners.size() != 0)
         {
             Resources res = getResources();

@@ -12,8 +12,11 @@ public class PlayerUser extends User {
     private boolean isFolded;
     private boolean isActive;
     private boolean inGame;
+    private boolean isReady;
     private int currentBet;
     private int lastBet;
+    private int inactiveTurns;
+
     private static final long serialVersionUID = 1452706986345L;
 
     public PlayerUser(String user_id, int currency, String username)
@@ -21,9 +24,11 @@ public class PlayerUser extends User {
         super(user_id, currency, username);
         hand = new Card[2];
         isFolded = false;
-        isActive = true;
+        isActive = false;
         inGame = true;
         isDealer = false;
+        isReady = false;
+        inactiveTurns = 0;
     }
 
     public void setHand(Card[] hand)
@@ -140,6 +145,7 @@ public class PlayerUser extends User {
         if(bet > currency)
         {
             currentBet = currency;
+            lastBet = currency;
             currency = 0;
             return false;
         }
@@ -167,4 +173,29 @@ public class PlayerUser extends User {
         currentBet = 0;
     }
 
+    public void resetLastBet()
+    {
+        lastBet = 0;
+    }
+
+    public void incrementInactive()
+    {
+        inactiveTurns++;
+    }
+
+    public int getInactivity()
+    {
+        return inactiveTurns;
+    }
+
+    public void toggleReady()
+    {
+        isReady = !isReady;
+    }
+
+    public void giveCurrency(int pot)
+    {
+        currency += pot;
+        System.out.println("given " + pot );
+    }
 }

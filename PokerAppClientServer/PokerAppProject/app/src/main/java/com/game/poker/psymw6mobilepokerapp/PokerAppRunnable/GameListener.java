@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandQueue;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.Command;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.SendPlayerListCommand;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -50,6 +51,10 @@ public class GameListener implements Runnable {
             {
                 Log.d(TAG, "command is null");
                 continue;
+            }
+            if(command instanceof SendPlayerListCommand)
+            {
+                Log.d(TAG, "command sendtoalluser currency = " + ((SendPlayerListCommand)command).players.get(0).getCurrency() + " size = " + ((SendPlayerListCommand)command).players.size());
             }
             queue.addCommand(command);
             synchronized (queue)

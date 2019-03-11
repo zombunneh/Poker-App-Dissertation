@@ -20,6 +20,7 @@ public class SendRiverCommand implements Command {
         for(PlayerUser player : invoker.getModel().getPlayers())
         {
             player.resetBet();
+            player.resetLastBet();
         }
     }
 }
