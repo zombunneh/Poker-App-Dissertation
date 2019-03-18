@@ -132,6 +132,19 @@ public class GamePlayerList {
         return temp;
     }
 
+    public List<PlayerUser> getActivePlayers()
+    {
+        List<PlayerUser> temp = new ArrayList<>();
+        for(PlayerUser player : getPlayers())
+        {
+            if(player.isActive())
+            {
+                temp.add(player);
+            }
+        }
+        return temp;
+    }
+
     public List<PlayerUser> movesLeft()
     {
         List<PlayerUser> temp = new ArrayList<>();

@@ -5,63 +5,142 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PokerAppAccessibleLayout.ui.gameprofile.GameProfileAccessibleFragment">
+    tools:context=".PokerAppAccessibleLayout.ui.gameprofile.GameProfileAccessibleFragment"
+    android:background="@drawable/green_bg">
 
     <TextView
         android:id="@+id/usernameProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="-1"
+        android:shadowDy="1"
+        android:shadowRadius="0.01"
+        android:textColor="@android:color/white"
+        android:textSize="50sp"/>
+
+    <TextView
+        android:id="@+id/lastLoginProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernameProfile"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="-1"
+        android:shadowDy="1"
+        android:shadowRadius="0.01"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/loginStreakProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lastLoginProfile"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="-1"
+        android:shadowDy="1"
+        android:shadowRadius="0.01"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"/>
 
     <TextView
         android:id="@+id/currencyProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameProfile" />
+        app:layout_constraintTop_toBottomOf="@+id/loginStreakProfile"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="-1"
+        android:shadowDy="1"
+        android:shadowRadius="0.01"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"/>
 
     <TextView
         android:id="@+id/handsPlayedProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currencyProfile" />
+        app:layout_constraintTop_toBottomOf="@+id/currencyProfile"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="-1"
+        android:shadowDy="1"
+        android:shadowRadius="0.01"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"/>
 
     <TextView
         android:id="@+id/handsWonProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/handsPlayedProfile" />
+        app:layout_constraintTop_toBottomOf="@+id/handsPlayedProfile"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="-1"
+        android:shadowDy="1"
+        android:shadowRadius="0.01"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"/>
 
     <TextView
         android:id="@+id/winRateProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/handsWonProfile" />
+        app:layout_constraintTop_toBottomOf="@+id/handsWonProfile"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="-1"
+        android:shadowDy="1"
+        android:shadowRadius="0.01"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"/>
 
     <TextView
         android:id="@+id/maxWinningsProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/winRateProfile" />
+        app:layout_constraintTop_toBottomOf="@+id/winRateProfile"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="-1"
+        android:shadowDy="1"
+        android:shadowRadius="0.01"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"/>
 
     <TextView
         android:id="@+id/maxChipsProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/maxWinningsProfile" />
+        app:layout_constraintTop_toBottomOf="@+id/maxWinningsProfile"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="-1"
+        android:shadowDy="1"
+        android:shadowRadius="0.01"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"/>
+
+    <Button
+        android:id="@+id/googleSignOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profileSignOutButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/profileBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profileBackButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -8,8 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Date;
+
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -17,12 +20,14 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.util.DateTime;
 
 
 public class QueryDBForUserDetails extends SQLDatabaseConnection {
     private String username;
     private Timestamp lastLogin;
     private int currency;
+    private int login_streak;
     private int hands_played;
     private int hands_won;
     private int win_rate;
@@ -43,6 +48,7 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
         win_rate = 0;
         max_winnings = 0;
         max_chips = 0;
+        login_streak = 0;
 
         if(accountType == 0)
         {
@@ -59,7 +65,7 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
             }
 
             disconnectFromDatabase();
-            return new GameUser(returnStringTimestamp(lastLogin), google_user_id, currency, username, hands_played, hands_won, win_rate, max_winnings, max_chips);
+            return new GameUser(returnStringTimestamp(lastLogin), google_user_id, currency, login_streak, username, hands_played, hands_won, win_rate, max_winnings, max_chips);
         }
         else
         {
@@ -76,7 +82,7 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
             }
 
             disconnectFromDatabase();
-            return new GameUser(returnStringTimestamp(lastLogin), user_id, currency, username, hands_played, hands_won, win_rate, max_winnings, max_chips);
+            return new GameUser(returnStringTimestamp(lastLogin), user_id, currency, login_streak, username, hands_played, hands_won, win_rate, max_winnings, max_chips);
         }
     }
 
@@ -86,17 +92,193 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
 
     }
 
-    //update user table
-    //TODO overload with different parameter options
-    public void updateUserTableOnChange()
+    //
+    public void updateUserDetailsOnChange(PlayerUser user)
     {
+        String username = user.username;
+        String user_id = user.user_id;
+        int currency = user.getCurrency();
 
+        int hands_played = user.hands_played;
+        int hands_won = user.hands_won;
+        int win_rate = user.win_rate;
+        int max_winnings = user.max_winnings;
+        int max_chips = user.max_chips;
+
+        if(doesUserExistWithGoogle(user_id, 0))
+        {
+            createSQLStatement("UPDATE users SET currency = '" + currency +  "' WHERE google_user_id = '" + user_id + "'", 1);
+            int id = 0;
+            try
+            {
+                ResultSet rs = createSQLStatement("SELECT user_id FROM users " +
+                                "WHERE google_user_id='" + user_id + "'",
+                        0);
+                if(rs.first())
+                {
+                    id = rs.getInt("user_id");
+                }
+            } catch(SQLException e)
+            {
+                e.printStackTrace();
+            }
+
+            createSQLStatement("UPDATE details SET hands_played = '" + hands_played + "', " +
+                    "hands_won = '" + hands_won + "', " +
+                    "win_rate = '" + win_rate + "', " +
+                    "max_winnings ='" + max_winnings + "', " +
+                    "max_chips = '" + max_chips + "' " +
+                    "WHERE user_id = '" + id + "'", 1);
+            System.out.println("update complete");
+        }
+        else if(doesUserExistWithGoogle(user_id, 1))
+        {
+            createSQLStatement("UPDATE users SET currency = '" + currency +  "' WHERE guest_user_id = '" + user_id + "'", 1);
+            int id = 0;
+            try
+            {
+                ResultSet rs = createSQLStatement("SELECT user_id FROM users " +
+                                "WHERE guest_user_id='" + user_id + "'",
+                        0);
+                if(rs.first())
+                {
+                    id = rs.getInt("user_id");
+                }
+            } catch(SQLException e)
+            {
+                e.printStackTrace();
+            }
+
+            createSQLStatement("UPDATE details SET hands_played = '" + hands_played + "', " +
+                    "hands_won = '" + hands_won + "', " +
+                    "win_rate = '" + win_rate + "', " +
+                    "max_winnings ='" + max_winnings + "', " +
+                    "max_chips = '" + max_chips + "' " +
+                    "WHERE user_id = '" + id + "'", 1);
+            System.out.println("update complete");
+        }
     }
 
-    //
-    public void updateUserDetailsOnChange()
+    public void updateUserDetailsOnChange(GameUser user)
     {
+        String username = user.username;
+        String user_id = user.user_id;
+        int currency = user.currency;
 
+        int hands_played = user.hands_played;
+        int hands_won = user.hands_won;
+        int win_rate = user.win_rate;
+        int max_winnings = user.max_winnings;
+        int max_chips = user.max_chips;
+
+        if(doesUserExistWithGoogle(user_id, 0))
+        {
+            createSQLStatement("UPDATE users SET currency = '" + currency +  "' WHERE google_user_id = '" + user_id + "'", 1);
+            int id = 0;
+            try
+            {
+                ResultSet rs = createSQLStatement("SELECT user_id FROM users " +
+                                "WHERE google_user_id='" + user_id + "'",
+                        0);
+                if(rs.first())
+                {
+                    id = rs.getInt("user_id");
+                }
+            } catch(SQLException e)
+            {
+                e.printStackTrace();
+            }
+
+            createSQLStatement("UPDATE details SET hands_played = '" + hands_played + "', " +
+                    "hands_won = '" + hands_won + "', " +
+                    "win_rate = '" + win_rate + "', " +
+                    "max_winnings ='" + max_winnings + "', " +
+                    "max_chips = '" + max_chips + "' " +
+                    "WHERE user_id = '" + id + "'", 1);
+            System.out.println("update complete");
+        }
+        else if(doesUserExistWithGoogle(user_id, 1))
+        {
+            createSQLStatement("UPDATE users SET currency = '" + currency +  "' WHERE guest_user_id = '" + user_id + "'", 1);
+            int id = 0;
+            try
+            {
+                ResultSet rs = createSQLStatement("SELECT user_id FROM users " +
+                                "WHERE guest_user_id='" + user_id + "'",
+                        0);
+                if(rs.first())
+                {
+                    id = rs.getInt("user_id");
+                }
+            } catch(SQLException e)
+            {
+                e.printStackTrace();
+            }
+
+            createSQLStatement("UPDATE details SET hands_played = '" + hands_played + "', " +
+                    "hands_won = '" + hands_won + "', " +
+                    "win_rate = '" + win_rate + "', " +
+                    "max_winnings ='" + max_winnings + "', " +
+                    "max_chips = '" + max_chips + "' " +
+                    "WHERE user_id = '" + id + "'", 1);
+            System.out.println("update complete");
+        }
+    }
+
+    public int updateLastLogin(String date, String user_id, int login_streak)
+    {
+        Date date1 = new Date();
+        Timestamp ts = new Timestamp(date1.getTime());
+
+        LocalDate localDate = LocalDate.now();
+
+        String newDate = date.substring(0, 10);
+
+        boolean isNewDay = localDate.isAfter(LocalDate.parse(newDate));
+        boolean isNextDay = false;
+        if(isNewDay)
+        {
+            isNextDay = localDate.isBefore(LocalDate.parse(newDate).plusDays(2));
+        }
+
+        System.out.println(isNewDay);
+
+        if(doesUserExistWithGoogle(user_id, 0))
+        {
+            createSQLStatement("UPDATE users SET last_login = '" + ts + "' WHERE google_user_id = '" + user_id + "'", 1);
+            if(isNextDay)
+            {
+                login_streak += 1;
+                createSQLStatement("UPDATE users SET login_streak = '" + login_streak + "' WHERE google_user_id = '" + user_id + "'", 1);
+            }
+            else if(isNewDay && !isNextDay)
+            {
+                login_streak = 1;
+                createSQLStatement("UPDATE users SET login_streak = '" + login_streak + "' WHERE google_user_id = '" + user_id + "'", 1);
+            }
+            System.out.println("update complete");
+        }
+        else if(doesUserExistWithGoogle(user_id, 1))
+        {
+            createSQLStatement("UPDATE users SET last_login = '" + ts +  "' WHERE guest_user_id = '" + user_id + "'", 1);
+            if(isNextDay)
+            {
+                login_streak += 1;
+                createSQLStatement("UPDATE users SET login_streak = '" + login_streak + "' WHERE guest_user_id = '" + user_id + "'", 1);
+            }
+            else if(isNewDay && !isNextDay)
+            {
+                login_streak = 1;
+                createSQLStatement("UPDATE users SET login_streak = '" + login_streak + "' WHERE guest_user_id = '" + user_id + "'", 1);
+            }
+            System.out.println("update complete");
+        }
+        System.out.println(login_streak + " = current login streak");
+        if(!isNewDay)
+        {
+            login_streak = 0;
+        }
+        return login_streak;
     }
 
     //add new users to database
@@ -105,12 +287,14 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
         int id = 0;
-        int initialCurrency = 10000;
+        int initialCurrency = 100000;
+        int login_streak = 1;
+
         if(accountType == 0)
         {
             //insert into users table the retrieved details
-            createSQLStatement("INSERT INTO users (google_user_id, user_name, last_login, currency) " +
-                    "VALUES ('" + google_user_id + "', '"  + username + "', '" + ts + "', '" + initialCurrency + "')", 1);
+            createSQLStatement("INSERT INTO users (google_user_id, user_name, last_login, currency, login_streak) " +
+                    "VALUES ('" + google_user_id + "', '"  + username + "', '" + ts + "', '" + initialCurrency + "', '" + login_streak + "')", 1);
 
             //get the id of column corresponding to google user id
             try
@@ -134,8 +318,8 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
         else
         {
             //insert into users table the retrieved details
-            createSQLStatement("INSERT INTO users (guest_user_id, user_name, last_login, currency) " +
-                    "VALUES ('" + user_id + "', '"  + username + "', '" + ts + "', '" + initialCurrency + "')", 1);
+            createSQLStatement("INSERT INTO users (guest_user_id, user_name, last_login, currency, login_streak) " +
+                    "VALUES ('" + user_id + "', '"  + username + "', '" + ts + "', '" + initialCurrency + "', '" + login_streak + "')", 1);
 
             //get the id of column corresponding to guest user id
             try
@@ -196,6 +380,44 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
             return false;
     }
 
+    public boolean doesUserExistWithGoogle(String user_id, int accountType)
+    {
+        ResultSet rs;
+        if(accountType == 0)
+        {
+            rs = createSQLStatement("SELECT * FROM users " +
+                            "WHERE google_user_id ='" + user_id + "'",
+                    0);
+        }
+        else
+        {
+            rs = createSQLStatement("SELECT * FROM users " +
+                            "WHERE guest_user_id ='" + user_id + "'",
+                    0);
+        }
+
+        try
+        {
+            if(rs.next())
+            {
+                disconnectFromDatabase();
+                System.out.println("database entry found");
+                return true;
+            }
+            else
+            {
+                disconnectFromDatabase();
+                System.out.println("database entry not found");
+                return false;
+            }
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     //verifies id using token sent to google api library and retrieves actual user id for use in database
     public boolean verifyIdRetrieveDetails(String user_id)
     {
@@ -242,14 +464,12 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
             username = rs.getString("user_name");
             lastLogin = rs.getTimestamp("last_login");
             currency = rs.getInt("currency");
+            login_streak = rs.getInt("login_streak");
             hands_played = rs.getInt("hands_played");
             hands_won = rs.getInt("hands_won");
             win_rate = rs.getInt("win_rate");
             max_winnings = rs.getInt("max_winnings");
             max_chips = rs.getInt("max_chips");
-            //TODO retrieve fields from details table, have to populate it first.
         }
     }
-
 }
-//build a user using this information to keep data mostly stored online?

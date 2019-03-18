@@ -75,6 +75,7 @@ public class MainMenuAccessibleFragment extends Fragment {
                     case R.id.optionsButton:
                         Log.d(TAG, "options");
                         intent = new Intent(getContext(), GameOptions.class);
+                        startActivity(intent);
                         break;
                 }
         }

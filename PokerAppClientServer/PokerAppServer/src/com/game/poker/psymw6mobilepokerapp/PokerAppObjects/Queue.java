@@ -1,18 +1,23 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppObjects;
 
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.GameUser;
+import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.SocketUser;
-import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.User;
 import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ClientConnection;
+import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ServerRunnable;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
 
 public class Queue implements Runnable{
     private PriorityBlockingQueue<SocketUser> userQueue = new PriorityBlockingQueue<>();
     private PriorityBlockingQueue<Table> tablePriorityQueue = new PriorityBlockingQueue<>();
+    private List<ServerRunnable> servers = new ArrayList<>();
     private SocketUser socketUser;
     private Table table;
 
@@ -22,11 +27,19 @@ public class Queue implements Runnable{
 
     private static int roomID = 1;
 
-    public void addToQueue(ClientConnection connection, User user, ObjectOutputStream out, ObjectInputStream in)
+    public void addToQueue(ClientConnection connection, GameUser user, ObjectOutputStream out, ObjectInputStream in, ServerRunnable server)
     {
         System.out.println("User added: " + user.user_id + " " + user.username + " number of current users: " + userQueue.size());
-        socketUser = new SocketUser(user.user_id, user.currency, user.username, connection);
+        socketUser = new SocketUser(user, connection);
         userQueue.add(socketUser);
+        try {
+            out.writeObject("queue_joined");
+        }
+        catch(IOException e)
+        {
+
+        }
+        servers.add(server);
     }
 
     public void addOpenTable(Table table)
@@ -47,6 +60,17 @@ public class Queue implements Runnable{
     public void removeFromQueue(SocketUser user)
     {
         userQueue.remove(user);
+    }
+
+    public void removeUser(PlayerUser user)
+    {
+        for(ServerRunnable server : servers)
+        {
+            if(user.user_id.equals(server.getUserID()))
+            {
+                server.leftGame();
+            }
+        }
     }
 
     /*

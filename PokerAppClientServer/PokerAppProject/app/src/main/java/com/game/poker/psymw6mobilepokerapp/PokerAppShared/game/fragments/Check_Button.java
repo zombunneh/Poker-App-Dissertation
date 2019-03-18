@@ -29,6 +29,7 @@ public class Check_Button extends Fragment {
             @Override
             public void onClick(View v) {
                 ((GameView)getActivity()).getActions().pressedFold();
+                ((GameView)getActivity()).setNotTurn();
             }
         });
 
@@ -36,6 +37,7 @@ public class Check_Button extends Fragment {
             @Override
             public void onClick(View v) {
                 ((GameView)getActivity()).getActions().pressedCheck();
+                ((GameView)getActivity()).setNotTurn();
             }
         });
 
@@ -44,6 +46,7 @@ public class Check_Button extends Fragment {
             public void onClick(View v) {
                 int bet = ((GameView)getActivity()).bet_slider_frag.getBetSlider().getProgress() + ((GameView)getActivity()).getMinValue();
                 ((GameView)getActivity()).getActions().pressedRaise(bet);
+                ((GameView)getActivity()).setNotTurn();
             }
         });
 

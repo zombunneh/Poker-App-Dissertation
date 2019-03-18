@@ -5,9 +5,11 @@
     <string name="loggingIn">Logging in...</string>
     <string name="attemptUserRetrieval">Attempting to retrieve user data...</string>
     <string name="loginFailed">Login Failed\nTry again</string>
-    <string name="loginComplete">Login Successful\nTap to start</string>
+    <string name="loginComplete">Login Completed\nTap to start</string>
     <string name="createUser">Create Username</string>
+    <string name="chooseUsername">Choose a username</string>
     <string name="server_client_id">992597545265-dd7gbt39dp4i9iakn1ts1541vc0qebn9.apps.googleusercontent.com</string>
+    <string name="loginStreakDisplay">You have logged in for %1$d days and received %2$d additional currency as a login bonus!\nRemember to log in every day for a bigger bonus!</string>
 
     <!-- Strings for buttons -->
     <string name="guestLoginButton">Login as Guest</string>
@@ -16,6 +18,14 @@
     <string name="profileButton">Profile</string>
     <string name="helpButton">Help</string>
     <string name="friendsButton">Friends</string>
+
+    <!-- String descriptions for buttons accessibility -->
+    <string name="guestLoginButtonDescription">Login as Guest</string>
+    <string name="optionsButtonDescription">Options</string>
+    <string name="playButtonDescription">Play</string>
+    <string name="profileButtonDescription">Profile</string>
+    <string name="helpButtonDescription">Help</string>
+    <string name="friendsButtonDescription">Friends</string>
 
     <!-- Strings for shared preferences -->
     <string name="settingsPreferences">com.game.poker.psymw6mobilepokerapp.mySettingsPreferences</string>
@@ -26,7 +36,10 @@
 
     <!-- Keys for data preferences -->
     <string name="username">username</string>
+    <string name="last_login">last_login</string>
     <string name="currency">currency</string>
+    <string name="login_streak">login_streak</string>
+    <string name="login_streak_changed">login_streak_changed</string>
     <string name="hands_played">hands_played</string>
     <string name="hands_won">hands_won</string>
     <string name="win_rate">win_rate</string>
@@ -35,6 +48,7 @@
 
     <!-- Keys for login preferences -->
     <string name="isLoggedIn">isLoggedIn</string>
+    <string name="accountType">accountType</string>
     <string name="existingUUID">isUUID</string>
     <string name="currentUUID">myUUID</string>
 
@@ -45,6 +59,14 @@
     <string name="checkButton">Check</string>
     <string name="raiseButton">Raise</string>
     <string name="leaveButton">Exit Game</string>
+
+    <!-- String descriptions for in game buttons accessibility -->
+    <string name="callButtonDescription">Call bet</string>
+    <string name="foldButtonDescription">Fold hand</string>
+    <string name="betButtonDescription">Place first bet</string>
+    <string name="checkButtonDescription">Check bet</string>
+    <string name="raiseButtonDescription">Raise bet</string>
+    <string name="leaveButtonDescription">Leave current game</string>
 
     <!-- String for broadcasting player moves -->
     <string name="broadcastMove">Player %1$s %2$ss </string>
@@ -62,4 +84,24 @@
 
     <!-- String for pot -->
     <string name="potString">Pot: %1$d</string>
+
+    <!-- String for time remaining in turn -->
+    <string name="turnTimeRemaining">Time left: %1$d</string>
+    <string name="notYourTurn">Waiting for turn</string>
+
+    <!-- Strings for profile display -->
+    <string name="profileNameDisplay">%1$s\'s Profile</string>
+    <string name="profileLastLogin">Last logged in: %1$s</string>
+    <string name="profileLoginStreak">Current Login Streak: %1$d</string>
+    <string name="profileCurrency">Current chips: %1$d</string>
+    <string name="profileHandsPlayed">Hands Played: %1$d</string>
+    <string name="profileHandsWon">Hands won: %1$d</string>
+    <string name="profileWinRate">Win rate: %1$d%%</string>
+    <string name="profileMaxWinnings">Max chips won in 1 hand: %1$d</string>
+    <string name="profileMaxChips">Max chips earned: %1$d</string>
+    <string name="profileBackButton">Back</string>
+    <string name="profileSignOutButton">Sign out of Google Account</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -11,19 +11,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/foldButton" />
+        android:contentDescription="@string/foldButtonDescription"
+        android:minWidth="100dp"
+        android:minHeight="48dp"
+        android:text="@string/foldButton"
+        android:textSize="45sp" />
 
     <Button
         android:id="@+id/checkButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/checkButton" />
+        android:contentDescription="@string/checkButtonDescription"
+        android:minWidth="100dp"
+        android:minHeight="48dp"
+        android:text="@string/checkButton"
+        android:textSize="45sp" />
 
     <Button
         android:id="@+id/betButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/betButton" />
+        android:contentDescription="@string/betButtonDescription"
+        android:minWidth="100dp"
+        android:minHeight="48dp"
+        android:text="@string/betButton"
+        android:textSize="45sp" />
 </LinearLayout>

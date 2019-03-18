@@ -1,8 +1,11 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppObjects;
 
+import com.game.poker.psymw6mobilepokerapp.PokerAppDatabase.QueryDBForUserDetails;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.*;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Commands.*;
 import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ClientConnection;
+import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ServerCallback;
+import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ServerRunnable;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -29,11 +32,14 @@ public class Table implements Comparable<Table>, Runnable{
     private static final int MAX_USERS = 6;
     private int noUsersAtTable = 0;
     private boolean gameStarted = false;
+
     private GameRunnable game;
     private Queue queue;
     private HashMap<Integer, ObjectOutputStream> playerOutputMap;
     private HashMap<Integer, ClientConnection> playerInputMap;
     private List<PlayerUser> players;
+
+    private QueryDBForUserDetails db;
 
     private boolean tableClosed = false;
 
@@ -41,11 +47,12 @@ public class Table implements Comparable<Table>, Runnable{
     public Table(int tableID, Queue queue)
     {
         this.tableID = tableID;
-        currentUserID = 0;
+        currentUserID = 1;
         this.queue = queue;
         playerOutputMap = new HashMap<>();
         playerInputMap = new HashMap<>();
         players = new ArrayList<>();
+        db = new QueryDBForUserDetails();
         System.out.println("Table created with id: " + tableID);
     }
 
@@ -53,7 +60,7 @@ public class Table implements Comparable<Table>, Runnable{
     {
         user.getConnection().getOut().writeObject("game_joined");
         System.out.println("sent game joined");
-        PlayerUser temp = new PlayerUser(user.user_id, user.currency, user.username);
+        PlayerUser temp = new PlayerUser(user);
         playerOutputMap.put(currentUserID, user.getConnection().getOut());
         playerInputMap.put(currentUserID, user.getConnection());
         temp.setID(currentUserID);
@@ -116,10 +123,7 @@ public class Table implements Comparable<Table>, Runnable{
         {
             try
             {
-                if(command instanceof SendPlayerListCommand)
-                {
-                    System.out.println("command sendtoalluser currency = " + ((SendPlayerListCommand)command).players.get(0).getCurrency());
-                }
+                out.reset();
                 out.writeObject(command);
                 out.flush();
             }
@@ -134,8 +138,14 @@ public class Table implements Comparable<Table>, Runnable{
     {
         playerInputMap.remove(id);
         playerOutputMap.remove(id);
-        players.remove(id);
         noUsersAtTable--;
+
+        queue.removeUser(players.get(id-1));
+
+        db.updateUserDetailsOnChange(game.getPlayer(id));
+
+        players.remove(id-1);
+
         game.updateTable(this);
         game.removePlayer(id);
     }

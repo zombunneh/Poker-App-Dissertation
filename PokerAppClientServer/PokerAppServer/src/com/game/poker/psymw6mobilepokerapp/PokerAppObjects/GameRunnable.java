@@ -52,7 +52,6 @@ public class GameRunnable implements Runnable{
 
     public void updateGamePlayerList(PlayerUser user)
     {
-        user.toggleInGame();
         players.addPlayer(user);
         table.sendToUser(user.getID(), new SendPlayerListCommand(players.getMinList()));
     }
@@ -74,13 +73,18 @@ public class GameRunnable implements Runnable{
         players.removePlayer(id);
     }
 
+    public PlayerUser getPlayer(int id)
+    {
+        return players.getPlayer(id);
+    }
+
 //TODO CONDITION TO END HAND EARLY IF ALL ALL IN
     @Override
     public void run() {
         System.out.println("Game thread started from table with id: " + table.tableID);
         while(players.getPlayers().size() < 1)
         {
-
+            //System.out.println(players.getPlayers().size());
         }
         dealer = players.getDealer(); // sets initial dealer
         while(gameRunning)
@@ -135,24 +139,17 @@ public class GameRunnable implements Runnable{
         }
         table.sendToAllUser(new SendPlayerListCommand(players.getMinList()));
 
-        for(PlayerUser player : players.getMinList())
-        {
-            player.currency = 500;
-        }
-
-        table.sendToAllUser(new SendPlayerListCommand(players.getMinList()));
-
         PlayerUser oldDealer = players.setNextDealer();
         dealer = players.getDealer();
         table.sendToAllUser(new ChangeDealerCommand(oldDealer.getID(), dealer.getID()));
         for(PlayerUser user : players.getPlayers())
         {
             System.out.println("users setup");
-            if(user.isActive())
+            if(user.isInGame())
             {
-                if(!user.isInGame())
+                if(!user.isActive())
                 {
-                    user.toggleInGame();
+                    user.toggleActive();
                 }
                 user.unFold();
                 Card[] tempHand = new Card[2];
@@ -232,17 +229,39 @@ public class GameRunnable implements Runnable{
         System.out.println("hand ending");
         HashMap<PlayerUser, Hand> winners;
         List<PlayerUser> winnerList = new ArrayList<>();
-        winners = handEvaluator.handEvaluator(players.getPlayersLeft(), communityCards);
-        winners = handEvaluator.getHandWinner(winners);
-        winnerList.addAll(winners.keySet());
-
-        for(int i = 0; i < winnerList.size(); i++)
+        if(players.getPlayersLeft().size() == 0)
         {
-            System.out.println("winner: " + winnerList.get(i).username + " with hand " + winners.get(winnerList.get(i)).toString() + " wins: " + (pot / winnerList.size()));
-            players.getPlayer(winnerList.get(i).getID()).giveCurrency(pot / winnerList.size());
+
+        }
+        else {
+            winners = handEvaluator.handEvaluator(players.getPlayersLeft(), communityCards);
+            winners = handEvaluator.getHandWinner(winners);
+            winnerList.addAll(winners.keySet());
+            if (winnerList.size() > 0) {
+                for (int i = 0; i < winnerList.size(); i++) {
+                    System.out.println("winner: " + winnerList.get(i).username + " with hand " + winners.get(winnerList.get(i)).toString() + " wins: " + (pot / winnerList.size()));
+                    PlayerUser current = players.getPlayer(winnerList.get(i).getID());
+                    current.giveCurrency(pot / winnerList.size());
+                    current.incrementWins();
+                    if (current.max_chips < current.getCurrency()) {
+                        current.newMaxChips(current.getCurrency());
+                    }
+                    if (current.max_winnings < (pot / winnerList.size())) {
+                        current.newMaxWinnings((pot / winnerList.size()));
+                    }
+
+                }
+            }
+
+            table.sendToAllUser(new SendWinCommand(winnerList, pot));
         }
 
-        table.sendToAllUser(new SendWinCommand(winnerList, pot));
+        for(PlayerUser player : players.getActivePlayers())
+        {
+            player.incrementHandsPlayed();
+            player.adjustWinRate();
+        }
+
         System.out.println("hand ended");
     }
 
@@ -286,6 +305,7 @@ public class GameRunnable implements Runnable{
                     if (!better.isFolded() && better.getCurrency() > 0 && better.isActive()) // remember to
                     {
                         System.out.println("getting user turn");
+                        table.sendToAllUser(new SendTurnNotificationCommand(better.getID()));
                         if (better.getCurrentBet() == betCall) {
                             //send command for check option
                             turn = table.sendToUser(better.getID(), new CanCheckCommand());

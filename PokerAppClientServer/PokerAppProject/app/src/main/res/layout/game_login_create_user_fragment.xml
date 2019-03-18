@@ -14,9 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:ems="10"
-        android:hint="Choose a username"
+        android:hint="@string/chooseUsername"
+        android:inputType="textPersonName"
         android:maxLength="16"
-        android:inputType="textPersonName" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/create_user_button"

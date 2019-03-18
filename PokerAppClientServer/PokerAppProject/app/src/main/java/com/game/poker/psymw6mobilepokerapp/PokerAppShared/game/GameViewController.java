@@ -69,13 +69,13 @@ public class GameViewController implements Observer {
             {
                 case AWAY:
                 {
-                    /*gameView.runOnUiThread(new Runnable() {
+                    gameView.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            gameView.broadcastMove(tempMove);
+                            //gameView.broadcastMove(tempMove);
                             gameView.setAway(tempMove.id);
                         }
-                    });*/
+                    });
                 }
                     break;
                 case EXIT:
@@ -213,6 +213,16 @@ public class GameViewController implements Observer {
             @Override
             public void run() {
                 gameView.displayWinners(winners, pot);
+            }
+        });
+    }
+
+    public void playerTurn(final int id)
+    {
+        gameView.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                gameView.updatePlayerTurn(id);
             }
         });
     }

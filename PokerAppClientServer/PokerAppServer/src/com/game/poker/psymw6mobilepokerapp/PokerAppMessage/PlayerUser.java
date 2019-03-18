@@ -17,11 +17,35 @@ public class PlayerUser extends User {
     private int lastBet;
     private int inactiveTurns;
 
+    public int hands_played;
+    public int hands_won;
+    public int win_rate;
+    public int max_winnings;
+    public int max_chips;
+
     private static final long serialVersionUID = 1452706986345L;
 
     public PlayerUser(String user_id, int currency, String username)
     {
         super(user_id, currency, username);
+        hand = new Card[2];
+        isFolded = false;
+        isActive = false;
+        inGame = true;
+        isDealer = false;
+        isReady = false;
+        inactiveTurns = 0;
+    }
+
+    public PlayerUser(SocketUser user)
+    {
+        super(user.user_id, user.currency, user.username);
+        this.hands_played = user.hands_played;
+        this.hands_won = user.hands_won;
+        this.win_rate = user.win_rate;
+        this.max_winnings = user.max_winnings;
+        this.max_chips = user.max_chips;
+
         hand = new Card[2];
         isFolded = false;
         isActive = false;
@@ -197,5 +221,31 @@ public class PlayerUser extends User {
     {
         currency += pot;
         System.out.println("given " + pot );
+    }
+
+    public void incrementWins()
+    {
+        hands_won++;
+    }
+
+    public void newMaxChips(int newMax)
+    {
+        max_chips = newMax;
+    }
+
+    public void newMaxWinnings(int newMax)
+    {
+        max_winnings = newMax;
+    }
+
+    public void adjustWinRate()
+    {
+        double rate = ((double)hands_won / hands_played);
+        win_rate = (int) Math.round(rate * 100);
+    }
+
+    public void incrementHandsPlayed()
+    {
+        hands_played++;
     }
 }

@@ -36,6 +36,7 @@ public class ServerConnectionService extends Service {
 
     public static final String TAG = "g53ids-service";
     public static final String SERVICE_INTENT = "service_intent";
+    public static final String BROADCAST_INTENT = "login_intent";
 
     public ServerConnectionService() {
     }
@@ -66,6 +67,7 @@ public class ServerConnectionService extends Service {
         connectToServer();
         //attempt to establish connection to server
         LocalBroadcastManager.getInstance(this).registerReceiver(myReceiver, new IntentFilter(SERVICE_INTENT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(myReceiver, new IntentFilter(BROADCAST_INTENT));
         return Service.START_STICKY;
     }
 
@@ -102,7 +104,7 @@ public class ServerConnectionService extends Service {
     {
         if(clientSocket != null)
         {
-            if(!clientSocket.isConnected())
+            if(clientSocket.isClosed())
             {
                 return false;
             }
@@ -128,6 +130,10 @@ public class ServerConnectionService extends Service {
         else
         {
             connectToServer();
+            while(!isServerConnected() || out == null || in == null)
+            {
+
+            }
             ruld = new RetrieveUserLoginData(account, out, in, this);
             Thread t = new Thread(ruld);
             t.start();
@@ -145,6 +151,10 @@ public class ServerConnectionService extends Service {
         else
         {
             connectToServer();
+            while(!isServerConnected() || out == null || in == null)
+            {
+
+            }
             ruld = new RetrieveUserLoginData(instanceID, out, in, this);
             Thread t = new Thread(ruld);
             t.start();
@@ -162,6 +172,10 @@ public class ServerConnectionService extends Service {
         else
         {
             connectToServer();
+            while(!isServerConnected() || out == null || in == null)
+            {
+
+            }
             JoinQueue queue = new JoinQueue(clientSocket, out, in, this);
             Thread t = new Thread(queue);
             t.start();
@@ -181,6 +195,21 @@ public class ServerConnectionService extends Service {
         return out;
     }
 
+    public void closeSocket()
+    {
+        try
+        {
+            clientSocket.close();
+            clientSocket = null;
+            out = null;
+            in = null;
+        }
+        catch(IOException e)
+        {
+
+        }
+    }
+
     private final BroadcastReceiver myReceiver = new BroadcastReceiver()
     {
         @Override
@@ -190,6 +219,8 @@ public class ServerConnectionService extends Service {
             {
                 case "join_queue":
                     joinQueue();
+                    break;
+                case "loginDetailsUpdated":
                     break;
                 default:
                     break;

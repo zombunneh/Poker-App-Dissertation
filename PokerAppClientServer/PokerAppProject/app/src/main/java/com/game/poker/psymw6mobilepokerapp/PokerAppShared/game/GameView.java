@@ -10,7 +10,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Card;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandInvoker;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandQueue;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerMove;
@@ -31,20 +33,19 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.ClientCard;
 import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.ClientPlayer;
 import com.game.poker.psymw6mobilepokerapp.PokerAppRunnable.GameListener;
 import com.game.poker.psymw6mobilepokerapp.PokerAppService.ServerConnectionService;
-import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.Surface.GameViewSurface;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Bet_Slider;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Call_Button;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Check_Button;
+import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Zoomed_Cards;
 import com.game.poker.psymw6mobilepokerapp.R;
 
-import java.net.Socket;
 import java.util.List;
 
 public class GameView extends AppCompatActivity {
     //TODO disable buttons when not expecting input >:3
     private ServerConnectionService.ServerBinder serviceBinder;
     private ServerConnectionService serviceInstance;
-    private GameViewModel model;
+    public GameViewModel model;
     private GameViewActions actions;
 
     private Call_Button call_button_frag;
@@ -54,12 +55,20 @@ public class GameView extends AppCompatActivity {
     private ImageView[] communityCardViews;
     private ImageView[] handCards;
     private ImageView[] playerDisplays;
+    private ImageView[] playerDisplayOverlays;
 
     private Button leaveButton;
     private TextView turnBroadcast;
     private TextView potDisplay;
+    private TextView turnTime;
+
+    private int[] playerDisplayIDs;
 
     private boolean stopThreads = false;
+    private boolean myTurn = false;
+    private int turnTimer = 0;
+
+    private Handler handler;
 
     public static final String TAG = "gameView";
 
@@ -81,6 +90,7 @@ public class GameView extends AppCompatActivity {
         communityCardViews = new ImageView[5];
         handCards = new ImageView[2];
         playerDisplays = new ImageView[5];
+        playerDisplayOverlays = new ImageView[5];
 
         communityCardViews[0] = findViewById(R.id.communityCard1);
         communityCardViews[1] = findViewById(R.id.communityCard2);
@@ -88,8 +98,18 @@ public class GameView extends AppCompatActivity {
         communityCardViews[3] = findViewById(R.id.communityCard4);
         communityCardViews[4] = findViewById(R.id.communityCard5);
 
+        for(ImageView view : communityCardViews)
+        {
+            view.setOnClickListener(listener);
+        }
+
         handCards[0] = findViewById(R.id.handCard1);
         handCards[1] = findViewById(R.id.handCard2);
+
+        for(ImageView view : handCards)
+        {
+            view.setOnClickListener(listener);
+        }
 
         playerDisplays[0] = findViewById(R.id.player1);
         playerDisplays[1] = findViewById(R.id.player2);
@@ -97,12 +117,24 @@ public class GameView extends AppCompatActivity {
         playerDisplays[3] = findViewById(R.id.player4);
         playerDisplays[4] = findViewById(R.id.player5);
 
+        playerDisplayOverlays[0] = findViewById(R.id.player1overlay);
+        playerDisplayOverlays[1] = findViewById(R.id.player2overlay);
+        playerDisplayOverlays[2] = findViewById(R.id.player3overlay);
+        playerDisplayOverlays[3] = findViewById(R.id.player4overlay);
+        playerDisplayOverlays[4] = findViewById(R.id.player5overlay);
+
         leaveButton = findViewById(R.id.leaveButton);
         leaveButton.setOnClickListener(listener);
 
         turnBroadcast = findViewById(R.id.turnBroadcast);
 
         potDisplay = findViewById(R.id.potDisplay);
+
+        turnTime = findViewById(R.id.timeRemaining);
+
+        playerDisplayIDs = new int[5];
+
+        handler = new Handler();
     }
 
     @Override
@@ -144,6 +176,43 @@ public class GameView extends AppCompatActivity {
                     model = invoker.getModel();
                     actions = new GameViewActions(model);
 
+                    Thread turnTimerThread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            while(!stopThreads)
+                            {
+                                final String timeRemaining = String.format(getString(R.string.turnTimeRemaining), turnTimer);
+                                if(myTurn && turnTimer >= 0)
+                                {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            turnTime.setText(timeRemaining);
+                                        }
+                                    });
+
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException e) {
+
+                                    }
+                                    turnTimer--;
+                                }
+                                else
+                                {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            turnTime.setText(getString(R.string.notYourTurn));
+                                        }
+                                    });
+                                }
+                            }
+
+                        }
+                    });
+
+                    turnTimerThread.start();
 
                     while (invoker.isInvoked() && listener.isRunning()) {
                         try {
@@ -197,7 +266,7 @@ public class GameView extends AppCompatActivity {
         }
 
         Bitmap handCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
-        ClientCard handCardBitmap = new ClientCard(handCardBitmap1, 0, 00, cards[0][0], cards[0][1]);
+        ClientCard handCardBitmap = new ClientCard(handCardBitmap1, 0, 0, cards[0][0], cards[0][1]);
 
         handCards[0].setImageBitmap(handCardBitmap.getBitmap());
         handCardBitmap.update(cards[1][0], cards[1][1]);
@@ -216,7 +285,7 @@ public class GameView extends AppCompatActivity {
                 cards[i][1] = model.getCommunityCards()[i].getCardRank().ordinal();
             }
 
-            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 194, 288);
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 0, 0, cards[0][0], cards[0][1]);
 
             for(int i = 0; i < 3; i++)
@@ -236,7 +305,7 @@ public class GameView extends AppCompatActivity {
         if(communityCardViews[3].getDrawable() == null && model.getCommunityCards()[3] != null)
         {
             Log.d(TAG, "set t");
-            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 194, 288);
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 0, 0, model.getCommunityCards()[3].getCardSuit().ordinal(),model.getCommunityCards()[3].getCardRank().ordinal());
 
             communityCardViews[3].setImageBitmap(communityCardBitmap.getBitmap());
@@ -244,7 +313,7 @@ public class GameView extends AppCompatActivity {
         if(communityCardViews[4].getDrawable() == null && model.getCommunityCards()[4] != null)
         {
             Log.d(TAG, "set r");
-            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 194, 288);
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 0, 0, model.getCommunityCards()[4].getCardSuit().ordinal(),model.getCommunityCards()[4].getCardRank().ordinal());
 
             communityCardViews[4].setImageBitmap(communityCardBitmap.getBitmap());
@@ -261,7 +330,7 @@ public class GameView extends AppCompatActivity {
 
     public void removeCommunityCards()
     {
-        Log.d(TAG, "remove comm");
+        Log.d(TAG, "remove community cards");
         removeViews(communityCardViews);
     }
 
@@ -277,7 +346,7 @@ public class GameView extends AppCompatActivity {
         for(int i = 0; i < temp.size(); i++) {
             tempPlayer = temp.get(i);
 
-            Bitmap playerDisplayBitmap = decodeSampledBitmapFromResource(getResources(), R.drawable.player_image, 100, 100);
+            Bitmap playerDisplayBitmap = decodeSampledBitmapFromResource(getResources(), R.drawable.player_display, 100, 100);
 
             Bitmap newBitmap = playerDisplayBitmap.copy(Bitmap.Config.ARGB_8888, true);
 
@@ -294,20 +363,21 @@ public class GameView extends AppCompatActivity {
 
             if(tempPlayer.getID() == model.myPlayer.getMyID())
             {
-                c.drawText("YOU", 0, 95, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrency()), 0, 135, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 0, 175, paint);
+                c.drawText("YOU", 25, 65, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrency()), 25, 105, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 25, 145, paint);
             }
             else
             {
-                c.drawText(tempPlayer.username, 0, 95, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrency()), 0, 135, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 0, 175, paint);
+                c.drawText(tempPlayer.username, 25, 65, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrency()), 25, 105, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 25, 145, paint);
             }
 
             ClientPlayer playerBitmap = new ClientPlayer(newBitmap, 0, 0, 0, 0);
             playerDisplays[i].setImageDrawable(null);
             playerDisplays[i].setImageBitmap(playerBitmap.getBitmap());
+            playerDisplayIDs[i] = tempPlayer.getID();
         }
     }
 
@@ -318,17 +388,76 @@ public class GameView extends AppCompatActivity {
 
     public void removePlayer(int id)
     {
-
+        for(int i = 0; i < playerDisplayIDs.length; i++)
+        {
+            Log.d(TAG, "" + id + " " + playerDisplayIDs[i]);
+            if(playerDisplayIDs[i] == id)
+            {
+                playerDisplays[i].setImageDrawable(null);
+            }
+        }
     }
 
-    public void updatePlayer(PlayerUser player)
+    public void updatePlayerTurn(int id)
     {
+        Log.d(TAG, "updating players turn");
+        for(int i = 0; i < playerDisplayIDs.length; i++)
+        {
+            Log.d(TAG, "" + playerDisplayIDs[i] + " " + id);
+            if(playerDisplayIDs[i] == id)
+            {
+                playerDisplayOverlays[i].setBackgroundResource(R.drawable.player_turn_animation);
+                AnimationDrawable anim = (AnimationDrawable) playerDisplayOverlays[i].getBackground();
+                anim.setOneShot(true);
+                anim.setVisible(true, true);
+                anim.start();
 
+                myTurn = true;
+
+                if(id == model.myPlayer.getMyID())
+                {
+                    turnTimer = 21;
+                }
+            }
+        }
+    }
+
+    public void setNotTurn()
+    {
+        turnTime.setText(getString(R.string.notYourTurn));
+        myTurn = false;
     }
 
     public void setAway(int id)
     {
+        for(int i = 0; i < playerDisplayIDs.length; i++)
+        {
+            if(playerDisplayIDs[i] == id)
+            {
+                Bitmap playerDisplayBitmap = decodeSampledBitmapFromResource(getResources(), R.drawable.player_display_away, 100, 100);
 
+                Bitmap newBitmap = playerDisplayBitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+                Canvas c = new Canvas(newBitmap);
+                c.drawBitmap(playerDisplayBitmap, 0, 0, null);
+
+                Paint paint = new Paint();
+
+                paint.setColor(Color.BLACK);
+                paint.setStyle(Paint.Style.FILL);
+                paint.setTextSize(50);
+
+                c.drawText("AWAY", 25, 65, paint);
+
+                playerDisplays[i].setImageDrawable(null);
+                playerDisplays[i].setImageBitmap(newBitmap);
+            }
+
+            if(id == model.myPlayer.getMyID())
+            {
+                myTurn = false;
+            }
+        }
     }
 
     public void broadcastMove(PlayerMove move)
@@ -381,6 +510,27 @@ public class GameView extends AppCompatActivity {
                 case R.id.leaveButton:
                     model.pressedButton(PlayerUserMove.EXIT, 0);
                     finish();
+                    break;
+                case R.id.communityCard1:
+                    zoomCards(1);
+                    break;
+                case R.id.communityCard2:
+                    zoomCards(1);
+                    break;
+                case R.id.communityCard3:
+                    zoomCards(1);
+                    break;
+                case R.id.communityCard4:
+                    zoomCards(1);
+                    break;
+                case R.id.communityCard5:
+                    zoomCards(1);
+                    break;
+                case R.id.handCard1:
+                    zoomCards(0);
+                    break;
+                case R.id.handCard2:
+                    zoomCards(0);
                     break;
                 default:
                     break;
@@ -453,6 +603,12 @@ public class GameView extends AppCompatActivity {
     public void hideSliderFrag()
     {
         getSupportFragmentManager().beginTransaction().hide(bet_slider_frag).commitNow();
+    }
+
+    public void zoomCards(int type)
+    {
+        Zoomed_Cards zoomFrag = Zoomed_Cards.newInstance(type);
+        getSupportFragmentManager().beginTransaction().replace(R.id.zoomCardsHolder, zoomFrag).commitNow();
     }
 
     public GameViewActions getActions()

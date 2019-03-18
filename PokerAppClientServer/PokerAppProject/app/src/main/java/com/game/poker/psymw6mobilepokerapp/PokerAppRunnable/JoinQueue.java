@@ -38,24 +38,25 @@ public class JoinQueue implements Runnable {
     public void run() {
         try
         {
+            Log.d(TAG, "joining queue");
             out.writeObject("join_queue");
             clientSocket.setSoTimeout(3000);
-            String confirm = (String) in.readObject();
-            if(confirm.equals("queue_joined"))
+            Object object = null;
+            while(!(object instanceof String))
             {
-                sendBroadcastMessage(confirm);
+                object = in.readObject();
             }
-            else
-            {
+            String confirm = (String) object;
+            if (confirm.equals("queue_joined")) {
+                sendBroadcastMessage(confirm);
+            } else {
                 sendBroadcastMessage("unable_to_join_queue");
             }
             clientSocket.setSoTimeout(0);
             String game = (String) in.readObject();
-            if(game.equals("game_joined"))
-            {
+            if (game.equals("game_joined")) {
                 mContext.startActivity(new Intent(mContext, GameView.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
-
         } catch(IOException | ClassNotFoundException e)
         {
             Log.d(TAG, e.toString());
@@ -64,6 +65,7 @@ public class JoinQueue implements Runnable {
                 //((ServerConnectionService) mContext).connectToServer();
             }
         }
+
     }
 
     private void sendBroadcastMessage(String message)

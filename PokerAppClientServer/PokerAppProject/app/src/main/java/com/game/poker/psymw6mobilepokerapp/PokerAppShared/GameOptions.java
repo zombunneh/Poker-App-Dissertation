@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.game.poker.psymw6mobilepokerapp.PokerAppShared.ui.gameoptions.optionsFragment;
 import com.game.poker.psymw6mobilepokerapp.R;
 
 public class GameOptions extends AppCompatActivity {
@@ -15,6 +16,8 @@ public class GameOptions extends AppCompatActivity {
         onWindowFocusChanged(true);
 
         setContentView(R.layout.game_options_activity);
+
+        //getFragmentManager().beginTransaction().replace(R.id.preferences_holder, new optionsFragment()).commit();
     }
 
     @Override

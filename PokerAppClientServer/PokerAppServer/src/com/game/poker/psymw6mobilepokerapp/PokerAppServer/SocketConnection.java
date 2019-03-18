@@ -47,7 +47,7 @@ public class SocketConnection {
                 {
                     e.printStackTrace();
                 }
-                new Thread( new ServerRunnable(connection, queue)).start();
+                new Thread( new ServerRunnable(connection, queue), "server connection").start();
             }
          queue.shutdownThread(true);
     }

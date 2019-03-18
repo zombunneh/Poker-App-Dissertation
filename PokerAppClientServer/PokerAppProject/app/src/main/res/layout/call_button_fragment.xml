@@ -11,19 +11,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/foldButton" />
+        android:contentDescription="@string/foldButtonDescription"
+        android:minWidth="100dp"
+        android:minHeight="48dp"
+        android:text="@string/foldButton"
+        android:textSize="45sp" />
 
     <Button
         android:id="@+id/callButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/callButton" />
+        android:contentDescription="@string/callButtonDescription"
+        android:minWidth="100dp"
+        android:minHeight="48dp"
+        android:text="@string/callButton"
+        android:textSize="45sp" />
 
     <Button
         android:id="@+id/raiseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/raiseButton" />
+        android:contentDescription="@string/raiseButtonDescription"
+        android:minWidth="100dp"
+        android:minHeight="48dp"
+        android:text="@string/raiseButton"
+        android:textSize="45sp" />
 </LinearLayout>

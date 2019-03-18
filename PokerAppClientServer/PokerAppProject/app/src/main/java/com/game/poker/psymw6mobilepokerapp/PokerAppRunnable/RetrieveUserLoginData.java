@@ -133,9 +133,7 @@ public class RetrieveUserLoginData implements Runnable {
                 GameUser user = (GameUser) in.readObject();
                 //TODO LOGIN DATA CALCULATION FOR DAILY BONUS
                 populateSharedPrefs(user);
-                out.flush();
                 sendBroadcastMessage("loginDetailsUpdated");
-
             }
         }
         catch(IOException | ClassNotFoundException e)
@@ -149,11 +147,14 @@ public class RetrieveUserLoginData implements Runnable {
         SharedPreferences.Editor editSaveData = saveData.edit();
         editSaveData.putString(context.getString(R.string.username), user.username);
         editSaveData.putInt(context.getString(R.string.currency), user.currency);
+        editSaveData.putInt(context.getString(R.string.login_streak), user.loginStreak);
+        editSaveData.putBoolean(context.getString(R.string.login_streak_changed), false);
         editSaveData.putInt(context.getString(R.string.hands_played), user.hands_played);
         editSaveData.putInt(context.getString(R.string.hands_won), user.hands_won);
         editSaveData.putInt(context.getString(R.string.win_rate), user.win_rate);
         editSaveData.putInt(context.getString(R.string.max_winnings), user.max_winnings);
         editSaveData.putInt(context.getString(R.string.max_chips), user.max_chips);
+        editSaveData.putString(context.getString(R.string.last_login), user.lastLogin);
         editSaveData.commit();
         //TODO remember to analyse last login date
     }

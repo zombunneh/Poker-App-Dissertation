@@ -7,11 +7,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
 
 public class ClientConnection {
-    private static final int TIMEOUT = 15000;
+    private static final int TIMEOUT = 20000;
     private Socket client;
     private ObjectInputStream in;
     private ObjectOutputStream out;
