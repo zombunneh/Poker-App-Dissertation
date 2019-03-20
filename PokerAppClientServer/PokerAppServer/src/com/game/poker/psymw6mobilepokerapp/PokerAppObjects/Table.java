@@ -183,7 +183,13 @@ public class Table implements Comparable<Table>, Runnable{
     public void closeTable()
     {
         tableClosed = true;
-        queue.removeTable(this);
     }
 
+    public boolean getEndGameFromTable()
+    {
+        if(game != null) {
+            return game.getEndGame();
+        }
+        return false;
+    }
 }

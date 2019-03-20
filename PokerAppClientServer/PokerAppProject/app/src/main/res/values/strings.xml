@@ -21,6 +21,7 @@
 
     <!-- String descriptions for buttons accessibility -->
     <string name="guestLoginButtonDescription">Login as Guest</string>
+    <string name="createUserButtonDescription">Confirm username</string>
     <string name="optionsButtonDescription">Options</string>
     <string name="playButtonDescription">Play</string>
     <string name="profileButtonDescription">Profile</string>
@@ -60,6 +61,10 @@
     <string name="raiseButton">Raise</string>
     <string name="leaveButton">Exit Game</string>
 
+    <!-- Strings for in game views -->
+    <string name="betSliderDescription">Slider to choose amount to bet or raise</string>
+    <string name="betAmountDescription">The amount to bet or raise by</string>
+
     <!-- String descriptions for in game buttons accessibility -->
     <string name="callButtonDescription">Call bet</string>
     <string name="foldButtonDescription">Fold hand</string>
@@ -67,6 +72,11 @@
     <string name="checkButtonDescription">Check bet</string>
     <string name="raiseButtonDescription">Raise bet</string>
     <string name="leaveButtonDescription">Leave current game</string>
+
+    <!-- Strings for in game image view descriptions -->
+    <string name="cardDescription">Card: %1$s of %2$s</string>
+    <string name="playerDescription">Player %1$d has %2$d chips and currently bets %3$d</string>
+    <string name="playerAwayDescription">Player %1$d is away</string>
 
     <!-- String for broadcasting player moves -->
     <string name="broadcastMove">Player %1$s %2$ss </string>
@@ -102,6 +112,7 @@
     <string name="profileBackButton">Back</string>
     <string name="profileSignOutButton">Sign out of Google Account</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Strings for profile descriptions -->
+    <string name="profileSignOutDescription">Sign out of your google account</string>
+    <string name="profileBackDescription">Go back to previous menu</string>
 </resources>

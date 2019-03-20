@@ -63,7 +63,13 @@ public class GameRunnable implements Runnable{
 
     public void endGame()
     {
+        System.out.println("endgame called");
         gameRunning = false;
+    }
+
+    public boolean getEndGame()
+    {
+        return !gameRunning;
     }
 
     public void removePlayer(int id)
@@ -82,10 +88,6 @@ public class GameRunnable implements Runnable{
     @Override
     public void run() {
         System.out.println("Game thread started from table with id: " + table.tableID);
-        while(players.getPlayers().size() < 1)
-        {
-            //System.out.println(players.getPlayers().size());
-        }
         dealer = players.getDealer(); // sets initial dealer
         while(gameRunning)
         {
@@ -104,7 +106,6 @@ public class GameRunnable implements Runnable{
             if(players.getPlayers().size() < 1)
             {
                 endGame();
-                table.closeTable();
             }
             else
             {
@@ -116,6 +117,7 @@ public class GameRunnable implements Runnable{
                 endHand();
             }
         }
+        System.out.println("game thread " + table.tableID + " ended");
     }
 
     public void preHand()

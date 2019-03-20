@@ -94,9 +94,11 @@ public class Queue implements Runnable{
             }
             else if(tablePriorityQueue.peek() != null)
             {
-                if(tablePriorityQueue.peek().getOpenSeats() == 0)
+                if(tablePriorityQueue.peek().getEndGameFromTable())
                 {
+                    tablePriorityQueue.peek().closeTable();
                     tablePriorityQueue.poll();
+                    System.out.println("closed table and removed from queue");
                 }
                 else if(!userQueue.isEmpty())
                 {

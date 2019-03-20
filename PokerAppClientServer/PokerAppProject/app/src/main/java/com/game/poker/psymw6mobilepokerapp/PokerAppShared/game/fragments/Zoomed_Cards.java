@@ -74,9 +74,20 @@ public class Zoomed_Cards extends Fragment {
 
             Bitmap resized = getResizedBitmap(handCardBitmap.getBitmap(), 400, 700);
             zoomedCards[0].setImageBitmap(resized);
+
+            String card1 = String.format(getString(R.string.cardDescription),
+                    ((GameView)getActivity()).model.myPlayer.getMyHand()[0].getCardRank().toString(),
+                    ((GameView)getActivity()).model.myPlayer.getMyHand()[0].getCardSuit().toString());
+            zoomedCards[0].setContentDescription(card1);
+
             handCardBitmap.update(cards[1][0], cards[1][1]);
             resized = getResizedBitmap(handCardBitmap.getBitmap(), 400, 700);
             zoomedCards[1].setImageBitmap(resized);
+
+            String card2 = String.format(getString(R.string.cardDescription),
+                    ((GameView)getActivity()).model.myPlayer.getMyHand()[1].getCardRank().toString(),
+                    ((GameView)getActivity()).model.myPlayer.getMyHand()[1].getCardSuit().toString());
+            zoomedCards[1].setContentDescription(card2);
         }
         else if(type == 1)
         {
@@ -103,6 +114,10 @@ public class Zoomed_Cards extends Fragment {
                     {
                         communityCardBitmap.update(cards[i+1][0], cards[i+1][1]);
                     }
+                    String card = String.format(getString(R.string.cardDescription),
+                            ((GameView)getActivity()).model.getCommunityCards()[i].getCardRank().toString(),
+                            ((GameView)getActivity()).model.getCommunityCards()[i].getCardSuit().toString());
+                    zoomedCards[i].setContentDescription(card);
                 }
             }
         }

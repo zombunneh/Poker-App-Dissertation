@@ -34,12 +34,31 @@
         android:id="@+id/betSliderLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="256dp"
-        android:layout_marginLeft="256dp"
+        android:layout_marginStart="326dp"
+        android:layout_marginLeft="326dp"
         app:layout_constraintBottom_toTopOf="@id/callcheckbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/betSliderAmountLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/callcheckbutton"
+        app:layout_constraintEnd_toStartOf="@id/betSliderLayout">
+
+        <TextView
+            android:id="@+id/betSliderAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:shadowColor="@android:color/black"
+            android:shadowDx="-1"
+            android:shadowDy="1"
+            android:shadowRadius="0.01"
+            android:textColor="@android:color/white"/>
     </FrameLayout>
 
     <FrameLayout
@@ -56,7 +75,12 @@
             android:id="@+id/turnBroadcast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:shadowColor="@android:color/black"
+            android:shadowDx="-1"
+            android:shadowDy="1"
+            android:shadowRadius="0.01"/>
     </FrameLayout>
 
     <LinearLayout
@@ -174,31 +198,36 @@
             android:id="@+id/player1overlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:contentDescription="@null" />
 
         <ImageView
             android:id="@+id/player2overlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:contentDescription="@null" />
 
         <ImageView
             android:id="@+id/player3overlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:contentDescription="@null" />
 
         <ImageView
             android:id="@+id/player4overlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:contentDescription="@null" />
 
         <ImageView
             android:id="@+id/player5overlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:contentDescription="@null" />
     </LinearLayout>
 
     <FrameLayout

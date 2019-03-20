@@ -64,6 +64,7 @@ public class ServerRunnable implements Runnable {
             while(!inGame) {
                 System.out.println("serverrunnable");
                 clientSocket.setSoTimeout(0);
+                out.flush();
                 try {
                     requestType = (String) in.readObject();
 

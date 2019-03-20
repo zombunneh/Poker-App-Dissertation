@@ -250,6 +250,7 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
             {
                 login_streak += 1;
                 createSQLStatement("UPDATE users SET login_streak = '" + login_streak + "' WHERE google_user_id = '" + user_id + "'", 1);
+                System.out.println("IS NEXT DAY");
             }
             else if(isNewDay && !isNextDay)
             {
@@ -265,6 +266,7 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
             {
                 login_streak += 1;
                 createSQLStatement("UPDATE users SET login_streak = '" + login_streak + "' WHERE guest_user_id = '" + user_id + "'", 1);
+                System.out.println("IS NEXT DAY");
             }
             else if(isNewDay && !isNextDay)
             {

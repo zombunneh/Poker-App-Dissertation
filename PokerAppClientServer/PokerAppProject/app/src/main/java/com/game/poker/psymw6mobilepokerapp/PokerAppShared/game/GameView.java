@@ -61,12 +61,14 @@ public class GameView extends AppCompatActivity {
     private TextView turnBroadcast;
     private TextView potDisplay;
     private TextView turnTime;
+    private TextView betSliderAmount;
 
     private int[] playerDisplayIDs;
 
     private boolean stopThreads = false;
     private boolean myTurn = false;
     private int turnTimer = 0;
+    private boolean sliderVisible = false;
 
     private Handler handler;
 
@@ -131,6 +133,8 @@ public class GameView extends AppCompatActivity {
         potDisplay = findViewById(R.id.potDisplay);
 
         turnTime = findViewById(R.id.timeRemaining);
+
+        betSliderAmount = findViewById(R.id.betSliderAmount);
 
         playerDisplayIDs = new int[5];
 
@@ -224,8 +228,11 @@ public class GameView extends AppCompatActivity {
                         {
                             invoker.startInvoker(false);
                             listener.setRunning(false);
+
+                            Log.d(TAG, "ended threads");
                         }
                     }
+                    Log.d(TAG, "ended monitor thread");
                 }
             }
         });
@@ -269,8 +276,17 @@ public class GameView extends AppCompatActivity {
         ClientCard handCardBitmap = new ClientCard(handCardBitmap1, 0, 0, cards[0][0], cards[0][1]);
 
         handCards[0].setImageBitmap(handCardBitmap.getBitmap());
+        String card1 = String.format(getString(R.string.cardDescription),
+                model.myPlayer.getMyHand()[0].getCardRank().toString(),
+                model.myPlayer.getMyHand()[0].getCardSuit().toString());
+        handCards[0].setContentDescription(card1);
+
         handCardBitmap.update(cards[1][0], cards[1][1]);
         handCards[1].setImageBitmap(handCardBitmap.getBitmap());
+        String card2 = String.format(getString(R.string.cardDescription),
+                model.myPlayer.getMyHand()[1].getCardRank().toString(),
+                model.myPlayer.getMyHand()[1].getCardSuit().toString());
+        handCards[1].setContentDescription(card2);
     }
 
     public void setCommunityImageViews()
@@ -295,6 +311,10 @@ public class GameView extends AppCompatActivity {
                 {
                     communityCardBitmap.update(cards[i+1][0], cards[i+1][1]);
                 }
+                String card = String.format(getString(R.string.cardDescription),
+                        model.getCommunityCards()[i].getCardRank().toString(),
+                        model.getCommunityCards()[i].getCardSuit().toString());
+                communityCardViews[i].setContentDescription(card);
             }
         }
     }
@@ -309,6 +329,11 @@ public class GameView extends AppCompatActivity {
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 0, 0, model.getCommunityCards()[3].getCardSuit().ordinal(),model.getCommunityCards()[3].getCardRank().ordinal());
 
             communityCardViews[3].setImageBitmap(communityCardBitmap.getBitmap());
+
+            String card = String.format(getString(R.string.cardDescription),
+                    model.getCommunityCards()[3].getCardRank().toString(),
+                    model.getCommunityCards()[3].getCardSuit().toString());
+            communityCardViews[3].setContentDescription(card);
         }
         if(communityCardViews[4].getDrawable() == null && model.getCommunityCards()[4] != null)
         {
@@ -317,6 +342,11 @@ public class GameView extends AppCompatActivity {
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 0, 0, model.getCommunityCards()[4].getCardSuit().ordinal(),model.getCommunityCards()[4].getCardRank().ordinal());
 
             communityCardViews[4].setImageBitmap(communityCardBitmap.getBitmap());
+
+            String card = String.format(getString(R.string.cardDescription),
+                    model.getCommunityCards()[4].getCardRank().toString(),
+                    model.getCommunityCards()[4].getCardSuit().toString());
+            communityCardViews[4].setContentDescription(card);
         }
     }
 
@@ -325,6 +355,7 @@ public class GameView extends AppCompatActivity {
         for(ImageView view : views)
         {
             view.setImageDrawable(null);
+            view.setContentDescription(null);
         }
     }
 
@@ -378,6 +409,12 @@ public class GameView extends AppCompatActivity {
             playerDisplays[i].setImageDrawable(null);
             playerDisplays[i].setImageBitmap(playerBitmap.getBitmap());
             playerDisplayIDs[i] = tempPlayer.getID();
+
+            String player = String.format(getString(R.string.playerDescription),
+                    tempPlayer.getID(),
+                    tempPlayer.getCurrency(),
+                    tempPlayer.getCurrentBet());
+            playerDisplays[i].setContentDescription(player);
         }
     }
 
@@ -394,6 +431,7 @@ public class GameView extends AppCompatActivity {
             if(playerDisplayIDs[i] == id)
             {
                 playerDisplays[i].setImageDrawable(null);
+                playerDisplays[i].setContentDescription(null);
             }
         }
     }
@@ -451,6 +489,10 @@ public class GameView extends AppCompatActivity {
 
                 playerDisplays[i].setImageDrawable(null);
                 playerDisplays[i].setImageBitmap(newBitmap);
+
+                String playerAway = String.format(getString(R.string.playerAwayDescription),
+                        id);
+                playerDisplays[i].setContentDescription(playerAway);
             }
 
             if(id == model.myPlayer.getMyID())
@@ -588,7 +630,42 @@ public class GameView extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.betSliderLayout, bet_slider_frag).commitNow();
         getSupportFragmentManager().beginTransaction().show(bet_slider_frag).commitNow();
         updateSlider();
+        sliderVisible = true;
+        Thread updateBetAmountThread = new Thread( updateBetAmount );
     }
+
+    private Runnable updateBetAmount = new Runnable() {
+        @Override
+        public void run() {
+            while(sliderVisible)
+            {
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int amount = bet_slider_frag.getBetSlider().getProgress() + getMinValue();
+                        betSliderAmount.setText(amount);
+                        betSliderAmount.setContentDescription(getString(R.string.betAmountDescription));
+                    }
+                });
+                try
+                {
+                    Thread.sleep(500);
+                }
+                catch(InterruptedException e)
+                {
+
+                }
+            }
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    betSliderAmount.setText(null);
+                    betSliderAmount.setContentDescription(null);
+                }
+            });
+        }
+    };
 
     public void hideCallFrag()
     {
@@ -603,6 +680,7 @@ public class GameView extends AppCompatActivity {
     public void hideSliderFrag()
     {
         getSupportFragmentManager().beginTransaction().hide(bet_slider_frag).commitNow();
+        sliderVisible = false;
     }
 
     public void zoomCards(int type)

@@ -28,6 +28,8 @@ public class Bet_Slider extends Fragment {
 
         betSlider = view.findViewById(R.id.betSlider);
 
+        betSlider.setContentDescription(getString(R.string.betSliderDescription));
+
         betSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override

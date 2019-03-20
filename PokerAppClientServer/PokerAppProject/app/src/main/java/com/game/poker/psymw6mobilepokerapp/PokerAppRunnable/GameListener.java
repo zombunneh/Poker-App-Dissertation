@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 public class GameListener implements Runnable {
 
@@ -30,6 +32,13 @@ public class GameListener implements Runnable {
     @Override
     public void run() {
         Command command;
+        try {
+            client.setSoTimeout(2500);
+        }
+        catch(SocketException e)
+        {
+
+        }
         while(running)
         {
             try
@@ -39,6 +48,10 @@ public class GameListener implements Runnable {
             catch(ClassNotFoundException e)
             {
                 continue;
+            }
+            catch(SocketTimeoutException e)
+            {
+                command = null;
             }
             catch(IOException e)
             {
@@ -63,6 +76,7 @@ public class GameListener implements Runnable {
     public void setRunning(boolean running)
     {
         this.running = running;
+        Log.d(TAG, "" + running);
     }
 
     public boolean isRunning() {
