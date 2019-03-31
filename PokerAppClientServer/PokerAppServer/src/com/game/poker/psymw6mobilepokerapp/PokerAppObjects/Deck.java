@@ -8,9 +8,9 @@ public class Deck {
     private Card[] deckOfCards = new Card[52];
     private int topCard;
 
-    /*
-    Deck consists of Cards, function to shuffle via Durstenfeld algorithm
-    function to draw a card from the top of the deck for purpose of distributing to players/community cards
+    /**
+     * Deck consists of Cards, function to shuffle via Durstenfeld algorithm
+     * function to draw a card from the top of the deck for purpose of distributing to players/community cards
      */
     public Deck()
     {
@@ -21,6 +21,9 @@ public class Deck {
         topCard = 0;
     }
 
+    /**
+     * Shuffles the cards in the deck
+     */
     public void shuffleDeck()
     {
         int index = 0;
@@ -34,6 +37,13 @@ public class Deck {
         topCard = 0;
     }
 
+    /**
+     * Used as part of shuffle algorithm to randomly move card positions in the deck
+     *
+     * @param index Current index
+     * @param length Total length to choose from
+     * @return A random int between the current index and final length
+     */
     public int selectRandIndex(int index, int length)
     {
         int toEnd = length - index;
@@ -41,6 +51,13 @@ public class Deck {
         return index + rand.nextInt(toEnd);
     }
 
+    /**
+     * Swap function to swap the card positions
+     *
+     * @param array The array of cards to perform the swap on
+     * @param index The original index of the card
+     * @param randIndex The new index of the card
+     */
     public void swap(Card[] array, int index, int randIndex)
     {
         Card temp = array[index];
@@ -48,6 +65,10 @@ public class Deck {
         array[randIndex] = temp;
     }
 
+    /**
+     *
+     * @return The next card in the deck
+     */
     public Card drawCard()
     {
         return deckOfCards[topCard++];

@@ -1,6 +1,5 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,12 +13,18 @@ import com.game.poker.psymw6mobilepokerapp.R;
 
 public class Check_Button extends Fragment {
 
-    private CheckButtonViewModel mViewModel;
-
     public static Check_Button newInstance() {
         return new Check_Button();
     }
 
+    /**
+     * Sets up buttons for the fragment to access the game model to notify button presses
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -52,12 +57,4 @@ public class Check_Button extends Fragment {
 
         return view;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(CheckButtonViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
 }

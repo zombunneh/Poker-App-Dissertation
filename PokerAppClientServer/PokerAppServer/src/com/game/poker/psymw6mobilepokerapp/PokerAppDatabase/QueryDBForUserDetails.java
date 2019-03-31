@@ -35,9 +35,15 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
     private int max_chips;
     private String google_user_id;
     public static final String GOOGLE_CLIENT_ID = "992597545265-dd7gbt39dp4i9iakn1ts1541vc0qebn9.apps.googleusercontent.com";
-    //query the user's initial details when they login to the app
-    //will return from the first table, verifying the user's user_id from auth token, and retrieving their username,
-    //last login, and currency value
+
+    /**
+     * Query the user's initial details when they login to the app
+     * will return from the first table, verifying the user's user_id from auth token, and retrieving their user information
+     *
+     * @param user_id The user id to query
+     * @param accountType 0 is a google account, 1 is a guest account
+     * @return A GameUser Object containing the user's database information
+     */
     public GameUser queryUserTableAndDetailsOnLogin(String user_id, int accountType)
     {
         username = "null";
@@ -86,13 +92,82 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
         }
     }
 
-    //will be used to retrieve updated statistic of the user when necessary
-    public void queryUserDetailsOnCall()
+    /**
+     * Retrieves user details with the provided id
+     *
+     * @param id The id of the user to retrieve
+     * @return A GameUser containing the latest
+     */
+    public GameUser queryUserDetailsOnCall(String id)
     {
+        boolean googleID = doesUserExistWithGoogle(id, 0);
+        if(googleID)
+        {
+            try {
+                ResultSet rs = createSQLStatement("SELECT * FROM users JOIN details ON users.user_id = details.user_id " +
+                                "WHERE users.google_user_id ='" + id +"'",
+                        0);
+                populateGameUser(rs);
+            }
+            catch(SQLException e)
+            {
+                System.err.println("Error querying user table");
+                e.printStackTrace();
+            }
 
+            disconnectFromDatabase();
+            return new GameUser(returnStringTimestamp(lastLogin), id, currency, login_streak, username, hands_played, hands_won, win_rate, max_winnings, max_chips);
+        }
+        else
+        {
+            if(doesUserExist(id, 1))
+            {
+                try {
+                    ResultSet rs = createSQLStatement("SELECT * FROM users JOIN details ON users.user_id = details.user_id " +
+                                    "WHERE users.guest_user_id ='" + id + "'",
+                            0);
+                    populateGameUser(rs);
+                }
+                catch(SQLException e)
+                {
+                    System.err.println("Error querying user table");
+                    e.printStackTrace();
+                }
+
+                disconnectFromDatabase();
+                return new GameUser(returnStringTimestamp(lastLogin), id, currency, login_streak, username, hands_played, hands_won, win_rate, max_winnings, max_chips);
+            }
+        }
+        return null;
     }
 
-    //
+    /**
+     * If the google user id supplied doesn't already have a linked account update the database to link the google id with the guest account
+     *
+     * @param user_id The user id token from client
+     * @param guest_id The guest id of the existing account
+     * @return True if account linking is successfully, false if not
+     */
+    public boolean attemptAccountLink(String user_id, String guest_id)
+    {
+        verifyIdRetrieveDetails(user_id);
+        boolean accAlreadyExists = doesUserExist(user_id, 0);
+        if(accAlreadyExists)
+        {
+           return false;
+        }
+        else
+        {
+           createSQLStatement("UPDATE users SET google_user_id = '" + google_user_id +  "' WHERE guest_user_id = '" + guest_id + "'", 1);
+           return true;
+        }
+    }
+
+    /**
+     * Updates the database with new details and stats of the user
+     *
+     * @param user The user containing the information to update
+     */
     public void updateUserDetailsOnChange(PlayerUser user)
     {
         String username = user.username;
@@ -159,6 +234,11 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
         }
     }
 
+    /**
+     * Updates the database with new details and stats of the user
+     *
+     * @param user The user containing the information to update
+     */
     public void updateUserDetailsOnChange(GameUser user)
     {
         String username = user.username;
@@ -225,6 +305,16 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
         }
     }
 
+    /**
+     * Checks if the current date is the same day or a new day to the previous login
+     * If it is a new day then checks if it is the next day and if it is increments the login streak counter
+     * If it is a new day but not the next day the login streak counter is reset to 1
+     *
+     * @param date The date to be checked
+     * @param user_id The user id to be checked
+     * @param login_streak The current login streak of the user
+     * @return 0 if the user's last login was the same day, otherwise an int representing the current login streak
+     */
     public int updateLastLogin(String date, String user_id, int login_streak)
     {
         Date date1 = new Date();
@@ -283,7 +373,13 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
         return login_streak;
     }
 
-    //add new users to database
+    /**
+     * Adds a new user to the database using the supplied parameters
+     *
+     * @param username The username of the user to register
+     * @param user_id The user's user id
+     * @param accountType 0 is google account, 1 is guest account
+     */
     public void addNewUserOnRegister(String username, String user_id, int accountType)
     {
         Date date = new Date();
@@ -344,6 +440,13 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
         }
     }
 
+    /**
+     * Checks if a user entry for the supplied user id exists in the database
+     *
+     * @param user_id The user id to check
+     * @param accountType 0 for a google account, 1 for a guest account
+     * @return True if the user is in the database, false if not
+     */
     public boolean doesUserExist(String user_id, int accountType)
     {
             ResultSet rs;
@@ -382,6 +485,13 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
             return false;
     }
 
+    /**
+     * An alternate check for a user that uses the actual google id token instead of client id
+     *
+     * @param user_id The user id token that is stored in User objects
+     * @param accountType Should always be 0 for google account
+     * @return True if user is in the database, false if not
+     */
     public boolean doesUserExistWithGoogle(String user_id, int accountType)
     {
         ResultSet rs;
@@ -420,7 +530,12 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
         return false;
     }
 
-    //verifies id using token sent to google api library and retrieves actual user id for use in database
+    /**
+     * Uses google api library to retrieve the correct id token for a given user id sent from the client
+     *
+     * @param user_id The client id to retrieve id token for
+     * @return True if successfully retrieved token, false if not
+     */
     public boolean verifyIdRetrieveDetails(String user_id)
     {
         HttpTransport transport = new NetHttpTransport();
@@ -454,11 +569,23 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
         return false;
     }
 
+    /**
+     * Converts a timestamp to a string of specified format
+     *
+     * @param ts The timestamp to convert
+     * @return The converted timestamp as a string
+     */
     public String returnStringTimestamp(Timestamp ts)
     {
         return new SimpleDateFormat("yyyy-MM-dd hh:mm aaa").format(ts);
     }
 
+    /**
+     * Populates the GameUser object with details retrieved from the database
+     *
+     * @param rs The result set containing the information to add to the user
+     * @throws SQLException
+     */
     private void populateGameUser(ResultSet rs) throws SQLException
     {
         if(rs.first())

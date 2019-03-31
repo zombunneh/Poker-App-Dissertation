@@ -30,6 +30,11 @@ public class GameRunnable implements Runnable{
 
     private int gameDelay;
 
+    /**
+     * Constructor for a game object setting up all the game variables required
+     *
+     * @param table The table object to be used to send commands and remove players in the game
+     */
     public GameRunnable(Table table)
     {
         this.table = table;
@@ -50,28 +55,51 @@ public class GameRunnable implements Runnable{
         gameDelay = 5;
     }
 
+    /**
+     * Adds player to the list of players in the game and sends them a list of all players
+     *
+     * @param user The user to be added
+     */
     public void updateGamePlayerList(PlayerUser user)
     {
         players.addPlayer(user);
         table.sendToUser(user.getID(), new SendPlayerListCommand(players.getMinList()));
     }
 
+    /**
+     * Updates the store table object
+     *
+     * @param table The table to update with
+     */
     public void updateTable(Table table)
     {
         this.table = table;
     }
 
+    /**
+     * Sets gameRunning to false which will terminate the loop on the next iteration and end the GameRunnable
+     */
     public void endGame()
     {
         System.out.println("endgame called");
         gameRunning = false;
     }
 
+    /**
+     * Checks to see whether the game thread has ended or not
+     *
+     * @return True if the game has ended, false if not
+     */
     public boolean getEndGame()
     {
         return !gameRunning;
     }
 
+    /**
+     * Removes a player from the game list
+     *
+     * @param id The player to remove
+     */
     public void removePlayer(int id)
     {
         //will create separate thread for removal, which monitors players that !ingame
@@ -79,12 +107,19 @@ public class GameRunnable implements Runnable{
         players.removePlayer(id);
     }
 
+    /**
+     *
+     * @param id The id of the player to return
+     * @return Returns a PlayerUser object of the player with the id requested
+     */
     public PlayerUser getPlayer(int id)
     {
         return players.getPlayer(id);
     }
 
-//TODO CONDITION TO END HAND EARLY IF ALL ALL IN
+    /**
+     * Core game loop
+     */
     @Override
     public void run() {
         System.out.println("Game thread started from table with id: " + table.tableID);
@@ -120,6 +155,14 @@ public class GameRunnable implements Runnable{
         System.out.println("game thread " + table.tableID + " ended");
     }
 
+    /**
+     * Handles setup of the game necessary to beginning the hand
+     * Resets community cards, pot and current amount to call
+     * Reset game state to 0 and sets game to not be ended
+     * Shuffles deck
+     *
+     * Changes dealer and sets up each players status and hand
+     */
     public void preHand()
     {
         System.out.println("prehand");
@@ -167,6 +210,9 @@ public class GameRunnable implements Runnable{
         }
     }
 
+    /**
+     * Sets up the blinds for the game and starts the first round of betting
+     */
     public void preFlop()
     {
         PlayerUser nextPlayer = players.getNextPlayer(dealer);
@@ -192,6 +238,9 @@ public class GameRunnable implements Runnable{
         bettingRound(1);
     }
 
+    /**
+     * Draws the flop cards and sends them to all users and starts the second round of betting
+     */
     public void flop()
     {
         Card[] flopCards = new Card[3];
@@ -206,6 +255,9 @@ public class GameRunnable implements Runnable{
         bettingRound(2);
     }
 
+    /**
+     * Draws the turn card and sends it to all users and starts the third round of betting
+     */
     public void turn()
     {
         Card turnCard = deck.drawCard();
@@ -216,6 +268,9 @@ public class GameRunnable implements Runnable{
         bettingRound(3);
     }
 
+    /**
+     * Draws the river card and sends it to all users and starts the fourth round of betting
+     */
     public void river()
     {
         Card riverCard = deck.drawCard();
@@ -226,6 +281,9 @@ public class GameRunnable implements Runnable{
         bettingRound(4);
     }
 
+    /**
+     * End of hand uses the HandEvaluator class to determine the winner of the hand and then accordingly updates all players stats in the game
+     */
     public void endHand()
     {
         System.out.println("hand ending");
@@ -255,7 +313,7 @@ public class GameRunnable implements Runnable{
                 }
             }
 
-            table.sendToAllUser(new SendWinCommand(winnerList, pot));
+            table.sendToAllUser(new SendWinCommand(winners, pot));
         }
 
         for(PlayerUser player : players.getActivePlayers())
@@ -280,6 +338,11 @@ public class GameRunnable implements Runnable{
         endHand();
     }
 
+    /**
+     * Increases pot by amount bet and increases the amount needed to call if the bet is higher than the previous amount to call
+     *
+     * @param bet The amount bet
+     */
     public void raise(int bet)
     {
         if(bet>=betCall)
@@ -293,6 +356,12 @@ public class GameRunnable implements Runnable{
         }
     }
 
+    /**
+     * Notifies players of who has the current turn and then sends the player whose turn it is the appropriate notification if they can call or check
+     * Waits for a response and then based on the move of the player appropriately changes game state variables
+     *
+     * @param round The round of betting
+     */
     public void bettingRound(int round)
     {
         PlayerUser better = initialPlayer;
@@ -319,7 +388,7 @@ public class GameRunnable implements Runnable{
                             turn = new PlayerUserTurn(PlayerUserMove.AWAY, 0);
                         }
 
-                        System.out.println("player: " + better.username + " move: " + turn.move.toString());
+                        System.out.println("player: " + better.username + " " + better.getID() + " move: " + turn.move.toString());
 
                         switch (turn.move) {
                             case AWAY: {

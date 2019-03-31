@@ -1,14 +1,30 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppShared;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppAccessibleLayout.ui.gameprofile.GameProfileAccessibleFragment;
+import com.game.poker.psymw6mobilepokerapp.PokerAppService.ServerConnectionService;
 import com.game.poker.psymw6mobilepokerapp.R;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class GameProfile extends AppCompatActivity {
 
+    private ServerConnectionService.ServerBinder serviceBinder;
+    public ServerConnectionService serviceInstance;
+
+    /**
+     * Loads the profile fragment
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,9 +37,32 @@ public class GameProfile extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.gameProfileContainer, GameProfileAccessibleFragment.newInstance())
                     .commitNow();
-            //TODO REMEMBER TO CHANGE DEPENDING ON SHAREDPREFS WHEN IMPLEMENTED XXXXXXXXXXXX
         }
     }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        Intent intent = new Intent(this, ServerConnectionService.class);
+        this.bindService(intent, connection, Context.BIND_AUTO_CREATE);
+    }
+
+    /**
+     * Binding to service
+     */
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            serviceBinder = (ServerConnectionService.ServerBinder) service;
+            serviceInstance = serviceBinder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            serviceBinder = null;
+        }
+    };
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

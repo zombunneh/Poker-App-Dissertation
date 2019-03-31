@@ -1,5 +1,8 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppRunnable;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandQueue;
@@ -19,21 +22,36 @@ public class GameListener implements Runnable {
     private ObjectInputStream in;
     private CommandQueue queue;
     private boolean running;
+    private Context context;
+
+    private static final int TIMEOUT = 1000;
+    public static final String LISTEN_INTENT = "listen_intent";
 
     public static final String TAG = "GameListener";
 
-    public GameListener(Socket client, ObjectInputStream in, CommandQueue queue)
+    /**
+     * Constructor for listener object used by the game to receive command objects and add them to the queue
+     *
+     * @param client The client's socket
+     * @param in Input stream from server
+     * @param queue The queue to add commands to
+     */
+    public GameListener(Socket client, ObjectInputStream in, CommandQueue queue, Context mContext)
     {
         this.client = client;
         this.in = in;
         this.queue = queue;
+        this.context = mContext;
     }
 
+    /**
+     * Whilst running will loop read command objects and add them to the queue
+     */
     @Override
     public void run() {
         Command command;
         try {
-            client.setSoTimeout(2500);
+            client.setSoTimeout(TIMEOUT);
         }
         catch(SocketException e)
         {
@@ -71,15 +89,41 @@ public class GameListener implements Runnable {
                 queue.notify();
             }
         }
+        sendBroadcastMessage("listen_end");
+        Log.d(TAG, "game listener ended");
     }
 
+    /**
+     * Sets the running status of the thread
+     *
+     * @param running True to start listener, false to end
+     */
     public void setRunning(boolean running)
     {
         this.running = running;
         Log.d(TAG, "" + running);
     }
 
+    /**
+     * Getter for the running status of the thread
+     *
+     * @return true if the listener is active, false if not
+     */
     public boolean isRunning() {
         return running;
+    }
+
+    /**
+     * Sends a local broadcast containing a string message
+     *
+     * @param message The message to send
+     */
+    private void sendBroadcastMessage(String message)
+    {
+        Log.d(TAG, "sending broadcast" + message);
+        Intent intent = new Intent(LISTEN_INTENT);
+        // You can also include some extra data.
+        intent.putExtra("message", message);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 }

@@ -1,6 +1,5 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppAccessibleLayout.ui.mainmenu;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,17 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.GameHelp;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.GameOptions;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.GameProfile;
-import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.GameView;
 import com.game.poker.psymw6mobilepokerapp.R;
 
 public class MainMenuAccessibleFragment extends Fragment {
 
-    private MainMenuAccessibleViewModel mViewModel;
     public static final String TAG = "g53ids-mainmenu-frag";
     public static final String SERVICE_INTENT = "service_intent";
 
@@ -32,6 +28,14 @@ public class MainMenuAccessibleFragment extends Fragment {
         return new MainMenuAccessibleFragment();
     }
 
+    /**
+     * Fragment for Main Menu activity
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -47,6 +51,9 @@ public class MainMenuAccessibleFragment extends Fragment {
         return view;
     }
 
+    /**
+     * OnClickListener to start the other activities from their corresponding buttons in the fragment
+     */
     View.OnClickListener onClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -66,6 +73,9 @@ public class MainMenuAccessibleFragment extends Fragment {
                         break;
                     case R.id.profileButton:
                         Log.d(TAG, "profile");
+                        Intent broadcast = new Intent(SERVICE_INTENT);
+                        broadcast.putExtra("message", "retrieve_profile");
+                        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(broadcast);
                         intent = new Intent(getContext(), GameProfile.class);
                         startActivity(intent);
                         break;
@@ -81,13 +91,10 @@ public class MainMenuAccessibleFragment extends Fragment {
         }
     };
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(MainMenuAccessibleViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
+    /**
+     * Broadcast Receiver for status on queue joining
+     * Currently does nothing on message received but time permitting add visual cue for being in queue
+     */
     private final BroadcastReceiver myReceiver = new BroadcastReceiver()
     {
         @Override

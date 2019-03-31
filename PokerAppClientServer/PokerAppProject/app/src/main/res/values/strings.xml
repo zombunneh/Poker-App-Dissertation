@@ -52,6 +52,7 @@
     <string name="accountType">accountType</string>
     <string name="existingUUID">isUUID</string>
     <string name="currentUUID">myUUID</string>
+    <string name="linkedAccount">isAccountLinked</string>
 
     <!-- Strings for in game buttons -->
     <string name="callButton">Call</string>
@@ -88,8 +89,8 @@
 
     <!-- Strings for winners -->
     <plurals name="winOrWinners">
-        <item quantity="one">%1$s wins %2$d this hand!</item>
-        <item quantity="other">%1$s win %2$d this hand!</item>
+        <item quantity="one">%1$s wins %2$d with hand %3$s</item>
+        <item quantity="other">%1$s win %2$d with hand %3$s</item>
     </plurals>
 
     <!-- String for pot -->
@@ -111,8 +112,12 @@
     <string name="profileMaxChips">Max chips earned: %1$d</string>
     <string name="profileBackButton">Back</string>
     <string name="profileSignOutButton">Sign out of Google Account</string>
+    <string name="profileLinkButton">Link Guest account to a Google Account</string>
+    <string name="linkSuccessful">Successfully linked Google Account</string>
+    <string name="linkUnsuccessful">Linking Google Account failed</string>
 
     <!-- Strings for profile descriptions -->
     <string name="profileSignOutDescription">Sign out of your google account</string>
+    <string name="profileLinkDescription">Links a google account to guest account</string>
     <string name="profileBackDescription">Go back to previous menu</string>
 </resources>

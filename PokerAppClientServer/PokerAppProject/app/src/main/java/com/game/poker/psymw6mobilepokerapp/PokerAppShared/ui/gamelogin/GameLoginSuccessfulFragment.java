@@ -1,6 +1,5 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppShared.ui.gamelogin;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,13 +17,15 @@ import com.game.poker.psymw6mobilepokerapp.R;
 
 public class GameLoginSuccessfulFragment extends Fragment {
 
-    private GameLoginSuccessfulViewModel mViewModel;
     private SharedPreferences sharedPrefs;
 
     public static GameLoginSuccessfulFragment newInstance() {
         return new GameLoginSuccessfulFragment();
     }
 
+    /**
+     * Fragment to notify the user they have successfully logged in and can now continue to the main menu
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -53,12 +54,4 @@ public class GameLoginSuccessfulFragment extends Fragment {
 
         return view;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(GameLoginSuccessfulViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
 }

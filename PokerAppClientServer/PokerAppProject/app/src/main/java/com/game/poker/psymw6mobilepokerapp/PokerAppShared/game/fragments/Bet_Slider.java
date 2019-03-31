@@ -14,7 +14,6 @@ import com.game.poker.psymw6mobilepokerapp.R;
 
 public class Bet_Slider extends Fragment {
 
-    private BetSliderViewModel mViewModel;
     private SeekBar betSlider;
 
     public static Bet_Slider newInstance() {
@@ -51,16 +50,13 @@ public class Bet_Slider extends Fragment {
         return view;
     }
 
+    /**
+     * Getter for bet slider
+     *
+     * @return The fragment's betslider
+     */
     public SeekBar getBetSlider()
     {
         return betSlider;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(BetSliderViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
 }

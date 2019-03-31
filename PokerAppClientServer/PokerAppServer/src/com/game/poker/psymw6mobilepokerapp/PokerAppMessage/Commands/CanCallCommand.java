@@ -4,11 +4,19 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.ClientOnly.CommandInv
 
 public class CanCallCommand implements Command{
 
+    /**
+     * Sends a notification that client move options are fold, call or raise
+     */
     public CanCallCommand()
     {
 
     }
 
+    /**
+     * Implemented client side
+     *
+     * @param invoker Invoker to execute commands
+     */
     public void execute(CommandInvoker invoker) {
 
     }

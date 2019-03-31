@@ -6,5 +6,10 @@ import java.io.Serializable;
 
 public interface Command extends Serializable {
 
+    /**
+     * Interface for Command design pattern
+     *
+     * @param invoker Will execute the commands on the client side
+     */
     public void execute(CommandInvoker invoker);
 }

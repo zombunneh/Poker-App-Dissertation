@@ -17,6 +17,15 @@ public class GameObject {
     protected int x;
     protected int y;
 
+    /**
+     * Super class for all game objects to be drawn
+     *
+     * @param image
+     * @param x
+     * @param y
+     * @param rowCount
+     * @param colCount
+     */
     public GameObject(Bitmap image, int x, int y, int rowCount, int colCount)
     {
         this.image = image;
@@ -32,24 +41,51 @@ public class GameObject {
         this.height = HEIGHT / rowCount;
     }
 
+    /**
+     * Creates a new bitmap image from the image using a row and col
+     *
+     * @param row The row of the image to draw from
+     * @param col The col of the image to draw from
+     * @return A bitmap created from the supplied parameters
+     */
     protected Bitmap createSubImageAt(int row, int col)
     {
         Bitmap subImage = Bitmap.createBitmap(image, col * width, row * height, width, height);
         return subImage;
     }
 
+    /**
+     * Getter for x member variable
+     *
+     * @return int value of x
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Getter for y member variable
+     *
+     * @return int value of y
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Getter for height member variable
+     *
+     * @return int value of height
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Getter for width member variable
+     *
+     * @return int value of width
+     */
     public int getWidth() {
         return width;
     }

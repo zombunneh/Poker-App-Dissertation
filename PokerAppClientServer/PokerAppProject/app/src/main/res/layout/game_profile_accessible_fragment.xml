@@ -127,11 +127,9 @@
         android:textSize="25sp"/>
 
     <Button
-        android:id="@+id/googleSignOutButton"
+        android:id="@+id/googleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/profileSignOutDescription"
-        android:text="@string/profileSignOutButton"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

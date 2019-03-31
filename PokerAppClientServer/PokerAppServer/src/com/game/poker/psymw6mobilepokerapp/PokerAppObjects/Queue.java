@@ -7,9 +7,6 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ClientConnection;
 import com.game.poker.psymw6mobilepokerapp.PokerAppServer.ServerRunnable;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -27,13 +24,20 @@ public class Queue implements Runnable{
 
     private static int roomID = 1;
 
-    public void addToQueue(ClientConnection connection, GameUser user, ObjectOutputStream out, ObjectInputStream in, ServerRunnable server)
+    /**
+     * Adds a user and their corresponding ServerRunnable into the queue
+     *
+     * @param connection The connection object corresponding to the user
+     * @param user The user to be added in to the queue
+     * @param server The ServerRunnable to be added to the list
+     */
+    public void addToQueue(ClientConnection connection, GameUser user, ServerRunnable server)
     {
         System.out.println("User added: " + user.user_id + " " + user.username + " number of current users: " + userQueue.size());
         socketUser = new SocketUser(user, connection);
         userQueue.add(socketUser);
         try {
-            out.writeObject("queue_joined");
+            connection.getOut().writeObject("queue_joined");
         }
         catch(IOException e)
         {
@@ -42,6 +46,11 @@ public class Queue implements Runnable{
         servers.add(server);
     }
 
+    /**
+     * Adds a table to the priority queue if it isn't already in it
+     *
+     * @param table The table to be added
+     */
     public void addOpenTable(Table table)
     {
         if(!tablePriorityQueue.contains(table))
@@ -51,18 +60,33 @@ public class Queue implements Runnable{
         }
     }
 
+    /**
+     * Removes a table from the priority queue
+     *
+     * @param table The table to be removed
+     */
     public void removeTable(Table table)
     {
         tablePriorityQueue.remove(table);
         System.out.println("table removed");
     }
 
+    /**
+     * Removes a user from the priority queue
+     *
+     * @param user The user to be removed
+     */
     public void removeFromQueue(SocketUser user)
     {
         userQueue.remove(user);
     }
 
-    public void removeUser(PlayerUser user)
+    /**
+     * Notifies the corresponding server object of the user that they have left the game
+     *
+     * @param user The user to be notified
+     */
+    public void notifyServer(PlayerUser user)
     {
         for(ServerRunnable server : servers)
         {
@@ -73,13 +97,12 @@ public class Queue implements Runnable{
         }
     }
 
-    /*
-    while thread is running:
-    if table queue is empty and more than min players in queue, create a new table
-    else if table queue isnt empty and has open seats, remove first user from list and add them to the table
-    and if table has no open seats then remove it from queue
+    /**
+     * while thread is running:
+     * if table queue is empty and more than min players in queue, create a new table
+     * else if table queue isnt empty and has open seats, remove first user from list and add them to the table
+     * and if table has no open seats then remove it from queue
      */
-    //TODO START TABLE THREAD U DUMBASS
     @Override
     public void run() {
         System.out.println("Queue thread started");
@@ -117,11 +140,14 @@ public class Queue implements Runnable{
         System.out.println("Queue thread ended.");
     }
 
+    /**
+     * Either starts or stops the queue thread
+     *
+     * @param close The state of the queue thread
+     */
     public void shutdownThread(boolean close)
     {
         this.endThread = close;
     }
 
 }
-//needs to maintain a list of open tables users can be added to
-//needs to be able to receive a user object that will be added to the queue with a unique identifier, + the relevant socket

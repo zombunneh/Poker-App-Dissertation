@@ -15,6 +15,9 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.ClientPlayer;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.GameViewModel;
 import com.game.poker.psymw6mobilepokerapp.R;
 
+/**
+ * Currently unused class
+ */
 public class GameViewSurface extends SurfaceView implements SurfaceHolder.Callback {
 
     private GameViewThread gameThread;

@@ -5,6 +5,9 @@ import android.view.SurfaceHolder;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.Surface.GameViewSurface;
 
+/**
+ * Currently unused class
+ */
 public class GameViewThread extends Thread{
 
     private boolean running;

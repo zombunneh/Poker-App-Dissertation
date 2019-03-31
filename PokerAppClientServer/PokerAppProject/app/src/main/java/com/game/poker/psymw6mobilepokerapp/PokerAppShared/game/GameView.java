@@ -31,6 +31,7 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUserMove;
 import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.ClientCard;
 import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.ClientPlayer;
+import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.Hand;
 import com.game.poker.psymw6mobilepokerapp.PokerAppRunnable.GameListener;
 import com.game.poker.psymw6mobilepokerapp.PokerAppService.ServerConnectionService;
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Bet_Slider;
@@ -39,6 +40,7 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Check_B
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Zoomed_Cards;
 import com.game.poker.psymw6mobilepokerapp.R;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class GameView extends AppCompatActivity {
@@ -61,7 +63,7 @@ public class GameView extends AppCompatActivity {
     private TextView turnBroadcast;
     private TextView potDisplay;
     private TextView turnTime;
-    private TextView betSliderAmount;
+    private TextView betSliderAmountDisplay;
 
     private int[] playerDisplayIDs;
 
@@ -74,6 +76,9 @@ public class GameView extends AppCompatActivity {
 
     public static final String TAG = "gameView";
 
+    /**
+     * Setting up the views
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,13 +139,17 @@ public class GameView extends AppCompatActivity {
 
         turnTime = findViewById(R.id.timeRemaining);
 
-        betSliderAmount = findViewById(R.id.betSliderAmount);
+        betSliderAmountDisplay = findViewById(R.id.betSliderAmountView);
 
         playerDisplayIDs = new int[5];
 
         handler = new Handler();
     }
 
+    /**
+     * Binds to service, creates threads for communication with server and a turn timer thread
+     * Threads terminate on leaving game
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -168,7 +177,7 @@ public class GameView extends AppCompatActivity {
                     CommandInvoker invoker = new CommandInvoker(serviceInstance.getClientSocket(), serviceInstance.getOut(), queue, GameView.this);
                     invoker.startInvoker(true);
 
-                    GameListener listener = new GameListener(serviceInstance.getClientSocket(), serviceInstance.getIn(), queue);
+                    GameListener listener = new GameListener(serviceInstance.getClientSocket(), serviceInstance.getIn(), queue, GameView.this);
                     listener.setRunning(true);
 
                     Thread invokerThread = new Thread(invoker, "invokerThread");
@@ -243,7 +252,8 @@ public class GameView extends AppCompatActivity {
     public void onStop()
     {
         super.onStop();
-        stopThreads = true;
+        Log.d(TAG, "onstop");
+        stopThreads();
     }
 
     @Override
@@ -258,10 +268,21 @@ public class GameView extends AppCompatActivity {
         {
             serviceInstance = null;
         }
-        stopThreads = true;
+        stopThreads();
         Log.d(TAG, "activity destroyed");
     }
 
+    /**
+     * Stops the threads
+     */
+    public void stopThreads()
+    {
+        stopThreads = true;
+    }
+
+    /**
+     * Display hand cards in bottom left of activity
+     */
     public void setCardImageViews()
     {
         int[][] cards = new int[2][2];
@@ -289,6 +310,9 @@ public class GameView extends AppCompatActivity {
         handCards[1].setContentDescription(card2);
     }
 
+    /**
+     * Display the flop community cards in middle of activity
+     */
     public void setCommunityImageViews()
     {
         if(model.getCommunityCards()[0] != null)
@@ -319,6 +343,9 @@ public class GameView extends AppCompatActivity {
         }
     }
 
+    /**
+     * Display turn and/or river after flop cards
+     */
     public void setCommunityImageView()
     {
 
@@ -350,6 +377,11 @@ public class GameView extends AppCompatActivity {
         }
     }
 
+    /**
+     * Removes images from the supplied imageviews to display empty space
+     *
+     * @param views The views to remove
+     */
     public void removeViews(ImageView[] views)
     {
         for(ImageView view : views)
@@ -359,17 +391,26 @@ public class GameView extends AppCompatActivity {
         }
     }
 
+    /**
+     * Removes the community cards from the activity view
+     */
     public void removeCommunityCards()
     {
         Log.d(TAG, "remove community cards");
         removeViews(communityCardViews);
     }
 
+    /**
+     * Removes the hand cards from the activity view
+     */
     public void removeHand()
     {
         removeViews(handCards);
     }
 
+    /**
+     * Draws player text over player display image and displays at top of screen
+     */
     public void updatePlayers()
     {
         List<PlayerUser> temp = model.getPlayers();
@@ -423,6 +464,11 @@ public class GameView extends AppCompatActivity {
 
     }
 
+    /**
+     * Removes a player from the view
+     *
+     * @param id The ID of the player to remove
+     */
     public void removePlayer(int id)
     {
         for(int i = 0; i < playerDisplayIDs.length; i++)
@@ -436,6 +482,11 @@ public class GameView extends AppCompatActivity {
         }
     }
 
+    /**
+     * Plays an animation representing the turn countdown visually around the player frame and sets the turn timer to countdown
+     *
+     * @param id The ID of the player whose turn it is
+     */
     public void updatePlayerTurn(int id)
     {
         Log.d(TAG, "updating players turn");
@@ -460,12 +511,20 @@ public class GameView extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets it to no longer be the client's turn
+     */
     public void setNotTurn()
     {
         turnTime.setText(getString(R.string.notYourTurn));
         myTurn = false;
     }
 
+    /**
+     * Replaces the view of the player with an away image when a player misses a turn
+     *
+     * @param id The ID of the player to set away
+     */
     public void setAway(int id)
     {
         for(int i = 0; i < playerDisplayIDs.length; i++)
@@ -502,6 +561,11 @@ public class GameView extends AppCompatActivity {
         }
     }
 
+    /**
+     * Broadcasts the received move on the activity screen as text
+     *
+     * @param move The move to broadcast
+     */
     public void broadcastMove(PlayerMove move)
     {
         PlayerUser temp = model.getPlayer(move.id);
@@ -510,22 +574,34 @@ public class GameView extends AppCompatActivity {
         updatePlayers();
     }
 
-    public void displayWinners(List<PlayerUser> winners, int pot)
+    /**
+     * Displays the winners on the activity screen as text
+     *
+     * @param winners The list of winners
+     * @param pot The amount won
+     */
+    public void displayWinners(HashMap<PlayerUser, Hand> winners, int pot)
     {
         Log.d(TAG, "game ended");
+        PlayerUser temp = null;
         if(winners.size() != 0)
         {
             Resources res = getResources();
             String winnerNames = "";
-            for(PlayerUser player : winners)
+            for(PlayerUser player : winners.keySet())
             {
                 winnerNames = winnerNames.concat(player.username + " ");
+                temp = player;
             }
-            String winString = String.format(res.getQuantityString(R.plurals.winOrWinners, winners.size(), winnerNames, (pot / winners.size())));
+            String winString = String.format(res.getQuantityString(R.plurals.winOrWinners, winners.size(), winnerNames, (pot / winners.size()), winners.get(temp)));
 
             turnBroadcast.setText(winString);
         }
     }
+
+    /**
+     * Updates the max value possible for the bet slider
+     */
     public void updateSlider()
     {
         SeekBar slider = bet_slider_frag.getBetSlider();
@@ -533,11 +609,21 @@ public class GameView extends AppCompatActivity {
         Log.d(TAG, Integer.toString(model.myPlayer.getMyPlayer().getCurrency() - getMinValue()));
     }
 
+    /**
+     * Getter for the minimum value that must be bet or raised by
+     *
+     * @return Int value of the min next raise that can be made
+     */
     public int getMinValue()
     {
         return model.bet.calcMinRaise();
     }
 
+    /**
+     * Updates the pot display in the activity to the new amount
+     *
+     * @param pot The amount in the pot
+     */
     public void updatePot(int pot)
     {
         String potString = String.format(getString(R.string.potString), pot);
@@ -551,6 +637,7 @@ public class GameView extends AppCompatActivity {
             {
                 case R.id.leaveButton:
                     model.pressedButton(PlayerUserMove.EXIT, 0);
+                    stopThreads();
                     finish();
                     break;
                 case R.id.communityCard1:
@@ -580,6 +667,14 @@ public class GameView extends AppCompatActivity {
         }
     };
 
+    /**
+     *
+     *
+     * @param options Options object for the bitmap
+     * @param reqWidth The width to scale to
+     * @param reqHeight The height to scale to
+     * @return The sample size required for the input width and height
+     */
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
     {
         final int height = options.outHeight;
@@ -600,6 +695,14 @@ public class GameView extends AppCompatActivity {
         return inSampleSize;
     }
 
+    /**
+     *
+     * @param res The resource object
+     * @param resID The resource to create bitmap from
+     * @param reqWidth The width of the bitmap
+     * @param reqHeight The height of the bitmap
+     * @return A scaled bitmap from the given resource
+     */
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resID, int reqWidth, int reqHeight)
     {
         final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -613,18 +716,27 @@ public class GameView extends AppCompatActivity {
         return BitmapFactory.decodeResource(res, resID, options);
     }
 
+    /**
+     * Adds the call button fragment to the activity
+     */
     public void addCallFrag()
     {
         getSupportFragmentManager().beginTransaction().replace(R.id.callcheckbutton, call_button_frag).commitNow();
         getSupportFragmentManager().beginTransaction().show(call_button_frag).commitNow();
     }
 
+    /**
+     * Adds the check button fragment to the activity
+     */
     public void addCheckFrag()
     {
         getSupportFragmentManager().beginTransaction().replace(R.id.callcheckbutton, check_button_frag).commitNow();
         getSupportFragmentManager().beginTransaction().show(check_button_frag).commitNow();
     }
 
+    /**
+     * Adds the bet slider fragment to the activity
+     */
     public void addSliderFrag()
     {
         getSupportFragmentManager().beginTransaction().replace(R.id.betSliderLayout, bet_slider_frag).commitNow();
@@ -632,8 +744,12 @@ public class GameView extends AppCompatActivity {
         updateSlider();
         sliderVisible = true;
         Thread updateBetAmountThread = new Thread( updateBetAmount );
+        updateBetAmountThread.start();
     }
 
+    /**
+     * Thread for giving a visual representation of the slider value
+     */
     private Runnable updateBetAmount = new Runnable() {
         @Override
         public void run() {
@@ -644,8 +760,8 @@ public class GameView extends AppCompatActivity {
                     @Override
                     public void run() {
                         int amount = bet_slider_frag.getBetSlider().getProgress() + getMinValue();
-                        betSliderAmount.setText(amount);
-                        betSliderAmount.setContentDescription(getString(R.string.betAmountDescription));
+                        betSliderAmountDisplay.setText("" + amount);
+                        betSliderAmountDisplay.setContentDescription(getString(R.string.betAmountDescription));
                     }
                 });
                 try
@@ -660,35 +776,52 @@ public class GameView extends AppCompatActivity {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    betSliderAmount.setText(null);
-                    betSliderAmount.setContentDescription(null);
+                    betSliderAmountDisplay.setText(null);
+                    betSliderAmountDisplay.setContentDescription(null);
                 }
             });
         }
     };
 
+    /**
+     * Hides the call button fragment from the activity
+     */
     public void hideCallFrag()
     {
         getSupportFragmentManager().beginTransaction().hide(call_button_frag).commitNow();
     }
 
+    /**
+     * Hides the check button fragment from the activity
+     */
     public void hideCheckFrag()
     {
         getSupportFragmentManager().beginTransaction().hide(check_button_frag).commitNow();
     }
 
+    /**
+     * Hides the bet slider fragment from the activity
+     */
     public void hideSliderFrag()
     {
         getSupportFragmentManager().beginTransaction().hide(bet_slider_frag).commitNow();
         sliderVisible = false;
     }
 
+    /**
+     * Adds the zoomed cards fragment to the activity
+     */
     public void zoomCards(int type)
     {
         Zoomed_Cards zoomFrag = Zoomed_Cards.newInstance(type);
         getSupportFragmentManager().beginTransaction().replace(R.id.zoomCardsHolder, zoomFrag).commitNow();
     }
 
+    /**
+     * Getter for the button actions object
+     *
+     * @return A GameViewActions object
+     */
     public GameViewActions getActions()
     {
         return actions;

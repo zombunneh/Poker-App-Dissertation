@@ -22,10 +22,20 @@ public class JoinQueue implements Runnable {
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
+    private static final int TIMEOUT = 3000;
+
     public static final String SERVICE_INTENT = "service_intent";
 
     public static final String TAG = "queue_runnable";
 
+    /**
+     * Constructor for a separate thread to join the game queue
+     *
+     * @param clientSocket The client's socket
+     * @param out Output stream connected to server
+     * @param in Input stream from server
+     * @param context Context object for context specific methods
+     */
     public JoinQueue(Socket clientSocket, ObjectOutputStream out, ObjectInputStream in, Context context)
     {
         this.clientSocket = clientSocket;
@@ -34,13 +44,16 @@ public class JoinQueue implements Runnable {
         this.mContext = context;
     }
 
+    /**
+     * Tells the server to join the queue and waits for confirmation that first the queue was joined and then when a game is joined
+     */
     @Override
     public void run() {
         try
         {
             Log.d(TAG, "joining queue");
             out.writeObject("join_queue");
-            clientSocket.setSoTimeout(3000);
+            clientSocket.setSoTimeout(TIMEOUT);
             Object object = null;
             while(!(object instanceof String))
             {
@@ -62,12 +75,17 @@ public class JoinQueue implements Runnable {
             Log.d(TAG, e.toString());
             if(e instanceof SocketException)
             {
-                
+
             }
         }
 
     }
 
+    /**
+     * Sends a local broadcast containing a string message
+     *
+     * @param message The message to send
+     */
     private void sendBroadcastMessage(String message)
     {
         Log.d(TAG, "sending broadcast" + message);

@@ -28,6 +28,12 @@ public class GameViewModel extends Observable {
 
     public static final String TAG = "gameModel";
 
+    /**
+     * Constructor for the model component which manages the underlying data required for the game
+     *
+     * @param client
+     * @param out
+     */
     public GameViewModel(Socket client, ObjectOutputStream out)
     {
         this.client = client;
@@ -38,17 +44,32 @@ public class GameViewModel extends Observable {
         myPlayer = new MyPlayer();
     }
 
+    /**
+     * Sets the client's ID
+     *
+     * @param id The ID to set
+     */
     public void setID(int id)
     {
         myID = id;
         Log.d(TAG,"setID");
     }
 
+    /**
+     * Getter for the client's ID
+     *
+     * @return The client's ID
+     */
     public int getID()
     {
         return myID;
     }
 
+    /**
+     * Updates the list of players in the game
+     *
+     * @param newPlayers The new list of players
+     */
     public void updatePlayerList(List<PlayerUser> newPlayers)
     {
         Log.d(TAG,"updateList");
@@ -62,11 +83,22 @@ public class GameViewModel extends Observable {
         notifyObservers(players);
     }
 
+    /**
+     * Getter for the current list of players in the game
+     *
+     * @return A list of PlayerUsers
+     */
     public List<PlayerUser> getPlayers()
     {
         return players;
     }
 
+    /**
+     * Getter for an individual player in the game
+     *
+     * @param id The ID of the player
+     * @return A PlayerUser object representing the player
+     */
     public PlayerUser getPlayer(int id)
     {
         Log.d(TAG,"getPlayer");
@@ -82,11 +114,21 @@ public class GameViewModel extends Observable {
         return null;
     }
 
+    /**
+     * Getter for the community cards
+     *
+     * @return An array of the community cards
+     */
     public Card[] getCommunityCards()
     {
         return communityCards;
     }
 
+    /**
+     * Setter for the flop community cards
+     *
+     * @param cards The 3 card array of flop cards
+     */
     public void setFlop(Card[] cards)
     {
         Log.d(TAG,"setFlop");
@@ -96,6 +138,11 @@ public class GameViewModel extends Observable {
         notifyObservers(cards);
     }
 
+    /**
+     * Setter for the turn community card
+     *
+     * @param card The turn card
+     */
     public void setTurn(Card card)
     {
         Log.d(TAG,"setTurn");
@@ -104,6 +151,11 @@ public class GameViewModel extends Observable {
         notifyObservers(communityCards[3]);
     }
 
+    /**
+     * Setter for the river community card
+     *
+     * @param card The river card
+     */
     public void setRiver(Card card)
     {
         Log.d(TAG,"setRiver");
@@ -112,11 +164,21 @@ public class GameViewModel extends Observable {
         notifyObservers(communityCards[4]);
     }
 
+    /**
+     * Getter for the current state
+     *
+     * @return A state object
+     */
     public State getState()
     {
      return this.state;
     }
 
+    /**
+     * Setter for the game state
+     *
+     * @param state The new state
+     */
     public void updateState(State state)
     {
         Log.d(TAG, "changed state " + state.toString());
@@ -125,6 +187,12 @@ public class GameViewModel extends Observable {
         notifyObservers(state);
     }
 
+    /**
+     * Called when a button is pressed and sends the button press to the server
+     *
+     * @param move The button pressed
+     * @param bet The amount bet
+     */
     public void pressedButton(final PlayerUserMove move, final int bet)
     {
         if(getState() == State.CALL || getState() == State.CHECK || move == PlayerUserMove.EXIT)
@@ -149,6 +217,11 @@ public class GameViewModel extends Observable {
         }
     }
 
+    /**
+     * Sets the last turn received and updates bet if necessary
+     *
+     * @param move The move made in the last turn
+     */
     public void lastTurn(PlayerMove move)
     {
         if(move.move == PlayerUserMove.RAISE)
@@ -169,9 +242,11 @@ public class GameViewModel extends Observable {
         READY,
         CHECK,
         CALL,
-        PLAY
     }
 
+    /**
+     * Inner class representing the game bet states
+     */
     public class Bet extends Observable
     {
         private int blind;
@@ -179,6 +254,11 @@ public class GameViewModel extends Observable {
         private int betCall;
         private int lastRaise;
 
+        /**
+         * Setter for the blind amount
+         *
+         * @param blind The amount of the blind
+         */
         public void setBlind(int blind)
         {
             Log.d(TAG, "blind set " + blind);
@@ -191,6 +271,11 @@ public class GameViewModel extends Observable {
             addToPot(blind);
         }
 
+        /**
+         * Increments the pot amount
+         *
+         * @param bet The amount to increase the pot by
+         */
         public void addToPot(int bet)
         {
             Log.d(TAG, "adding: " + bet + " to pot");
@@ -199,12 +284,20 @@ public class GameViewModel extends Observable {
             notifyObservers(pot);
         }
 
+        /**
+         * Resets the pot and blind
+         */
         public void resetPot()
         {
             pot = 0;
             blind = 0;
         }
 
+        /**
+         * Calculates the minimum amount to bet/raise by
+         *
+         * @return The min raise or bet
+         */
         public int calcMinRaise()
         {
             if(lastRaise == 0)
@@ -214,19 +307,35 @@ public class GameViewModel extends Observable {
             return pot + lastRaise;
         }
 
+        /**
+         * Setter for the last raise made
+         *
+         * @param raise The amount raised by
+         */
         public void setLastRaise(int raise)
         {
             lastRaise = raise;
         }
 
+        /**
+         * Resets the last raise amount
+         */
         public void resetLastRaise()
         {
             lastRaise = 0;
         }
     }
 
+    /**
+     * Inner class representing the client's player state
+     */
     public class MyPlayer extends Observable
     {
+        /**
+         * Setter for the player's hand
+         *
+         * @param hand The array of cards for the hand
+         */
         public void setHand(Card[] hand)
         {
             getMyPlayer().setHand(hand);
@@ -236,12 +345,22 @@ public class GameViewModel extends Observable {
             Log.d(TAG,"setHand: " + hand[0].getCardRank().toString() + ", " + hand[1].getCardRank().toString());
         }
 
+        /**
+         * Getter for the player's hand
+         *
+         * @return The array of cards of the hand
+         */
         public Card[] getMyHand()
         {
             Log.d(TAG,"getHand");
             return getMyPlayer().getHand();
         }
 
+        /**
+         * Getter for the player
+         *
+         * @return A PlayerUser object of the client's player
+         */
         public PlayerUser getMyPlayer()
         {
             PlayerUser temp;
@@ -256,6 +375,11 @@ public class GameViewModel extends Observable {
             return null;
         }
 
+        /**
+         * Getter for the player's ID
+         *
+         * @return The ID of the client's player
+         */
         public int getMyID()
         {
             return getMyPlayer().getID();

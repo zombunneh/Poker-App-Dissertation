@@ -7,7 +7,9 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.Card;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerMove;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUserMove;
+import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.Hand;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -19,6 +21,12 @@ public class GameViewController implements Observer {
 
     public static final String TAG = "controller :3";
 
+    /**
+     * Constructor for controller component which manages updating the game view from model changes
+     *
+     * @param model The game model
+     * @param viewContext The view component to update
+     */
     public GameViewController(GameViewModel model, Context viewContext)
     {
         this.model = model;
@@ -26,6 +34,12 @@ public class GameViewController implements Observer {
         gameView = (GameView) view;
     }
 
+    /**
+     * Updates the game view based on a change in the game model
+     *
+     * @param model The changed game model
+     * @param arg The object that changed
+     */
     public void updateView(GameViewModel model, final Object arg)
     {
         Log.d(TAG, "update view");
@@ -180,6 +194,12 @@ public class GameViewController implements Observer {
         }
     }
 
+    /**
+     * Updates the game view based on a change in the game model
+     *
+     * @param player The changed player in the game model
+     * @param arg The object that changed
+     */
     public void updateView(GameViewModel.MyPlayer player, final Object arg)
     {
         if(arg instanceof Card[])
@@ -193,6 +213,12 @@ public class GameViewController implements Observer {
         }
     }
 
+    /**
+     * Updates the game view based on a change in the game model
+     *
+     * @param bet The changed bet in the game model
+     * @param arg The object that changed
+     */
     public void updateView(GameViewModel.Bet bet, final Object arg)
     {
         if(arg instanceof Integer)
@@ -207,7 +233,13 @@ public class GameViewController implements Observer {
         }
     }
 
-    public void winnerList(final List<PlayerUser> winners, final int pot)
+    /**
+     * Updates the winner list in the game view
+     *
+     * @param winners The list of winners
+     * @param pot The amount won
+     */
+    public void winnerList(final HashMap<PlayerUser, Hand> winners, final int pot)
     {
         gameView.runOnUiThread(new Runnable() {
             @Override
@@ -217,6 +249,11 @@ public class GameViewController implements Observer {
         });
     }
 
+    /**
+     * Updates the player turn in the game view
+     *
+     * @param id The id of the player whose turn it is
+     */
     public void playerTurn(final int id)
     {
         gameView.runOnUiThread(new Runnable() {
@@ -227,6 +264,12 @@ public class GameViewController implements Observer {
         });
     }
 
+    /**
+     * Receives updates from observable objects
+     *
+     * @param o The observable object notifying controller
+     * @param arg The object that called notify
+     */
     @Override
     public void update(Observable o, Object arg) {
         Log.d(TAG, "change observed");

@@ -2,14 +2,10 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppServer;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppDatabase.QueryDBForUserDetails;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.GameUser;
-import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.PlayerUser;
 import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.Queue;
-import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.User;
 
 import java.io.*;
 import java.net.Socket;
-import java.sql.Timestamp;
-import java.util.Date;
 
 public class ServerRunnable implements Runnable {
 
@@ -19,14 +15,17 @@ public class ServerRunnable implements Runnable {
     private ObjectOutputStream out;
     private QueryDBForUserDetails queryDB = new QueryDBForUserDetails();
     private GameUser user;
-    private User newUser;
     private Queue queue;
-    private int id;
 
     private final static int BASE_BONUS = 100000;
 
     private boolean inGame = false;
 
+    /**
+     * Constructor for serverRunnable object
+     * @param clientSocket
+     * @param queue
+     */
     public ServerRunnable(ClientConnection clientSocket, Queue queue)
     {
         if(clientSocket != null && queue != null)
@@ -36,17 +35,17 @@ public class ServerRunnable implements Runnable {
             this.in = clientSocket.getIn();
             this.out = clientSocket.getOut();
             this.queue = queue;
-            this.id = 1;
         }
     }
 
+    /**
+     *  Run method for handling user connections
+     */
     @Override
     public void run() {
         System.out.println("server runnable started");
         try
         {
-            //first client line should be a boolean describing whether retrieving a user account
-            //or needing to create a new one
             handleUserConnection(out, in);
         } catch(IOException e)
         {
@@ -55,14 +54,19 @@ public class ServerRunnable implements Runnable {
         System.out.println("server runnable ended");
     }
 
-    //TODO remember to implements friends feature, and chat feature
-    //designed assuming constant connection, might need to refactor later
+    /**
+     * Handles the connection communication protocol with the client using a switch based on the request sent as a string by the client
+     * Currently handles retrieving the user's account for login, adding the user to queue, and retrieving an updated version of the user's profile
+     *
+     * @param out The ObjectOutputStream to be used
+     * @param in The ObjectInputStream to be used
+     * @throws IOException
+     */
     public void handleUserConnection(ObjectOutputStream out, ObjectInputStream in) throws IOException
     {
         String requestType;
         while(clientSocket != null) {
             while(!inGame) {
-                System.out.println("serverrunnable");
                 clientSocket.setSoTimeout(0);
                 out.flush();
                 try {
@@ -80,6 +84,7 @@ public class ServerRunnable implements Runnable {
                             if (getAccountType == 0) {
                                 if (!verifyId(user_id)) {
                                     //TODO handle telling client id token is invalid
+                                    System.out.println("closing connection");
                                     clientSocket.close();
                                 }
                             }
@@ -100,7 +105,6 @@ public class ServerRunnable implements Runnable {
 
                                 registerNewUser(username, user_id, getAccountType);
                                 //handle creating account
-                                //now need to somehow do something
                                 sendUserLoginDetails(out, user_id, getAccountType);
                                 out.flush();
                             }
@@ -113,9 +117,17 @@ public class ServerRunnable implements Runnable {
                             break;
                         }
                         case "retrieve_profile": {
-
-                        }
+                            System.out.println("retrieving profile");
+                            retrieveProfile(user.user_id, out);
                             break;
+                        }
+                        case "link_account": {
+                            String user_id = (String) in.readObject();
+                            String guest_id = (String) in.readObject();
+
+                            linkGoogleAccount(user_id, guest_id, out);
+                            break;
+                        }
                         case "default":
                             break;
                         default:
@@ -136,6 +148,16 @@ public class ServerRunnable implements Runnable {
         }
     }
 
+    /**
+     * Constructs the user object from the queryDB object which retrieves the user's details from the database
+     * Checks the user's last login time and updates the user's current login streak and gives the appropriate amount of currency if required
+     * Writes the user object to the client
+     *
+     * @param out
+     * @param user_id The user id of the account to be retrieved
+     * @param accountType Whether the account is a google account or a guest account
+     * @throws IOException
+     */
     public void sendUserLoginDetails(ObjectOutputStream out, String user_id, int accountType) throws IOException
     {
         user = queryDB.queryUserTableAndDetailsOnLogin(user_id, accountType);
@@ -150,13 +172,16 @@ public class ServerRunnable implements Runnable {
         System.out.println("sent object");
     }
 
+    /**
+     *  Checks the users last login time and updates appropriate data
+     */
     public void checkLastLogin()
     {
         int currentStreak = queryDB.updateLastLogin(user.lastLogin, user.user_id, user.loginStreak);
 
         if(currentStreak == 0)
         {
-
+            System.out.println("day not changed");
         }
         else
         {
@@ -170,33 +195,97 @@ public class ServerRunnable implements Runnable {
 
     }
 
+    /**
+     * Checks if the account with the corresponding user id exists in the database of users
+     *
+     * @param user_id The user id of the account to be retrieved
+     * @param accountType Whether the account is a google account or a guest account
+     * @return True if the account exists, false if it does not
+     */
     public boolean checkAccount(String user_id, int accountType)
     {
         return queryDB.doesUserExist(user_id, accountType);
     }
 
+    /**
+     * Retrieves the corresponding google account token from a client user id
+     *
+     * @param user_id The user id of the account to be retrieved
+     * @return True if token retrieval was successful, false if not
+     */
     public boolean verifyId(String user_id)
     {
         return queryDB.verifyIdRetrieveDetails(user_id);
     }
 
+    /**
+     * Registers a new user with the database
+     *
+     * @param username
+     * @param user_id The user id of the account to be retrieved
+     * @param accountType Whether the account is a google account or a guest account
+     *
+     * @throws IOException
+     */
     public void registerNewUser(String username, String user_id, int accountType) throws IOException
     {
         System.out.println("register new user");
         queryDB.addNewUserOnRegister(username, user_id, accountType);
     }
 
-    public void addUserToQueue(GameUser user)
+    /**
+     * Retrieves updated user details and sends them to client
+     *
+     * @param id The user's id
+     * @param out The output stream
+     * @throws IOException
+     */
+    public void retrieveProfile(String id, ObjectOutputStream out) throws IOException
     {
-        queue.addToQueue(connection, user, out, in, this);
+        user = queryDB.queryUserDetailsOnCall(id);
+        out.writeObject(user);
+        System.out.println("sent user");
     }
 
+    /**
+     *
+     */
+    public void linkGoogleAccount(String user_id, String guest_id, ObjectOutputStream out) throws IOException
+    {
+        boolean linkResult = queryDB.attemptAccountLink(user_id, guest_id);
+        if(linkResult)
+        {
+            out.writeObject("account_linked");
+        }
+        else
+        {
+            out.writeObject("account_link_fail");
+        }
+    }
+
+    /**
+     * Adds a user into the queue object
+     *
+     * @param user The user to be added to the queue
+     */
+    public void addUserToQueue(GameUser user)
+    {
+        queue.addToQueue(connection, user, this);
+    }
+
+    /**
+     * Called when a player leaves their game in order to resume communication with this object
+     */
     public void leftGame()
     {
         inGame = false;
         System.out.println("left game " + user.username);
     }
 
+    /**
+     *
+     * @return The current user's id as a string
+     */
     public String getUserID()
     {
         return user.user_id;

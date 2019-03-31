@@ -15,12 +15,18 @@ import com.game.poker.psymw6mobilepokerapp.R;
 
 public class Call_Button extends Fragment {
 
-    private CallButtonViewModel mViewModel;
-
     public static Call_Button newInstance() {
         return new Call_Button();
     }
 
+    /**
+     * Sets up buttons for the fragment to access the game model to notify button presses
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -53,12 +59,4 @@ public class Call_Button extends Fragment {
 
         return view;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(CallButtonViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
 }

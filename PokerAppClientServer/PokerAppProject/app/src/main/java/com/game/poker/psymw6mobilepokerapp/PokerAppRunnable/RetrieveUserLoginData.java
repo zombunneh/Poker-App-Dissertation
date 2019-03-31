@@ -9,6 +9,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.GameUser;
+import com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.fragments.Zoomed_Cards;
 import com.game.poker.psymw6mobilepokerapp.R;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
@@ -17,17 +18,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-
-/*
-    Created by psymw6
-    30/01/2019
-    RetrieveUserLoginData.java
-*/
-
-/*
-change this to bind to connection service to grab the data
-make sure to immediately persist data in shared prefs
- */
 public class RetrieveUserLoginData implements Runnable {
     private GoogleSignInAccount account;
     public static final String TAG = "g53ids-ruld";
@@ -43,6 +33,14 @@ public class RetrieveUserLoginData implements Runnable {
     private boolean isUsernameSet;
     private SharedPreferences saveData;
 
+    /**
+     * Constructor for retrieving login information with a google account
+     *
+     * @param account The google account
+     * @param out Output stream connected to server
+     * @param in Input stream from server
+     * @param mContext Context object for context specific methods
+     */
     public RetrieveUserLoginData(GoogleSignInAccount account, ObjectOutputStream out, ObjectInputStream in, Context mContext)
     {
         this.account = account;
@@ -60,6 +58,14 @@ public class RetrieveUserLoginData implements Runnable {
                 Context.MODE_PRIVATE);
     }
 
+    /**
+     * Constructor for retrieving login information with a guest account
+     *
+     * @param instanceID The guest account ID
+     * @param out Output stream connected to server
+     * @param in Input stream from server
+     * @param mContext Context object for context specific methods
+     */
     public RetrieveUserLoginData(String instanceID, ObjectOutputStream out, ObjectInputStream in, Context mContext)
     {
         this.instanceID = instanceID;
@@ -77,6 +83,17 @@ public class RetrieveUserLoginData implements Runnable {
                 Context.MODE_PRIVATE);
     }
 
+    /**
+     * Default constructor
+     */
+    public RetrieveUserLoginData()
+    {
+
+    }
+
+    /**
+     * Thread executes account retrieval protocol with server
+     */
     @Override
     public void run() {
         Log.d(TAG, "ruld thread started");
@@ -104,17 +121,15 @@ public class RetrieveUserLoginData implements Runnable {
             if(accountExists)
             {
                 GameUser user = (GameUser) in.readObject();
-                populateSharedPrefs(user);
-                sendBroadcastMessage("loginDetailsUpdated");
                 //populate shared prefs
                 //broadcast completion
+                populateSharedPrefs(user, saveData, context);
+                sendBroadcastMessage("loginDetailsUpdated");
             }
             else
             {
                 Log.d(TAG, "account doesnt exist, executing new account protocol");
                 sendBroadcastMessage("accountNotFound");
-                //need to tell client to ask for username
-                //use local broadcast?
                 while(!isUsernameSet)
                 {
                     try
@@ -131,8 +146,7 @@ public class RetrieveUserLoginData implements Runnable {
                 out.writeObject(username);
                 Log.d(TAG, "waiting for new user details");
                 GameUser user = (GameUser) in.readObject();
-                //TODO LOGIN DATA CALCULATION FOR DAILY BONUS
-                populateSharedPrefs(user);
+                populateSharedPrefs(user, saveData, context);
                 sendBroadcastMessage("loginDetailsUpdated");
             }
         }
@@ -142,9 +156,14 @@ public class RetrieveUserLoginData implements Runnable {
         }
     }
 
-    private void populateSharedPrefs(GameUser user)
+    /**
+     * Edits the shared preferences file for user details with the GameUser object received from the server
+     *
+     * @param user The user containing details
+     */
+    public void populateSharedPrefs(GameUser user, SharedPreferences prefs, Context context)
     {
-        SharedPreferences.Editor editSaveData = saveData.edit();
+        SharedPreferences.Editor editSaveData = prefs.edit();
         editSaveData.putString(context.getString(R.string.username), user.username);
         editSaveData.putInt(context.getString(R.string.currency), user.currency);
         editSaveData.putInt(context.getString(R.string.login_streak), user.loginStreak);
@@ -155,11 +174,14 @@ public class RetrieveUserLoginData implements Runnable {
         editSaveData.putInt(context.getString(R.string.max_winnings), user.max_winnings);
         editSaveData.putInt(context.getString(R.string.max_chips), user.max_chips);
         editSaveData.putString(context.getString(R.string.last_login), user.lastLogin);
-        editSaveData.commit();
-        //TODO remember to analyse last login date
+        editSaveData.apply();
     }
 
-
+    /**
+     * Sends a local broadcast containing a string message
+     *
+     * @param message The message to send
+     */
     private void sendBroadcastMessage(String message)
     {
         Log.d(TAG, "sending broadcast");
@@ -169,6 +191,9 @@ public class RetrieveUserLoginData implements Runnable {
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
+    /**
+     * Receiver to retrieve the username chosen by the user in the case of creating a new account
+     */
     private final BroadcastReceiver myReceiver = new BroadcastReceiver()
     {
         @Override
@@ -179,11 +204,3 @@ public class RetrieveUserLoginData implements Runnable {
         }
     };
 }
-/*
-poker game stats:
-hands played
-hands won
-win rate
-max winnings
-max chips
- */

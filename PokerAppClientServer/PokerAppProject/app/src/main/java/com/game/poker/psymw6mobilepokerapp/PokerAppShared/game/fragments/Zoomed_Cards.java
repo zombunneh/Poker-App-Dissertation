@@ -20,12 +20,16 @@ import static com.game.poker.psymw6mobilepokerapp.PokerAppShared.game.GameView.d
 
 public class Zoomed_Cards extends Fragment {
 
-    private ZoomedCardsViewModel mViewModel;
-
     private ImageView[] zoomedCards;
 
     private int type;
 
+    /**
+     * Creates a new instance of the fragment for a card setup
+     *
+     * @param type 0 for zoomed hand cards, 1 for zoomed community cards
+     * @return A new instance of the fragment
+     */
     public static Zoomed_Cards newInstance(int type) {
         Zoomed_Cards zoom = new Zoomed_Cards();
         Bundle args = new Bundle();
@@ -34,6 +38,14 @@ public class Zoomed_Cards extends Fragment {
         return zoom;
     }
 
+    /**
+     * Sets up the fragment view to have larger versions of either hand or community cards depending on the type arg
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -125,6 +137,14 @@ public class Zoomed_Cards extends Fragment {
         return view;
     }
 
+    /**
+     * Resizes bitmaps using a matrix to provide a scaled version of supplied image
+     *
+     * @param bm The bitmap to resize
+     * @param newWidth The new width of the bitmap
+     * @param newHeight The new height of the bitmap
+     * @return The resized bitmap
+     */
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         int width = bm.getWidth();
         int height = bm.getHeight();
@@ -148,12 +168,4 @@ public class Zoomed_Cards extends Fragment {
             getActivity().getSupportFragmentManager().beginTransaction().remove(Zoomed_Cards.this).commitNow();
         }
     };
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(ZoomedCardsViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
 }

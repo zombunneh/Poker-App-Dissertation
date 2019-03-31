@@ -21,6 +21,15 @@ public class CommandInvoker implements Runnable{
 
     public static final String TAG = "command_invoker";
 
+    /**
+     * Command Invoker object runs in a thread executing commands from the command queue
+     * which is added to by the Game Listener
+     *
+     * @param client The client socket used for GameViewModel object
+     * @param out The ObjectOutputStream used for GameViewModel object
+     * @param queue The command queue the invoker will execute commands from
+     * @param viewContext The calling activity context
+     */
     public CommandInvoker(Socket client, ObjectOutputStream out, CommandQueue queue, Context viewContext )
     {
         this.model = new GameViewModel(client, out);
@@ -32,9 +41,11 @@ public class CommandInvoker implements Runnable{
         model.addObserver(controller);
         model.bet.addObserver(controller);
         model.myPlayer.addObserver(controller);
-        //Log.d(TAG, "invoker started");
     }
 
+    /**
+     * Thread of execution going over the command queue executing each command in it
+     */
     @Override
     public void run() {
         Command command;
@@ -71,15 +82,30 @@ public class CommandInvoker implements Runnable{
         }
     }
 
+    /**
+     * Method to start and stop the invoker object
+     *
+     * @param invoke True to start the invoker, false to stop it
+     */
     public void startInvoker(boolean invoke)
     {
         invoked = invoke;
     }
 
+    /**
+     * Checks if the invoker object is running or not
+     *
+     * @return True if CommandInvoker is running, false if not running or final loop
+     */
     public boolean isInvoked() {
         return invoked;
     }
 
+    /**
+     * Getter for the GameViewModel object created in the constructor
+     *
+     * @return GameViewModel object containing the data required for the game view
+     */
     public GameViewModel getModel() {
         return model;
     }

@@ -11,6 +11,9 @@ import com.game.poker.psymw6mobilepokerapp.R;
 public class MainMenu extends AppCompatActivity{
     public static final String TAG = "g53ids-mainmenu";
 
+    /**
+     * Loads the main menu fragment
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +52,3 @@ public class MainMenu extends AppCompatActivity{
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 }
-/*
-goals:
-be able to login  with google play/guest account
-create new account with default values
-login with existing account
-view profile
-join queue for a game
- */

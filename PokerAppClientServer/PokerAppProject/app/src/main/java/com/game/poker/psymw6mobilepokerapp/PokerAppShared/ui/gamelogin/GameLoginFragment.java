@@ -1,6 +1,5 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppShared.ui.gamelogin;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,16 +13,16 @@ import android.widget.TextView;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppShared.GameLogin;
 import com.game.poker.psymw6mobilepokerapp.R;
-import com.google.android.gms.common.SignInButton;
 
 public class GameLoginFragment extends Fragment {
-
-    private GameLoginViewModel mViewModel;
 
     public static GameLoginFragment newInstance() {
         return new GameLoginFragment();
     }
 
+    /**
+     * Fragment containing the sign in buttons
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -51,12 +50,4 @@ public class GameLoginFragment extends Fragment {
 
         return view;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(GameLoginViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
 }

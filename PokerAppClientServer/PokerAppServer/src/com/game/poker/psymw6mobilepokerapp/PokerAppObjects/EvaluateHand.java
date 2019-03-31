@@ -103,7 +103,12 @@ public class EvaluateHand {
         return result;
     }
 
-
+    /**
+     * Works through all potential hands to determine which hand needs tie breaking and then applies appropriate logic to determine the winning hand
+     *
+     * @param hashToTieBreak A hashmap containing the hands that need tie breaking
+     * @return A hashmap containing the winning hand(s)
+     */
     public HashMap breakTie(HashMap<PlayerUser, Hand> hashToTieBreak)
     {
         List<Map.Entry<PlayerUser, Hand>> list = new ArrayList<>(hashToTieBreak.entrySet());
@@ -435,10 +440,11 @@ public class EvaluateHand {
     }
 
     /**
+     * Finds the max high card from a list of hands
      *
-     * @param list
-     * @param players
-     * @return
+     * @param list List of hands
+     * @param players Array of players to find the high card from
+     * @return The max high card found
      */
     public Card findMaxHighCard(List<Map.Entry<PlayerUser, Hand>> list, PlayerUser[] players)
     {
@@ -455,10 +461,11 @@ public class EvaluateHand {
     }
 
     /**
+     * Same as findMaxHighCard but for the second high card
      *
-     * @param list
-     * @param players
-     * @return
+     * @param list List of hands
+     * @param players Array of players to find the high card from
+     * @return The max high card 2 found
      */
     public Card findMaxHighCard2(List<Map.Entry<PlayerUser, Hand>> list, PlayerUser[] players)
     {
@@ -478,10 +485,11 @@ public class EvaluateHand {
     }
 
     /**
+     * Finds the max kicker from a list of players
      *
-     * @param list
-     * @param players
-     * @return
+     * @param list List of hands
+     * @param players Array of players to find the high card from
+     * @return The max high card 2 found
      */
     public Card findMaxKicker(List<Map.Entry<PlayerUser, Hand>> list, PlayerUser[] players)
     {
@@ -544,9 +552,10 @@ public class EvaluateHand {
     }
 
     /**
+     * Uses class methods to return the winner of a hand after tie breaking if necessary
      *
-     * @param evaluatedHandsToCheck
-     * @return
+     * @param evaluatedHandsToCheck A pre evaluated list of hands to check
+     * @return A hashmap of winning PlayerUsers and their hands
      */
     public HashMap getHandWinner(HashMap<PlayerUser, Hand> evaluatedHandsToCheck)
     {
@@ -566,6 +575,7 @@ public class EvaluateHand {
     /**
      * Brute forces through different potential poker hands starting from the highest possible hand
      * Assigns high cards and kicker when relevant
+     *
      * @param handToCheck The hand to evaluate
      * @return The hand found
      */
@@ -682,8 +692,9 @@ public class EvaluateHand {
      *                  check if current cards suit matches current suit from outer FOR loop else increment n
      *                      check if current card is the next card in royal flush sequence and increment rfCardCount else increment n
      *                      if rfCardCount reaches 5 hand is a royal flush
+     *
      * @param handToCheck The hand to evaluate
-     * @return Returns whether the hand was found or not
+     * @return True if a royal flush combination is found, false otherwise
      */
     private boolean checkRoyalFlush(Card[] handToCheck)
     {
@@ -729,8 +740,9 @@ public class EvaluateHand {
  *                      check if current cards suit matches current suit from outer FOR loop else increment n
      *                      check if current card is next in straight flush sequence and increment sfCardCount else reset sfCardCount
      *                      if sfCardCount reaches 4 hand is a straight flush
+     *
      * @param handToCheck The hand to evaluate
-     * @return Returns whether the hand was found or not
+     * @return True if a straight flush combination is found, false otherwise
      */
     private boolean checkStraightFlush(Card[] handToCheck)
     {
@@ -811,9 +823,10 @@ public class EvaluateHand {
      *              iterate through all cards in hand in inner FOR loop
      *                  check if current card matches card in outer FOR loop and increment nKind
      *                  if nKind matches numberOfKind then hand is found
+     *
      * @param handToCheck The hand to evaluate
      * @param numberOfKind The number of cards of the same rank to check for
-     * @return Returns whether the hand was found or not
+     * @return True if a "of kind" combination is found equal to the specified int parameter, false otherwise
      */
     private boolean checkOfKind(Card[] handToCheck, int numberOfKind)
     {
@@ -845,8 +858,9 @@ public class EvaluateHand {
      *              if next card is same as current card then either a pair or three of a kind is found
      *              check current flags for pair/three of a kind and update appropriately
      *              if both a pair and three of a kind found then hand is full house
+     *
      * @param handToCheck The hand to evaluate
-     * @return Returns whether the hand was found or not
+     * @return True if a full house combination is found, false otherwise
      */
     private boolean checkFullHouse(Card[] handToCheck)
     {
@@ -886,8 +900,9 @@ public class EvaluateHand {
      *             iterating through all cards in hand in inner FOR loop
      *             if current card suit is equal to current suit in outer FOR loop add to list and increment fCardCount
      *             if fCardCount reaches 5 hand is a flush
+     *
      * @param handToCheck The hand to evaluate
-     * @return Returns whether the hand was found or not
+     * @return True if a flush combination is found, false otherwise
      */
     private boolean checkFlush(Card[] handToCheck)
     {
@@ -919,8 +934,9 @@ public class EvaluateHand {
      *          iterating through all cards in hand
      *              check if next card is in sequence and increment sCardCount else reset counter
      *              if sCardCount reaches 4 hand is a straight
+     *
      * @param handToCheck The hand to evaluate
-     * @return Returns whether the hand was found or not
+     * @return True if a flush combination is found, false otherwise
      */
     private boolean checkStraight(Card[] handToCheck)
     {
@@ -980,9 +996,10 @@ public class EvaluateHand {
      *         iterating through all cards in hand
      *         if next card is same as current card a pair is found
      *         continues if more than one pair is needed
+     *
      * @param handToCheck The hand to evaluate
      * @param numberOfPair The number of pairs to find before the method returns true
-     * @return Returns whether the hand was found or not
+     * @return True if a pair combination is found, false otherwise
      */
     private boolean checkPair(Card[] handToCheck, int numberOfPair)
     {

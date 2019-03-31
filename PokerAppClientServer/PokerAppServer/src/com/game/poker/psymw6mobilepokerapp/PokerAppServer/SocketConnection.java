@@ -14,6 +14,12 @@ public class SocketConnection {
     private boolean isServerStopped = false;
     private ClientConnection connection = null;
 
+    /**
+     * Run to start server
+     *
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         SocketConnection myConnection = new SocketConnection();
         server = myConnection.createServerSocket();
@@ -21,13 +27,20 @@ public class SocketConnection {
 
     }
 
-    //initialise a server socket
+    /**
+     * Initialises a server socket
+     * @return The server socket to be used
+     * @throws IOException
+     */
     public ServerSocket createServerSocket() throws IOException
     {
         return new ServerSocket(port);
     }
 
-    //client handling
+    /**
+     * Start the queue thread and whilst server is running continue accepting client connections and put them into their own thread for handling communication
+     * @param server The server socket to be used for accepting connections
+     */
     public void listenForClientConnection(ServerSocket server)
     {
         System.out.println("hello from listenForClientConnection");

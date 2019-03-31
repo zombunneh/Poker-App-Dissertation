@@ -35,27 +35,12 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.UUID;
 
-/*
-    Created by psymw6
-    30/01/2019
-    GameLogin.java
-*/
-
-/*
-    Login class
-    Functionality:
-    present sign in options for new user, retrieve user details if account created, server creates new if not
-    if not already user profile set up
-    if already signed in show retrieve details and display tap to continue screen
-    TODO sign in token send to server for auth
-    TODO make silent sign in resulting fragment show instantly without delay 
-*/
-
-/*
-shared preferences:
-    settings preferences
-    login preferences
-    data/stats preferences
+/**
+ *     Login class
+ *     Functionality:
+ *     present sign in options for new user, retrieve user details if account created, server creates new if not
+ *     if not already user profile set up
+ *     if already signed in show retrieve details and display tap to continue screen
  */
 public class GameLogin extends AppCompatActivity {
     private static int RC_SIGN_IN;
@@ -67,7 +52,7 @@ public class GameLogin extends AppCompatActivity {
     private ServerConnectionService.ServerBinder serviceBinder;
     private ServerConnectionService serviceInstance;
     private Handler handler = new Handler();
-    // sign in status variables
+
     private boolean loginDetailsUpdated = false;
     private boolean loginCompleted = false;
     private boolean accountNotFound = false;
@@ -79,6 +64,11 @@ public class GameLogin extends AppCompatActivity {
 
     private SharedPreferences loginPrefs;
 
+    /**
+     * Set up fragments needed for login
+     * Set up google sign in api
+     * Register a local broadcast receiver
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,6 +152,9 @@ public class GameLogin extends AppCompatActivity {
         Log.d(TAG, "activity destroyed");
     }
 
+    /**
+     * Attempts to sign in with a google account
+     */
     public void signIn()
     {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -186,7 +179,6 @@ public class GameLogin extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             Log.d(TAG, "attempting to sign in");
-            //TODO send idtoken to server to retrieve data :3
             signInFlow(account, null);
             SharedPreferences.Editor editLoginPrefs = loginPrefs.edit();
             editLoginPrefs.putBoolean(getString(R.string.isLoggedIn), true);
@@ -205,6 +197,9 @@ public class GameLogin extends AppCompatActivity {
         }
     }
 
+    /**
+     * Binding to service
+     */
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -220,6 +215,9 @@ public class GameLogin extends AppCompatActivity {
         }
     };
 
+    /**
+     * Receiving notifications on sign in status
+     */
     private final BroadcastReceiver myReceiver = new BroadcastReceiver()
     {
         @Override
@@ -240,8 +238,17 @@ public class GameLogin extends AppCompatActivity {
         }
     };
 
+    /**
+     * Attempts to sign in the user with the supplied details, either a google account or a guest id
+     *
+     * @param account The google account to sign in with
+     * @param user_id The user id to sign in with
+     */
     public void signInFlow(GoogleSignInAccount account, String user_id)
     {
+        /**
+         * Inner class to be able to parameterize threads
+         */
         class signInRunnable implements Runnable {
             private GoogleSignInAccount account;
             private String user_id;

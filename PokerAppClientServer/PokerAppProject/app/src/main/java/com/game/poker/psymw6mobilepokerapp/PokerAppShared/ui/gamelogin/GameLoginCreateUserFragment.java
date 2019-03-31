@@ -15,9 +15,7 @@ import android.widget.Toast;
 
 import com.game.poker.psymw6mobilepokerapp.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class GameLoginCreateUserFragment extends Fragment {
 
     public static final String CREATE_USER_INTENT = "create_user";
@@ -30,6 +28,9 @@ public class GameLoginCreateUserFragment extends Fragment {
         return new GameLoginCreateUserFragment();
     }
 
+    /**
+     * Fragment for picking a username for a new account
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,6 +57,4 @@ public class GameLoginCreateUserFragment extends Fragment {
 
         return view;
     }
-
-
 }

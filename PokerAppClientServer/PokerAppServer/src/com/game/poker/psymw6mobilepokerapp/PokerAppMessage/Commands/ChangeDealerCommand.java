@@ -8,6 +8,12 @@ public class ChangeDealerCommand implements Command {
     private int oldID;
     private int newID;
 
+    /**
+     * Sends the previous and current dealer to clients
+     *
+     * @param oldDealerID ID of the previous dealer
+     * @param newDealerID ID of the new dealer
+     */
     public ChangeDealerCommand(int oldDealerID, int newDealerID)
     {
         System.out.println("change dealer command");
@@ -15,6 +21,11 @@ public class ChangeDealerCommand implements Command {
         this.newID = newDealerID;
     }
 
+    /**
+     * Implemented client side
+     *
+     * @param invoker Invoker to execute commands
+     */
     public void execute(CommandInvoker invoker) {
 
     }

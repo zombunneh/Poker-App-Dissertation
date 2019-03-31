@@ -10,12 +10,22 @@ public class SendPlayerListCommand implements Command {
     private static final long serialVersionUID = 17593862563L;
     private List<PlayerUser> players;
 
+    /**
+     * Sends a list of players to clients
+     *
+     * @param players The new list of players
+     */
     public SendPlayerListCommand(List<PlayerUser> players)
     {
         System.out.println("player list command");
         this.players = players;
     }
 
+    /**
+     * Implemented client side
+     *
+     * @param invoker Invoker to execute commands
+     */
     public void execute(CommandInvoker invoker) {
 
     }

@@ -1,16 +1,22 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppDatabase;
 
-import java.rmi.ServerError;
 import java.sql.*;
 
 public class SQLDatabaseConnection {
     private static final String dburl = "jdbc:mysql://localhost:3306/pokerappdatabase?useSSL=false&allowPublicKeyRetrieval=true";
     public static final String username = "matthew";
     public static final String password = "123465";
-    //restructured database here
+
     private Connection connect;
 
-    //establish connection to database storing com.game.poker app user's details
+    /**
+     * Establishes connection to the database storing app user's details
+     *
+     * @param url URL of the database to connect to
+     * @param user Username for connecting to the database
+     * @param pass Password for connecting to the database
+     * @return A connection object that can be used to perform queries on the database or null if an error occurs
+     */
     public Connection connectToDatabase(String url, String user, String pass)
     {
        try
@@ -28,10 +34,14 @@ public class SQLDatabaseConnection {
        return null;
     }
 
-    /*
-        Return a ResultSet object containing result of SQL query to database
-        or return null if executing an update to database, denoted by @param queryType 0 is a query 1 is an update
-    */
+    /**
+     * Creates an SQLStatement from the string passed in and executes it on the database
+     *
+     * @param statement The sql statement to be executed
+     * @param queryType 0 is a regular query, 1 is an update to the database
+     * @return A ResultSet object containing result of SQL query to database
+     *         or return null if executing an update to database, denoted by queryType
+     */
     public ResultSet createSQLStatement(String statement, int queryType)
     {
         try {
@@ -56,7 +66,9 @@ public class SQLDatabaseConnection {
     }
 
 
-    //close the database connection when it is no longer needed
+    /**
+     * Closes the database connection
+     */
     public void disconnectFromDatabase()
     {
         try{
