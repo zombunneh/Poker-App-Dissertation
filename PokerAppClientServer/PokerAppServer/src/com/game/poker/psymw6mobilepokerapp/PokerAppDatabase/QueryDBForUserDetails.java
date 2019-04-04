@@ -20,8 +20,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
-import com.google.api.client.util.DateTime;
-
 
 public class QueryDBForUserDetails extends SQLDatabaseConnection {
     private String username;
@@ -204,7 +202,6 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
                     "max_winnings ='" + max_winnings + "', " +
                     "max_chips = '" + max_chips + "' " +
                     "WHERE user_id = '" + id + "'", 1);
-            System.out.println("update complete");
         }
         else if(doesUserExistWithGoogle(user_id, 1))
         {
@@ -230,7 +227,6 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
                     "max_winnings ='" + max_winnings + "', " +
                     "max_chips = '" + max_chips + "' " +
                     "WHERE user_id = '" + id + "'", 1);
-            System.out.println("update complete");
         }
     }
 
@@ -275,7 +271,6 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
                     "max_winnings ='" + max_winnings + "', " +
                     "max_chips = '" + max_chips + "' " +
                     "WHERE user_id = '" + id + "'", 1);
-            System.out.println("update complete");
         }
         else if(doesUserExistWithGoogle(user_id, 1))
         {
@@ -301,7 +296,6 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
                     "max_winnings ='" + max_winnings + "', " +
                     "max_chips = '" + max_chips + "' " +
                     "WHERE user_id = '" + id + "'", 1);
-            System.out.println("update complete");
         }
     }
 
@@ -340,14 +334,12 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
             {
                 login_streak += 1;
                 createSQLStatement("UPDATE users SET login_streak = '" + login_streak + "' WHERE google_user_id = '" + user_id + "'", 1);
-                System.out.println("IS NEXT DAY");
             }
             else if(isNewDay && !isNextDay)
             {
                 login_streak = 1;
                 createSQLStatement("UPDATE users SET login_streak = '" + login_streak + "' WHERE google_user_id = '" + user_id + "'", 1);
             }
-            System.out.println("update complete");
         }
         else if(doesUserExistWithGoogle(user_id, 1))
         {
@@ -356,16 +348,13 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
             {
                 login_streak += 1;
                 createSQLStatement("UPDATE users SET login_streak = '" + login_streak + "' WHERE guest_user_id = '" + user_id + "'", 1);
-                System.out.println("IS NEXT DAY");
             }
             else if(isNewDay && !isNextDay)
             {
                 login_streak = 1;
                 createSQLStatement("UPDATE users SET login_streak = '" + login_streak + "' WHERE guest_user_id = '" + user_id + "'", 1);
             }
-            System.out.println("update complete");
         }
-        System.out.println(login_streak + " = current login streak");
         if(!isNewDay)
         {
             login_streak = 0;
@@ -468,13 +457,11 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
                 if(rs.next())
                 {
                     disconnectFromDatabase();
-                    System.out.println("database entry found");
                     return true;
                 }
                 else
                 {
                     disconnectFromDatabase();
-                    System.out.println("database entry not found");
                     return false;
                 }
             } catch (SQLException e)
@@ -513,13 +500,11 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
             if(rs.next())
             {
                 disconnectFromDatabase();
-                System.out.println("database entry found");
                 return true;
             }
             else
             {
                 disconnectFromDatabase();
-                System.out.println("database entry not found");
                 return false;
             }
         } catch (SQLException e)
@@ -544,7 +529,6 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, factory)
                 .setAudience(Collections.singletonList(GOOGLE_CLIENT_ID))
                 .build();
-        System.out.println("verifying user id");
         try
         {
             GoogleIdToken id = verifier.verify(user_id);
@@ -552,12 +536,10 @@ public class QueryDBForUserDetails extends SQLDatabaseConnection {
             {
                 Payload payload = id.getPayload();
                 google_user_id = payload.getSubject();
-                System.out.println("user id is; " + google_user_id);
                 return true;
             }
             else
             {
-                //TODO handle invalid token
                 System.out.println("invalid token");
                 return false;
             }

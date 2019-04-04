@@ -43,7 +43,6 @@ public class ServerRunnable implements Runnable {
      */
     @Override
     public void run() {
-        System.out.println("server runnable started");
         try
         {
             handleUserConnection(out, in);
@@ -51,7 +50,6 @@ public class ServerRunnable implements Runnable {
         {
             e.printStackTrace();
         }
-        System.out.println("server runnable ended");
     }
 
     /**
@@ -75,32 +73,26 @@ public class ServerRunnable implements Runnable {
                     switch (requestType) {
                         case "get_account": {
                             int getAccountType = in.readInt();
-                            System.out.println("read into getAccountType");
 
                             String user_id = (String) in.readObject();
-                            System.out.println("read user_id:" + user_id);
 
                             //retrieve id token information if google sign in
                             if (getAccountType == 0) {
                                 if (!verifyId(user_id)) {
-                                    //TODO handle telling client id token is invalid
-                                    System.out.println("closing connection");
                                     clientSocket.close();
                                 }
                             }
 
                             boolean accountExists = checkAccount(user_id, getAccountType);
-                            System.out.println("send bool account exists: " + accountExists);
                             if (accountExists) {
                                 out.writeBoolean(accountExists);
-                                System.out.println("sending user id details for token: " + user_id);
 
                                 sendUserLoginDetails(out, user_id, getAccountType);
                                 out.flush();
                             } else {
                                 out.writeBoolean(accountExists);
                                 out.flush();
-                                System.out.println("waiting for client response");
+
                                 String username = (String) in.readObject();
 
                                 registerNewUser(username, user_id, getAccountType);
@@ -117,7 +109,6 @@ public class ServerRunnable implements Runnable {
                             break;
                         }
                         case "retrieve_profile": {
-                            System.out.println("retrieving profile");
                             retrieveProfile(user.user_id, out);
                             break;
                         }
@@ -164,12 +155,6 @@ public class ServerRunnable implements Runnable {
         checkLastLogin();
         out.writeObject(user);
         user.loginStreakChanged = false;
-        System.out.println("user details: ");
-        System.out.println(user.username);
-        System.out.println(user.currency);
-        System.out.println(user.hands_played);
-        System.out.println(user.loginStreak);
-        System.out.println("sent object");
     }
 
     /**
@@ -181,12 +166,11 @@ public class ServerRunnable implements Runnable {
 
         if(currentStreak == 0)
         {
-            System.out.println("day not changed");
+
         }
         else
         {
             double multiplier = (1.0) + ((currentStreak / 10.0) - 0.1);
-            System.out.println("current multiplier");
             user.currency += (BASE_BONUS * multiplier);
             user.loginStreak = currentStreak;
             user.loginStreakChanged = true;
@@ -229,7 +213,6 @@ public class ServerRunnable implements Runnable {
      */
     public void registerNewUser(String username, String user_id, int accountType) throws IOException
     {
-        System.out.println("register new user");
         queryDB.addNewUserOnRegister(username, user_id, accountType);
     }
 
@@ -244,7 +227,6 @@ public class ServerRunnable implements Runnable {
     {
         user = queryDB.queryUserDetailsOnCall(id);
         out.writeObject(user);
-        System.out.println("sent user");
     }
 
     /**
@@ -279,7 +261,6 @@ public class ServerRunnable implements Runnable {
     public void leftGame()
     {
         inGame = false;
-        System.out.println("left game " + user.username);
     }
 
     /**

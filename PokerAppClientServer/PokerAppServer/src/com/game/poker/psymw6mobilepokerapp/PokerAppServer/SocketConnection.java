@@ -43,7 +43,6 @@ public class SocketConnection {
      */
     public void listenForClientConnection(ServerSocket server)
     {
-        System.out.println("hello from listenForClientConnection");
         //start queue thread
         Queue queue = new Queue();
         new Thread(queue, "queue thread").start();
@@ -52,7 +51,6 @@ public class SocketConnection {
             {
                 try
                 {
-                    System.out.println("created server socket o/");
                     clientSocket = server.accept();
                     connection = new ClientConnection(clientSocket);
                 }

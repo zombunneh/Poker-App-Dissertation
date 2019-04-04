@@ -21,9 +21,7 @@ public class SQLDatabaseConnection {
     {
        try
        {
-           System.out.println("The url is " + url);
            Connection connection = DriverManager.getConnection(url, user, pass);
-           System.out.println("connected to database");
            return connection;
        }
        catch(SQLException e)
@@ -32,6 +30,23 @@ public class SQLDatabaseConnection {
            e.printStackTrace();
        }
        return null;
+    }
+
+
+    /**
+     * Closes the database connection
+     */
+    public void disconnectFromDatabase()
+    {
+        try{
+            connect.close();
+        }
+        catch(SQLException e)
+        {
+            System.err.println("Error disconnecting from database");
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -63,22 +78,5 @@ public class SQLDatabaseConnection {
             e.printStackTrace();
         }
         return null;
-    }
-
-
-    /**
-     * Closes the database connection
-     */
-    public void disconnectFromDatabase()
-    {
-        try{
-            connect.close();
-        }
-        catch(SQLException e)
-        {
-            System.err.println("Error disconnecting from database");
-            e.printStackTrace();
-        }
-
     }
 }
