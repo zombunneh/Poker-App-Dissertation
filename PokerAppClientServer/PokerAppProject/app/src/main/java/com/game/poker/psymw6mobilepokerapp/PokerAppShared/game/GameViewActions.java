@@ -25,7 +25,6 @@ public class GameViewActions {
      */
     public void pressedFold()
     {
-        Log.d(TAG, "fold");
         model.pressedButton(PlayerUserMove.FOLD, 0);
     }
 
@@ -34,7 +33,6 @@ public class GameViewActions {
      */
     public void pressedCall()
     {
-        Log.d(TAG, "call");
         model.pressedButton(PlayerUserMove.CALL, 0);
     }
 
@@ -43,7 +41,6 @@ public class GameViewActions {
      */
     public void pressedCheck()
     {
-        Log.d(TAG, "check");
         model.pressedButton(PlayerUserMove.CHECK, 0);
     }
 
@@ -52,7 +49,6 @@ public class GameViewActions {
      */
     public void pressedRaise(int bet)
     {
-        Log.d(TAG, "bet/raise");
         model.pressedButton(PlayerUserMove.RAISE, bet);
     }
 }

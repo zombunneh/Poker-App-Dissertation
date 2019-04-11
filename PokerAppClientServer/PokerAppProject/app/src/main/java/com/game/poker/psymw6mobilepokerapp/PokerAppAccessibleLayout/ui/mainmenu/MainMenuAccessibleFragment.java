@@ -61,18 +61,15 @@ public class MainMenuAccessibleFragment extends Fragment {
                 switch(v.getId())
                 {
                     case R.id.playButton:
-                        Log.d(TAG, "play");
                         Intent broadcastIntent = new Intent(SERVICE_INTENT);
                         broadcastIntent.putExtra("message", "join_queue");
                         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(broadcastIntent); // add fragment or something to show we joined queue
                         //intent = new Intent(getContext(),);
                         break;
                     case R.id.helpButton:
-                        Log.d(TAG, "help");
                         intent = new Intent(getContext(), GameHelp.class);
                         break;
                     case R.id.profileButton:
-                        Log.d(TAG, "profile");
                         Intent broadcast = new Intent(SERVICE_INTENT);
                         broadcast.putExtra("message", "retrieve_profile");
                         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(broadcast);
@@ -80,10 +77,8 @@ public class MainMenuAccessibleFragment extends Fragment {
                         startActivity(intent);
                         break;
                     case R.id.friendsButton:
-                        Log.d(TAG, "friends");
                         break;
                     case R.id.optionsButton:
-                        Log.d(TAG, "options");
                         intent = new Intent(getContext(), GameOptions.class);
                         startActivity(intent);
                         break;
@@ -103,10 +98,10 @@ public class MainMenuAccessibleFragment extends Fragment {
             switch(message)
             {
                 case "queue_joined":
-                    Log.d(TAG, "queue joined");
+                    //Log.d(TAG, "queue joined");
                     break;
                 case "unable_to_join_queue":
-                    Log.d(TAG, "unable to join queue");
+                    //Log.d(TAG, "unable to join queue");
                     break;
                 default:
                     break;

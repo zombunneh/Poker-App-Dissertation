@@ -90,7 +90,6 @@ public class GameListener implements Runnable {
             }
         }
         sendBroadcastMessage("listen_end");
-        Log.d(TAG, "game listener ended");
     }
 
     /**
@@ -101,7 +100,6 @@ public class GameListener implements Runnable {
     public void setRunning(boolean running)
     {
         this.running = running;
-        Log.d(TAG, "" + running);
     }
 
     /**
@@ -120,7 +118,6 @@ public class GameListener implements Runnable {
      */
     private void sendBroadcastMessage(String message)
     {
-        Log.d(TAG, "sending broadcast" + message);
         Intent intent = new Intent(LISTEN_INTENT);
         // You can also include some extra data.
         intent.putExtra("message", message);

@@ -47,7 +47,6 @@ public class GameLoginCreateUserFragment extends Fragment {
                 }
                 else
                 {
-                    Log.d("g53ids-createuserfrag", tv.getText().toString());
                     Intent intent = new Intent(CREATE_USER_INTENT);
                     intent.putExtra("message", tv.getText().toString());
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);

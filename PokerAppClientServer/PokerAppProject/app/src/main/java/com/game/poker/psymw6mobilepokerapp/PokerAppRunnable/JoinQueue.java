@@ -51,7 +51,6 @@ public class JoinQueue implements Runnable {
     public void run() {
         try
         {
-            Log.d(TAG, "joining queue");
             out.writeObject("join_queue");
             clientSocket.setSoTimeout(TIMEOUT);
             Object object = null;
@@ -88,7 +87,6 @@ public class JoinQueue implements Runnable {
      */
     private void sendBroadcastMessage(String message)
     {
-        Log.d(TAG, "sending broadcast" + message);
         Intent intent = new Intent(SERVICE_INTENT);
         // You can also include some extra data.
         intent.putExtra("message", message);

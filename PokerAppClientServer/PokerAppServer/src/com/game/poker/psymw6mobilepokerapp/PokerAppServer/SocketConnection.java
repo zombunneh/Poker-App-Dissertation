@@ -21,6 +21,7 @@ public class SocketConnection {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+        System.out.println("server running");
         SocketConnection myConnection = new SocketConnection();
         server = myConnection.createServerSocket();
         myConnection.listenForClientConnection(server);

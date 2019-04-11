@@ -14,7 +14,6 @@ public class SetIDCommand implements Command {
      */
     public SetIDCommand(int id)
     {
-        System.out.println("set id command");
         this.id = id;
     }
 

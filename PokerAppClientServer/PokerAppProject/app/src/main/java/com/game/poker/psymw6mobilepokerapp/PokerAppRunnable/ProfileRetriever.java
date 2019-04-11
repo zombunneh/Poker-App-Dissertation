@@ -77,7 +77,6 @@ public class ProfileRetriever implements Runnable{
      */
     private void sendBroadcastMessage(String message)
     {
-        Log.d(TAG, "sending broadcast");
         Intent intent = new Intent(RETRIEVE_INTENT);
         // You can also include some extra data.
         intent.putExtra("message", message);

@@ -51,7 +51,6 @@ public class RetrieveUserLoginData implements Runnable {
         accountType = 0;
         isUsernameSet = false;
 
-        Log.d(TAG, "ruld created");
         LocalBroadcastManager.getInstance(context).registerReceiver(myReceiver, new IntentFilter(CREATE_USER_INTENT));
         saveData = context.getSharedPreferences(
                 context.getString(R.string.dataPreferences),
@@ -76,7 +75,6 @@ public class RetrieveUserLoginData implements Runnable {
         accountType = 1;
         isUsernameSet = false;
 
-        Log.d(TAG, "ruld created");
         LocalBroadcastManager.getInstance(context).registerReceiver(myReceiver, new IntentFilter(CREATE_USER_INTENT));
         saveData = context.getSharedPreferences(
                 context.getString(R.string.dataPreferences),
@@ -96,9 +94,7 @@ public class RetrieveUserLoginData implements Runnable {
      */
     @Override
     public void run() {
-        Log.d(TAG, "ruld thread started");
         try {
-            Log.d(TAG, "starting communication");
             if(account != null)
             {
                 idToken = account.getIdToken();
@@ -115,9 +111,7 @@ public class RetrieveUserLoginData implements Runnable {
                 out.writeObject(instanceID);
             }
 
-            Log.d(TAG, "sent details to server");
             boolean accountExists = in.readBoolean();
-            Log.d(TAG, "account exists returned:" + accountExists);
             if(accountExists)
             {
                 GameUser user = (GameUser) in.readObject();
@@ -128,7 +122,6 @@ public class RetrieveUserLoginData implements Runnable {
             }
             else
             {
-                Log.d(TAG, "account doesnt exist, executing new account protocol");
                 sendBroadcastMessage("accountNotFound");
                 while(!isUsernameSet)
                 {
@@ -141,10 +134,8 @@ public class RetrieveUserLoginData implements Runnable {
                         Log.d(TAG, e.toString());
                     }
                 }
-                Log.d(TAG, "sending username to server " + username);
 
                 out.writeObject(username);
-                Log.d(TAG, "waiting for new user details");
                 GameUser user = (GameUser) in.readObject();
                 populateSharedPrefs(user, saveData, context);
                 sendBroadcastMessage("loginDetailsUpdated");
@@ -184,7 +175,6 @@ public class RetrieveUserLoginData implements Runnable {
      */
     private void sendBroadcastMessage(String message)
     {
-        Log.d(TAG, "sending broadcast");
         Intent intent = new Intent(BROADCAST_INTENT);
         // You can also include some extra data.
         intent.putExtra("message", message);
@@ -199,7 +189,6 @@ public class RetrieveUserLoginData implements Runnable {
         @Override
         public void onReceive(Context context, Intent intent) {
             username = intent.getStringExtra("message");
-            Log.d(TAG, "message received: " + username);
             isUsernameSet = true;
         }
     };
