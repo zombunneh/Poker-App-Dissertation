@@ -5,6 +5,7 @@ import com.game.poker.psymw6mobilepokerapp.PokerAppRunnable.Queue;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class SocketConnection {
 
@@ -13,6 +14,7 @@ public class SocketConnection {
     public final static int port = 4567;
     private boolean isServerStopped = false;
     private ClientConnection connection = null;
+    private ServerMonitor monitor;
 
     /**
      * Run to start server
@@ -24,8 +26,8 @@ public class SocketConnection {
         System.out.println("server running");
         SocketConnection myConnection = new SocketConnection();
         server = myConnection.createServerSocket();
+        myConnection.waitForExitCommand();
         myConnection.listenForClientConnection(server);
-
     }
 
     /**
@@ -54,13 +56,33 @@ public class SocketConnection {
                 {
                     clientSocket = server.accept();
                     connection = new ClientConnection(clientSocket);
+                    new Thread( new ServerRunnable(connection, queue), "server connection").start();
                 }
                 catch(IOException e)
                 {
-                    e.printStackTrace();
+                    if(!(e instanceof SocketException))
+                        e.printStackTrace();
                 }
-                new Thread( new ServerRunnable(connection, queue), "server connection").start();
             }
          queue.shutdownThread(true);
+        System.out.println("server ended");
+    }
+
+    public void closeServer()
+    {
+        System.out.println("closing server");
+        isServerStopped = true;
+    }
+
+    public ServerSocket getServer()
+    {
+        return server;
+    }
+
+    public void waitForExitCommand()
+    {
+        monitor = new ServerMonitor(this);
+        Thread monitorThread = new Thread(monitor);
+        monitorThread.start();
     }
 }
