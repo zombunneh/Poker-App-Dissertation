@@ -49,7 +49,6 @@ public class CommandInvoker implements Runnable{
     @Override
     public void run() {
         Command command;
-        //Log.d(TAG, "invoker running");
         while(invoked)
         {
             synchronized (queue)
@@ -70,12 +69,11 @@ public class CommandInvoker implements Runnable{
                     command = queue.getNextCommand();
                     if(command != null)
                     {
-                        //Log.d(TAG,"executing command");
                         command.execute(this);
                     }
                     else
                     {
-                        //Log.d(TAG, "no command to execute");
+
                     }
                 }
             }

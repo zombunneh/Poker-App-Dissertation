@@ -288,11 +288,13 @@ public class GameLogin extends AppCompatActivity {
                     SharedPreferences.Editor edit = loginPrefs.edit();
                     edit.putInt(getString(R.string.accountType), accountType);
                     edit.apply();
-                    //login with google acc
+
                     if(accountType == 0) {
+                        //login with google account
                         serviceInstance.retrieveUserDetailsOnLogin(account);
                     }
                     else {
+                        //login with guest account
                         serviceInstance.retrieveUserDetailsOnLogin(user_id);
                     }
                     while(!loginCompleted)

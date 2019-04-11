@@ -272,7 +272,6 @@ public class GameViewController implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        Log.d(TAG, "change observed");
         if(o instanceof GameViewModel)
         {
             this.updateView((GameViewModel) o, arg);

@@ -547,7 +547,6 @@ public class EvaluateHand {
             }
             evaluatedHands.put(tempPlayer, currentHand);
         }
-        evaluatedHands.forEach(((playerUser, hand) -> System.out.println(playerUser.username + " " + hand.toString())));
         return evaluatedHands;
     }
 
@@ -568,7 +567,6 @@ public class EvaluateHand {
         {
             temp = breakTie(temp);
         }
-        temp.forEach((playerUser, hand) -> System.out.println(playerUser.username + " " + hand.toString()));
         return temp;
     }
 

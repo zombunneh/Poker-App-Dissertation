@@ -3,7 +3,7 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppDatabase;
 import java.sql.*;
 
 public class SQLDatabaseConnection {
-    private static final String dburl = "jdbc:mysql://localhost:3306/pokerappdatabase?useSSL=false&allowPublicKeyRetrieval=true";
+    private static final String dburl = "jdbc:mysql://localhost:3306/pokerappdatabase?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT";
     public static final String username = "matthew";
     public static final String password = "123465";
 

@@ -11,81 +11,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Table.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1701">
-              <caret line="191" column="7" selection-start-line="191" selection-start-column="7" selection-end-line="191" selection-end-column="7" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Queue.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1394">
-              <caret line="94" column="18" selection-start-line="94" selection-start-column="18" selection-end-line="94" selection-end-column="18" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/GameRunnable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1701">
-              <caret line="315" column="30" selection-start-line="315" selection-start-column="30" selection-end-line="315" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/GamePlayerList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1701">
-              <caret line="201" column="80" selection-start-line="201" selection-start-column="80" selection-end-line="201" selection-end-column="80" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#384#385#0" expanded="true" />
-                <element signature="e#435#436#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/EvaluateHand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#findMaxKicker#0;class#EvaluateHand#0" />
-                <element signature="docComment;method#handEvaluator#0;class#EvaluateHand#0" />
-                <element signature="method#checkHand#0;class#EvaluateHand#0" />
-                <element signature="method#checkRoyalFlush#0;class#EvaluateHand#0" />
-                <element signature="method#checkStraightFlush#0;class#EvaluateHand#0" />
-                <element signature="method#checkFullHouse#0;class#EvaluateHand#0" />
-                <element signature="method#checkFlush#0;class#EvaluateHand#0" />
-                <element signature="method#checkStraight#0;class#EvaluateHand#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Deck.java">
+        <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/ClientConnection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1173">
-              <caret line="69" column="40" selection-start-line="69" selection-start-column="40" selection-end-line="69" selection-end-column="40" />
+            <state relative-caret-position="791">
+              <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/ServerRunnable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="282">
+              <caret line="128" column="30" selection-start-line="128" selection-start-column="20" selection-end-line="128" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/SocketConnection.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="111">
+              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -119,6 +73,7 @@
       <find>ingame</find>
       <find>endGame</find>
       <find>close</find>
+      <find>system.out</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -127,9 +82,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/PokerAppObjects/Deck.java" />
-        <option value="$PROJECT_DIR$/src/PokerAppObjects/EvaluateHand.java" />
-        <option value="$PROJECT_DIR$/src/PokerAppObjects/GameRunnable.java" />
         <option value="$PROJECT_DIR$/src/PokerAppObjects/Table.java" />
         <option value="$PROJECT_DIR$/src/PokerAppObjects/Queue.java" />
         <option value="$PROJECT_DIR$/src/PokerAppServer/SocketConnection.java" />
@@ -146,46 +98,49 @@
         <option value="$PROJECT_DIR$/src/pokerapp_tests/QueueTest.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/ServerCallback.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Hand.java" />
-        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/GamePlayerList.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Deck.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/User.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/PlayerUserTurn.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/SocketUser.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Table.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Queue.java" />
-        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/EvaluateHand.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/PlayerUser.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/PlayerMove.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Card.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/Command.java" />
-        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendTurnNotificationCommand.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendTurnCommand.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendRiverCommand.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendFlopCommand.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendPlayerMoveCommand.java" />
-        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SetIDCommand.java" />
-        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendPlayerListCommand.java" />
-        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendHandCommand.java" />
-        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/ChangeDealerCommand.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/CanCheckCommand.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/CanCallCommand.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/ClientOnly/CommandInvoker.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/GameUser.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendWinCommand.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/GameRunnable.java" />
-        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppDatabase/SQLDatabaseConnection.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppDatabase/QueryDBForUserDetails.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/SocketConnection.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/ClientConnection.java" />
+        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/ChangeDealerCommand.java" />
+        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppDatabase/SQLDatabaseConnection.java" />
+        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/GamePlayerList.java" />
+        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppRunnable/Table.java" />
+        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendHandCommand.java" />
+        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendPlayerListCommand.java" />
+        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendTurnNotificationCommand.java" />
+        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SetIDCommand.java" />
+        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/EvaluateHand.java" />
+        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppRunnable/Queue.java" />
+        <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppRunnable/GameRunnable.java" />
         <option value="$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/ServerRunnable.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1928" />
-    <option name="y" value="350" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="37" />
+    <option name="y" value="121" />
+    <option name="width" value="1516" />
+    <option name="height" value="831" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -194,7 +149,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -246,48 +200,6 @@
               <item name="game" type="462c0819:PsiDirectoryNode" />
               <item name="poker" type="462c0819:PsiDirectoryNode" />
               <item name="psymw6mobilepokerapp" type="462c0819:PsiDirectoryNode" />
-              <item name="PokerAppDatabase" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PokerAppServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PokerAppServer" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-              <item name="poker" type="462c0819:PsiDirectoryNode" />
-              <item name="psymw6mobilepokerapp" type="462c0819:PsiDirectoryNode" />
-              <item name="PokerAppMessage" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PokerAppServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PokerAppServer" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-              <item name="poker" type="462c0819:PsiDirectoryNode" />
-              <item name="psymw6mobilepokerapp" type="462c0819:PsiDirectoryNode" />
-              <item name="PokerAppMessage" type="462c0819:PsiDirectoryNode" />
-              <item name="ClientOnly" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PokerAppServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PokerAppServer" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-              <item name="poker" type="462c0819:PsiDirectoryNode" />
-              <item name="psymw6mobilepokerapp" type="462c0819:PsiDirectoryNode" />
-              <item name="PokerAppMessage" type="462c0819:PsiDirectoryNode" />
-              <item name="Commands" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PokerAppServer" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PokerAppServer" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-              <item name="poker" type="462c0819:PsiDirectoryNode" />
-              <item name="psymw6mobilepokerapp" type="462c0819:PsiDirectoryNode" />
               <item name="PokerAppObjects" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -300,6 +212,16 @@
               <item name="psymw6mobilepokerapp" type="462c0819:PsiDirectoryNode" />
               <item name="PokerAppObjects" type="462c0819:PsiDirectoryNode" />
               <item name="Hand.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+            <path>
+              <item name="PokerAppServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PokerAppServer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="poker" type="462c0819:PsiDirectoryNode" />
+              <item name="psymw6mobilepokerapp" type="462c0819:PsiDirectoryNode" />
+              <item name="PokerAppRunnable" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PokerAppServer" type="b2602c69:ProjectViewProjectNode" />
@@ -325,6 +247,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -332,7 +255,7 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553541578805" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554995824318" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="create.test.in.the.same.root" value="true" />
@@ -368,7 +291,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.SocketConnection">
+  <component name="RunManager" selected="JUnit.EvaluateHandTest.testStraightFlush">
     <configuration name="SocketConnection (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.game.poker.psymw6mobilepokerapp.PokerAppServer.SocketConnection" />
       <module name="PokerAppServer" />
@@ -431,11 +354,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EvaluateHandTest.testSortHand" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="EvaluateHandTest.testStraightFlush" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PokerAppServer" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="EvaluateHandTest" />
-      <option name="METHOD_NAME" value="testSortHand" />
+      <option name="METHOD_NAME" value="testStraightFlush" />
       <option name="TEST_OBJECT" value="method" />
       <option name="PARAMETERS" value="" />
       <method v="2">
@@ -513,18 +436,18 @@
       <item itemvalue="JUnit.SocketConnectionTest.test" />
       <item itemvalue="JUnit.SocketConnectionTest.testUserRetrieval" />
       <item itemvalue="JUnit.EvaluateHandTest" />
-      <item itemvalue="JUnit.EvaluateHandTest.testSortHand" />
       <item itemvalue="JUnit.QueueTest.addToQueueTest" />
       <item itemvalue="JUnit.QueueTest" />
       <item itemvalue="JUnit.GamePlayerListTest" />
+      <item itemvalue="JUnit.EvaluateHandTest.testStraightFlush" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.EvaluateHandTest.testStraightFlush" />
         <item itemvalue="JUnit.GamePlayerListTest" />
         <item itemvalue="JUnit.QueueTest" />
         <item itemvalue="Application.SocketConnection (1)" />
         <item itemvalue="JUnit.QueueTest.addToQueueTest" />
-        <item itemvalue="JUnit.EvaluateHandTest.testSortHand" />
       </list>
     </recent_temporary>
   </component>
@@ -542,9 +465,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GamePlayerListTest - 2019.02.20 at 20h 41m 58s.xml">
-      <configuration name="GamePlayerListTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="GamePlayerListTest - 2019.02.20 at 20h 42m 14s.xml">
       <configuration name="GamePlayerListTest" configurationId="JUnit" />
     </history-entry>
@@ -572,11 +492,15 @@
     <history-entry file="GamePlayerListTest - 2019.02.20 at 20h 47m 34s.xml">
       <configuration name="GamePlayerListTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="EvaluateHandTest_testStraightFlush - 2019.04.07 at 15h 56m 55s.xml">
+      <configuration name="EvaluateHandTest.testStraightFlush" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1088" y="-641" width="1096" height="1896" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.4527027" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.46268657" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -588,7 +512,7 @@
       <window_info anchor="bottom" id="Debug" order="2" weight="0.39948007" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
-      <window_info anchor="bottom" x="121" y="565" width="1428" height="286" id="Run" order="5" weight="0.2985258" />
+      <window_info anchor="bottom" x="121" y="565" width="1428" height="286" id="Run" order="5" weight="0.3206934" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32928944" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
@@ -603,34 +527,6 @@
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
     </layout>
-    <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.4546332" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="UI Designer" order="4" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3293461" />
-      <window_info anchor="bottom" id="Debug" order="2" weight="0.39948007" />
-      <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
-      <window_info anchor="bottom" x="121" y="565" width="1428" height="286" id="Run" order="5" weight="0.2993421" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32928944" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32928944" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Maven" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Capture Analysis" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="7" />
-    </layout-to-restore>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/lib/sqljdbc_6.0/enu/samples/datatypes/basicDT.java" />
@@ -639,36 +535,18 @@
     <entry file="file://$PROJECT_DIR$/src/pokerapp/SocketConnectionTest.java" />
     <entry file="file://$PROJECT_DIR$/src/PokerAppObjects/SocketUserQueue.java" />
     <entry file="file://$PROJECT_DIR$/src/PokerAppObjects/TablePriorityQueue.java" />
-    <entry file="file://$PROJECT_DIR$/src/pokerapp_tests/EvaluateHandTest.java">
+    <entry file="jar://C:/Program Files/Java/jdk-11.0.1/lib/src.zip!/java.base/java/io/ObjectInputStream.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1738">
-          <caret line="82" column="56" selection-start-line="82" selection-start-column="56" selection-end-line="82" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="204">
+          <caret line="3061" selection-start-line="3061" selection-end-line="3061" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pokerapp_tests/SocketConnectionTest.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/ServerCallback.java" />
+    <entry file="jar://C:/Program Files/Java/jdk-11.0.1/lib/src.zip!/java.base/java/lang/String.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="5" lean-forward="true" selection-start-line="19" selection-start-column="4" selection-end-line="28" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pokerapp_tests/GamePlayerListTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="60" selection-start-line="60" selection-end-line="60" />
-          <folding>
-            <element signature="e#1428#1429#0" expanded="true" />
-            <element signature="e#1482#1483#0" expanded="true" />
-            <element signature="e#1516#1517#0" expanded="true" />
-            <element signature="e#1551#1552#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="299">
+          <caret line="124" column="19" selection-start-line="124" selection-start-column="19" selection-end-line="124" selection-end-column="19" />
         </state>
       </provider>
     </entry>
@@ -682,203 +560,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-11.0.1/lib/src.zip!/java.base/java/io/ObjectInputStream.java">
+    <entry file="file://$PROJECT_DIR$/src/pokerapp_tests/GamePlayerListTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="3061" selection-start-line="3061" selection-end-line="3061" />
+        <state relative-caret-position="192">
+          <caret line="19" column="59" lean-forward="true" selection-start-line="19" selection-start-column="59" selection-end-line="19" selection-end-column="59" />
+          <folding>
+            <element signature="e#1428#1429#0" expanded="true" />
+            <element signature="e#1482#1483#0" expanded="true" />
+            <element signature="e#1516#1517#0" expanded="true" />
+            <element signature="e#1551#1552#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/ServerCallback.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Hand.java">
+    <entry file="file://$PROJECT_DIR$/src/pokerapp_tests/EvaluateHandTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" selection-start-line="13" selection-end-line="15" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/PlayerUserTurn.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="89" selection-start-line="12" selection-start-column="89" selection-end-line="12" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/PlayerUserMove.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/PlayerMove.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="64" selection-start-line="18" selection-start-column="64" selection-end-line="18" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/SocketUser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="22" selection-start-line="22" selection-end-line="24" selection-end-column="47" />
+        <state relative-caret-position="838">
+          <caret line="99" column="31" selection-start-line="99" selection-start-column="31" selection-end-line="99" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Card.java">
+    <entry file="file://$PROJECT_DIR$/src/pokerapp_tests/SocketConnectionTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
-          <caret line="59" column="30" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="30" />
-          <folding>
-            <element signature="e#775#776#0" expanded="true" />
-            <element signature="e#806#807#0" expanded="true" />
-            <element signature="e#843#844#0" expanded="true" />
-            <element signature="e#874#875#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="85">
+          <caret line="5" column="34" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/PlayerUser.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppRunnable/Table.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="30" selection-start-line="30" selection-end-line="32" selection-end-column="47" />
-          <folding>
-            <element signature="e#3887#3888#0" expanded="true" />
-            <element signature="e#3918#3919#0" expanded="true" />
-            <element signature="e#4023#4024#0" expanded="true" />
-            <element signature="e#4052#4053#0" expanded="true" />
-            <element signature="e#4090#4091#0" expanded="true" />
-            <element signature="e#4122#4123#0" expanded="true" />
-            <element signature="e#4303#4304#0" expanded="true" />
-            <element signature="e#4334#4335#0" expanded="true" />
-            <element signature="e#4504#4505#0" expanded="true" />
-            <element signature="e#4535#4536#0" expanded="true" />
-            <element signature="e#4645#4646#0" expanded="true" />
-            <element signature="e#4670#4671#0" expanded="true" />
-            <element signature="e#4771#4772#0" expanded="true" />
-            <element signature="e#4802#4803#0" expanded="true" />
-            <element signature="e#4903#4904#0" expanded="true" />
-            <element signature="e#4934#4935#0" expanded="true" />
-            <element signature="e#5017#5018#0" expanded="true" />
-            <element signature="e#5049#5050#0" expanded="true" />
-            <element signature="e#5082#5083#0" expanded="true" />
-            <element signature="e#5113#5114#0" expanded="true" />
-            <element signature="e#5288#5289#0" expanded="true" />
-            <element signature="e#5324#5325#0" expanded="true" />
-            <element signature="e#5448#5449#0" expanded="true" />
-            <element signature="e#5477#5478#0" expanded="true" />
-            <element signature="e#5583#5584#0" expanded="true" />
-            <element signature="e#5615#5616#0" expanded="true" />
-            <element signature="e#6336#6337#0" expanded="true" />
-            <element signature="e#6369#6370#0" expanded="true" />
-            <element signature="e#6475#6476#0" expanded="true" />
-            <element signature="e#6505#6506#0" expanded="true" />
-            <element signature="e#6592#6593#0" expanded="true" />
-            <element signature="e#6622#6623#0" expanded="true" />
-            <element signature="e#6715#6716#0" expanded="true" />
-            <element signature="e#6742#6743#0" expanded="true" />
-            <element signature="e#6837#6838#0" expanded="true" />
-            <element signature="e#6868#6869#0" expanded="true" />
-            <element signature="e#6999#7000#0" expanded="true" />
-            <element signature="e#7035#7036#0" expanded="true" />
-            <element signature="e#7163#7164#0" expanded="true" />
-            <element signature="e#7197#7198#0" expanded="true" />
-            <element signature="e#7581#7582#0" expanded="true" />
-            <element signature="e#7608#7609#0" expanded="true" />
-            <element signature="e#7787#7788#0" expanded="true" />
-            <element signature="e#7821#7822#0" expanded="true" />
-            <element signature="e#8063#8064#0" expanded="true" />
-            <element signature="e#8100#8101#0" expanded="true" />
-            <element signature="e#8346#8347#0" expanded="true" />
-            <element signature="e#8376#8377#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/Command.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="66" selection-start-line="11" selection-start-column="66" selection-end-line="11" selection-end-column="66" />
+        <state relative-caret-position="263">
+          <caret line="212" column="9" selection-start-line="212" selection-start-column="9" selection-end-line="212" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendTurnNotificationCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppDatabase/QueryDBForUserDetails.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendTurnCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+        <state relative-caret-position="-8390">
+          <caret line="47" column="46" selection-start-line="47" selection-start-column="46" selection-end-line="47" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendRiverCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppDatabase/SQLDatabaseConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="-553">
+          <caret line="5" column="146" selection-start-line="5" selection-start-column="146" selection-end-line="5" selection-end-column="146" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendFlopCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/ClientOnly/CommandInvoker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" selection-start-line="10" selection-end-line="14" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendPlayerMoveCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="7" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendPlayerListCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendHandCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="51">
+          <caret line="3" column="38" selection-start-line="3" selection-start-column="38" selection-end-line="3" selection-end-column="38" />
         </state>
       </provider>
     </entry>
@@ -898,144 +640,190 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/ChangeDealerCommand.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="30" column="1" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+          <folding>
+            <element signature="docComment;method#ChangeDealerCommand#0;class#ChangeDealerCommand#0" />
+            <element signature="docComment;method#execute#0;class#ChangeDealerCommand#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendPlayerMoveCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="7" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/ClientOnly/CommandInvoker.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendRiverCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="38" selection-start-line="3" selection-start-column="38" selection-end-line="3" selection-end-column="38" />
+        <state relative-caret-position="238">
+          <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SetIDCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendTurnCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        <state relative-caret-position="238">
+          <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/GameUser.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendTurnNotificationCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="739">
-          <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+        <state relative-caret-position="221">
+          <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+          <folding>
+            <element signature="e#462#463#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendWinCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-11.0.1/lib/src.zip!/java.base/java/lang/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="124" column="19" selection-start-line="124" selection-start-column="19" selection-end-line="124" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppDatabase/SQLDatabaseConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="36" column="37" lean-forward="true" selection-start-line="36" selection-start-column="37" selection-end-line="36" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppDatabase/QueryDBForUserDetails.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-161">
-          <caret line="47" column="46" selection-start-line="47" selection-start-column="46" selection-end-line="47" selection-end-column="46" />
+        <state relative-caret-position="136">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/SocketConnection.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SetIDCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1105">
-          <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
+        <state relative-caret-position="255">
+          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding>
+            <element signature="e#450#451#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendPlayerListCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#624#625#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendHandCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#567#568#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/SendFlopCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" selection-start-line="10" selection-end-line="14" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/ClientConnection.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Commands/Command.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
-          <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
+        <state relative-caret-position="102">
+          <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/ServerRunnable.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/Card.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1753">
-          <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
+        <state relative-caret-position="379">
+          <caret line="37" column="75" lean-forward="true" selection-start-line="37" selection-start-column="75" selection-end-line="37" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/GameUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="736">
+          <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/PlayerMove.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="64" selection-start-line="18" selection-start-column="64" selection-end-line="18" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/PlayerUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4245">
+          <caret line="15" column="24" lean-forward="true" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/PlayerUserMove.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/PlayerUserTurn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="89" selection-start-line="12" selection-start-column="89" selection-end-line="12" selection-end-column="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/SocketUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-29">
+          <caret line="22" selection-start-line="22" selection-end-line="24" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6922#6923#0" expanded="true" />
-            <element signature="e#7270#7271#0" expanded="true" />
-            <element signature="e#8712#8713#0" expanded="true" />
-            <element signature="e#8888#8889#0" expanded="true" />
-            <element signature="e#9032#9033#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Table.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppMessage/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1701">
-          <caret line="191" column="7" selection-start-line="191" selection-start-column="7" selection-end-line="191" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="221">
+          <caret line="13" selection-start-line="13" selection-end-line="15" selection-end-column="47" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Queue.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Deck.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1394">
-          <caret line="94" column="18" selection-start-line="94" selection-start-column="18" selection-end-line="94" selection-end-column="18" />
+        <state relative-caret-position="702">
+          <caret line="69" column="40" selection-start-line="69" selection-start-column="40" selection-end-line="69" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/GameRunnable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1701">
-          <caret line="315" column="30" selection-start-line="315" selection-start-column="30" selection-end-line="315" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/GamePlayerList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1701">
-          <caret line="201" column="80" selection-start-line="201" selection-start-column="80" selection-end-line="201" selection-end-column="80" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#384#385#0" expanded="true" />
-            <element signature="e#435#436#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/EvaluateHand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="37" />
+        <state relative-caret-position="265">
+          <caret line="568" column="9" selection-start-line="568" selection-start-column="9" selection-end-line="568" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#findMaxKicker#0;class#EvaluateHand#0" />
@@ -1045,15 +833,77 @@
             <element signature="method#checkStraightFlush#0;class#EvaluateHand#0" />
             <element signature="method#checkFullHouse#0;class#EvaluateHand#0" />
             <element signature="method#checkFlush#0;class#EvaluateHand#0" />
-            <element signature="method#checkStraight#0;class#EvaluateHand#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Deck.java">
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/GamePlayerList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="69" column="40" selection-start-line="69" selection-start-column="40" selection-end-line="69" selection-end-column="40" />
+        <state relative-caret-position="221">
+          <caret line="159" column="35" selection-start-line="159" selection-start-column="35" selection-end-line="159" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#384#385#0" expanded="true" />
+            <element signature="e#435#436#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppObjects/Hand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppRunnable/GameRunnable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-717">
+          <caret line="350" column="9" selection-start-line="350" selection-start-column="9" selection-end-line="350" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2336#2337#0" expanded="true" />
+            <element signature="e#2371#2372#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppRunnable/Queue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-41">
+          <caret line="67" column="41" selection-start-line="67" selection-start-column="41" selection-end-line="67" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2182#2183#0" expanded="true" />
+            <element signature="e#2230#2231#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/SocketConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/ServerRunnable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="128" column="30" selection-start-line="128" selection-start-column="20" selection-end-line="128" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/game/poker/psymw6mobilepokerapp/PokerAppServer/ClientConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="791">
+          <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

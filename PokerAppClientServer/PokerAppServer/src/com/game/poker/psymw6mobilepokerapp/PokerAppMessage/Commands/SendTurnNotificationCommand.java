@@ -12,7 +12,6 @@ public class SendTurnNotificationCommand implements Command {
      */
     public SendTurnNotificationCommand(int id)
     {
-        System.out.println("send turn notification" + id);
         this.id = id;
     }
 

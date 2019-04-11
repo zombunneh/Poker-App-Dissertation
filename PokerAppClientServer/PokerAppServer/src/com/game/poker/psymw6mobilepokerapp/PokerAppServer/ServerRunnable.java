@@ -2,7 +2,7 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppServer;
 
 import com.game.poker.psymw6mobilepokerapp.PokerAppDatabase.QueryDBForUserDetails;
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.GameUser;
-import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.Queue;
+import com.game.poker.psymw6mobilepokerapp.PokerAppRunnable.Queue;
 
 import java.io.*;
 import java.net.Socket;
@@ -49,7 +49,9 @@ public class ServerRunnable implements Runnable {
         } catch(IOException e)
         {
             e.printStackTrace();
+            clientSocket = null;
         }
+
     }
 
     /**
@@ -103,7 +105,6 @@ public class ServerRunnable implements Runnable {
                             break;
                         }
                         case "join_queue": {
-                            System.out.println(user.user_id);
                             addUserToQueue(user);
                             inGame = true;
                             break;

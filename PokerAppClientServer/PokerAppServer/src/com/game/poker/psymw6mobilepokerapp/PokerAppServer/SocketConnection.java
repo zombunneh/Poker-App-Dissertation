@@ -1,6 +1,6 @@
 package com.game.poker.psymw6mobilepokerapp.PokerAppServer;
 
-import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.Queue;
+import com.game.poker.psymw6mobilepokerapp.PokerAppRunnable.Queue;
 
 import java.io.IOException;
 import java.net.ServerSocket;

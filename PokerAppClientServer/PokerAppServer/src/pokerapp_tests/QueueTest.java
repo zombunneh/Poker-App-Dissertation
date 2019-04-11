@@ -1,13 +1,11 @@
 import com.game.poker.psymw6mobilepokerapp.PokerAppMessage.User;
-import com.game.poker.psymw6mobilepokerapp.PokerAppObjects.Queue;
+import com.game.poker.psymw6mobilepokerapp.PokerAppRunnable.Queue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
 import java.net.Socket;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class QueueTest {
 

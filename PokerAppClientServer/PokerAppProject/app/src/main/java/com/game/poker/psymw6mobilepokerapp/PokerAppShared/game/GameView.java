@@ -293,7 +293,7 @@ public class GameView extends AppCompatActivity {
             cards[i][1] = model.myPlayer.getMyHand()[i].getCardRank().ordinal();
         }
 
-        Bitmap handCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
+        Bitmap handCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 440, 600);
         ClientCard handCardBitmap = new ClientCard(handCardBitmap1, 0, 0, cards[0][0], cards[0][1]);
 
         handCards[0].setImageBitmap(handCardBitmap.getBitmap());
@@ -325,7 +325,7 @@ public class GameView extends AppCompatActivity {
                 cards[i][1] = model.getCommunityCards()[i].getCardRank().ordinal();
             }
 
-            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 300, 500);
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 0, 0, cards[0][0], cards[0][1]);
 
             for(int i = 0; i < 3; i++)
@@ -352,7 +352,7 @@ public class GameView extends AppCompatActivity {
         if(communityCardViews[3].getDrawable() == null && model.getCommunityCards()[3] != null)
         {
             Log.d(TAG, "set t");
-            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 300, 500);
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 0, 0, model.getCommunityCards()[3].getCardSuit().ordinal(),model.getCommunityCards()[3].getCardRank().ordinal());
 
             communityCardViews[3].setImageBitmap(communityCardBitmap.getBitmap());
@@ -365,7 +365,7 @@ public class GameView extends AppCompatActivity {
         if(communityCardViews[4].getDrawable() == null && model.getCommunityCards()[4] != null)
         {
             Log.d(TAG, "set r");
-            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 300, 500);
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 0, 0, model.getCommunityCards()[4].getCardSuit().ordinal(),model.getCommunityCards()[4].getCardRank().ordinal());
 
             communityCardViews[4].setImageBitmap(communityCardBitmap.getBitmap());
@@ -435,15 +435,15 @@ public class GameView extends AppCompatActivity {
 
             if(tempPlayer.getID() == model.myPlayer.getMyID())
             {
-                c.drawText("YOU", 25, 65, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrency()), 25, 105, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 25, 145, paint);
+                c.drawText("YOU", 15, 65, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrency()), 15, 110, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 15, 155, paint);
             }
             else
             {
-                c.drawText(tempPlayer.username, 25, 65, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrency()), 25, 105, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 25, 145, paint);
+                c.drawText(tempPlayer.username, 15, 65, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrency()), 15, 110, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 15, 155, paint);
             }
 
             ClientPlayer playerBitmap = new ClientPlayer(newBitmap, 0, 0, 0, 0);
@@ -457,11 +457,6 @@ public class GameView extends AppCompatActivity {
                     tempPlayer.getCurrentBet());
             playerDisplays[i].setContentDescription(player);
         }
-    }
-
-    public void addPlayer()
-    {
-
     }
 
     /**
