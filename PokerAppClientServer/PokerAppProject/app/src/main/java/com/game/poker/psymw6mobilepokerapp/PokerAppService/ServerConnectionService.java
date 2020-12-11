@@ -45,7 +45,6 @@ public class ServerConnectionService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.d(TAG, "ServerConnectionService binded to.");
         serviceBound = true;
         return binder;
     }
@@ -83,7 +82,6 @@ public class ServerConnectionService extends Service {
     public boolean onUnbind(Intent intent)
     {
         serviceBound = false;
-        Log.d(TAG, "ServerConnectionService unbinded.");
         return false;
     }
 
@@ -100,7 +98,6 @@ public class ServerConnectionService extends Service {
                     clientSocket = new Socket(HOST, PORT);
                     out = new ObjectOutputStream(clientSocket.getOutputStream());
                     in = new ObjectInputStream(clientSocket.getInputStream());
-                    Log.d(TAG,"socket connected xx.");
                 }
                 catch(IOException e)
                 {

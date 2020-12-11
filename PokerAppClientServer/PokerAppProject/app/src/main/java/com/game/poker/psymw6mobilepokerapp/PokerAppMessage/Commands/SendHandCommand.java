@@ -15,7 +15,6 @@ public class SendHandCommand implements Command {
      */
     public SendHandCommand(Card[] hand)
     {
-        System.out.println("hand command");
         this.hand = hand;
     }
 

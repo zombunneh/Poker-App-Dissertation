@@ -52,7 +52,6 @@ public class GameViewModel extends Observable {
     public void setID(int id)
     {
         myID = id;
-        Log.d(TAG,"setID");
     }
 
     /**
@@ -72,7 +71,6 @@ public class GameViewModel extends Observable {
      */
     public void updatePlayerList(List<PlayerUser> newPlayers)
     {
-        Log.d(TAG,"updateList");
         players.clear();
         players.addAll(newPlayers);
         for(PlayerUser player : newPlayers)
@@ -101,7 +99,6 @@ public class GameViewModel extends Observable {
      */
     public PlayerUser getPlayer(int id)
     {
-        Log.d(TAG,"getPlayer");
         PlayerUser temp;
         for(PlayerUser player : players)
         {
@@ -131,7 +128,6 @@ public class GameViewModel extends Observable {
      */
     public void setFlop(Card[] cards)
     {
-        Log.d(TAG,"setFlop");
         System.arraycopy(cards, 0, communityCards, 0, cards.length);
 
         setChanged();
@@ -145,7 +141,6 @@ public class GameViewModel extends Observable {
      */
     public void setTurn(Card card)
     {
-        Log.d(TAG,"setTurn");
         communityCards[3] = card;
         setChanged();
         notifyObservers(communityCards[3]);
@@ -158,7 +153,6 @@ public class GameViewModel extends Observable {
      */
     public void setRiver(Card card)
     {
-        Log.d(TAG,"setRiver");
         communityCards[4] = card;
         setChanged();
         notifyObservers(communityCards[4]);
@@ -181,7 +175,6 @@ public class GameViewModel extends Observable {
      */
     public void updateState(State state)
     {
-        Log.d(TAG, "changed state " + state.toString());
         this.state = state;
         setChanged();
         notifyObservers(state);
@@ -197,7 +190,6 @@ public class GameViewModel extends Observable {
     {
         if(getState() == State.CALL || getState() == State.CHECK || move == PlayerUserMove.EXIT)
         {
-            Log.d(TAG, "pressed button");
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -213,7 +205,6 @@ public class GameViewModel extends Observable {
             });
             t.start();
             updateState(State.READY);
-            Log.d(TAG, "pressed button");
         }
     }
 
@@ -261,7 +252,6 @@ public class GameViewModel extends Observable {
          */
         public void setBlind(int blind)
         {
-            Log.d(TAG, "blind set " + blind);
             if(blind > this.blind)
             {
                 this.blind = blind;
@@ -278,7 +268,6 @@ public class GameViewModel extends Observable {
          */
         public void addToPot(int bet)
         {
-            Log.d(TAG, "adding: " + bet + " to pot");
             pot += bet;
             setChanged();
             notifyObservers(pot);
@@ -342,7 +331,6 @@ public class GameViewModel extends Observable {
 
             setChanged();
             notifyObservers(hand);
-            Log.d(TAG,"setHand: " + hand[0].getCardRank().toString() + ", " + hand[1].getCardRank().toString());
         }
 
         /**
@@ -352,7 +340,6 @@ public class GameViewModel extends Observable {
          */
         public Card[] getMyHand()
         {
-            Log.d(TAG,"getHand");
             return getMyPlayer().getHand();
         }
 

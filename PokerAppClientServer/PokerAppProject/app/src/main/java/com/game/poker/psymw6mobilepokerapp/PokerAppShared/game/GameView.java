@@ -238,10 +238,8 @@ public class GameView extends AppCompatActivity {
                             invoker.startInvoker(false);
                             listener.setRunning(false);
 
-                            Log.d(TAG, "ended threads");
                         }
                     }
-                    Log.d(TAG, "ended monitor thread");
                 }
             }
         });
@@ -252,7 +250,6 @@ public class GameView extends AppCompatActivity {
     public void onStop()
     {
         super.onStop();
-        Log.d(TAG, "onstop");
         stopThreads();
     }
 
@@ -269,7 +266,6 @@ public class GameView extends AppCompatActivity {
             serviceInstance = null;
         }
         stopThreads();
-        Log.d(TAG, "activity destroyed");
     }
 
     /**
@@ -293,7 +289,7 @@ public class GameView extends AppCompatActivity {
             cards[i][1] = model.myPlayer.getMyHand()[i].getCardRank().ordinal();
         }
 
-        Bitmap handCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
+        Bitmap handCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 440, 600);
         ClientCard handCardBitmap = new ClientCard(handCardBitmap1, 0, 0, cards[0][0], cards[0][1]);
 
         handCards[0].setImageBitmap(handCardBitmap.getBitmap());
@@ -317,7 +313,6 @@ public class GameView extends AppCompatActivity {
     {
         if(model.getCommunityCards()[0] != null)
         {
-            Log.d(TAG, "add comm");
             int[][] cards = new int[3][2];
 
             for(int i = 0; i < 3; i++) {
@@ -325,7 +320,7 @@ public class GameView extends AppCompatActivity {
                 cards[i][1] = model.getCommunityCards()[i].getCardRank().ordinal();
             }
 
-            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 300, 500);
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 0, 0, cards[0][0], cards[0][1]);
 
             for(int i = 0; i < 3; i++)
@@ -351,8 +346,7 @@ public class GameView extends AppCompatActivity {
 
         if(communityCardViews[3].getDrawable() == null && model.getCommunityCards()[3] != null)
         {
-            Log.d(TAG, "set t");
-            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 300, 500);
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 0, 0, model.getCommunityCards()[3].getCardSuit().ordinal(),model.getCommunityCards()[3].getCardRank().ordinal());
 
             communityCardViews[3].setImageBitmap(communityCardBitmap.getBitmap());
@@ -364,8 +358,7 @@ public class GameView extends AppCompatActivity {
         }
         if(communityCardViews[4].getDrawable() == null && model.getCommunityCards()[4] != null)
         {
-            Log.d(TAG, "set r");
-            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 200, 300);
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 300, 500);
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 0, 0, model.getCommunityCards()[4].getCardSuit().ordinal(),model.getCommunityCards()[4].getCardRank().ordinal());
 
             communityCardViews[4].setImageBitmap(communityCardBitmap.getBitmap());
@@ -396,7 +389,6 @@ public class GameView extends AppCompatActivity {
      */
     public void removeCommunityCards()
     {
-        Log.d(TAG, "remove community cards");
         removeViews(communityCardViews);
     }
 
@@ -431,19 +423,17 @@ public class GameView extends AppCompatActivity {
             paint.setStyle(Paint.Style.FILL);
             paint.setTextSize(50);
 
-            Log.d(TAG, "" + tempPlayer.getCurrency());
-
             if(tempPlayer.getID() == model.myPlayer.getMyID())
             {
-                c.drawText("YOU", 25, 65, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrency()), 25, 105, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 25, 145, paint);
+                c.drawText("YOU", 15, 65, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrency()), 15, 110, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 15, 155, paint);
             }
             else
             {
-                c.drawText(tempPlayer.username, 25, 65, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrency()), 25, 105, paint);
-                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 25, 145, paint);
+                c.drawText(tempPlayer.username, 15, 65, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrency()), 15, 110, paint);
+                c.drawText(Integer.toString(tempPlayer.getCurrentBet()), 15, 155, paint);
             }
 
             ClientPlayer playerBitmap = new ClientPlayer(newBitmap, 0, 0, 0, 0);
@@ -459,11 +449,6 @@ public class GameView extends AppCompatActivity {
         }
     }
 
-    public void addPlayer()
-    {
-
-    }
-
     /**
      * Removes a player from the view
      *
@@ -473,7 +458,6 @@ public class GameView extends AppCompatActivity {
     {
         for(int i = 0; i < playerDisplayIDs.length; i++)
         {
-            Log.d(TAG, "" + id + " " + playerDisplayIDs[i]);
             if(playerDisplayIDs[i] == id)
             {
                 playerDisplays[i].setImageDrawable(null);
@@ -489,10 +473,8 @@ public class GameView extends AppCompatActivity {
      */
     public void updatePlayerTurn(int id)
     {
-        Log.d(TAG, "updating players turn");
         for(int i = 0; i < playerDisplayIDs.length; i++)
         {
-            Log.d(TAG, "" + playerDisplayIDs[i] + " " + id);
             if(playerDisplayIDs[i] == id)
             {
                 playerDisplayOverlays[i].setBackgroundResource(R.drawable.player_turn_animation);
@@ -582,7 +564,6 @@ public class GameView extends AppCompatActivity {
      */
     public void displayWinners(HashMap<PlayerUser, Hand> winners, int pot)
     {
-        Log.d(TAG, "game ended");
         PlayerUser temp = null;
         if(winners.size() != 0)
         {
@@ -606,7 +587,6 @@ public class GameView extends AppCompatActivity {
     {
         SeekBar slider = bet_slider_frag.getBetSlider();
         slider.setMax(model.myPlayer.getMyPlayer().getCurrency() - getMinValue());
-        Log.d(TAG, Integer.toString(model.myPlayer.getMyPlayer().getCurrency() - getMinValue()));
     }
 
     /**
@@ -830,14 +810,12 @@ public class GameView extends AppCompatActivity {
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d(TAG, "service connected");
             serviceBinder = (ServerConnectionService.ServerBinder) service;
             serviceInstance = serviceBinder.getService();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            Log.d(TAG, "service disconnected");
             serviceBinder = null;
         }
     };

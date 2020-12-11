@@ -42,7 +42,6 @@ public class GameViewController implements Observer {
      */
     public void updateView(GameViewModel model, final Object arg)
     {
-        Log.d(TAG, "update view");
         if(arg instanceof Card[])
         {
             gameView.runOnUiThread(new Runnable() {
@@ -55,7 +54,6 @@ public class GameViewController implements Observer {
         }
         else if(arg instanceof Card)
         {
-            Log.d(TAG, "turn/river update");
             gameView.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -66,7 +64,6 @@ public class GameViewController implements Observer {
         else if(arg instanceof List)
         {
             //update view + need one more to update individual players join/leave
-            Log.d(TAG, "update playerlist");
             gameView.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -159,7 +156,6 @@ public class GameViewController implements Observer {
         {
             if(arg == GameViewModel.State.CALL)
             {
-                Log.d(TAG, "state = call");
                 gameView.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -170,7 +166,6 @@ public class GameViewController implements Observer {
             }
             if(arg == GameViewModel.State.CHECK)
             {
-                Log.d(TAG, "state = check");
                 gameView.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -181,7 +176,6 @@ public class GameViewController implements Observer {
             }
             if(arg == GameViewModel.State.READY)
             {
-                Log.d(TAG, "state = ready");
                 gameView.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -223,7 +217,6 @@ public class GameViewController implements Observer {
     {
         if(arg instanceof Integer)
         {
-            Log.d(TAG, "updating pot");
             gameView.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -272,7 +265,6 @@ public class GameViewController implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        Log.d(TAG, "change observed");
         if(o instanceof GameViewModel)
         {
             this.updateView((GameViewModel) o, arg);

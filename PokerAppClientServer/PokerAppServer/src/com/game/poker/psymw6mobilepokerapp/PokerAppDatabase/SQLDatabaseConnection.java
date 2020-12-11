@@ -3,7 +3,7 @@ package com.game.poker.psymw6mobilepokerapp.PokerAppDatabase;
 import java.sql.*;
 
 public class SQLDatabaseConnection {
-    private static final String dburl = "jdbc:mysql://localhost:3306/pokerappdatabase?useSSL=false&allowPublicKeyRetrieval=true";
+    private static final String dburl = "jdbc:mysql://localhost:3306/pokerappdatabase?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT";
     public static final String username = "matthew";
     public static final String password = "123465";
 
@@ -21,9 +21,7 @@ public class SQLDatabaseConnection {
     {
        try
        {
-           System.out.println("The url is " + url);
            Connection connection = DriverManager.getConnection(url, user, pass);
-           System.out.println("connected to database");
            return connection;
        }
        catch(SQLException e)
@@ -32,6 +30,23 @@ public class SQLDatabaseConnection {
            e.printStackTrace();
        }
        return null;
+    }
+
+
+    /**
+     * Closes the database connection
+     */
+    public void disconnectFromDatabase()
+    {
+        try{
+            connect.close();
+        }
+        catch(SQLException e)
+        {
+            System.err.println("Error disconnecting from database");
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -63,22 +78,5 @@ public class SQLDatabaseConnection {
             e.printStackTrace();
         }
         return null;
-    }
-
-
-    /**
-     * Closes the database connection
-     */
-    public void disconnectFromDatabase()
-    {
-        try{
-            connect.close();
-        }
-        catch(SQLException e)
-        {
-            System.err.println("Error disconnecting from database");
-            e.printStackTrace();
-        }
-
     }
 }

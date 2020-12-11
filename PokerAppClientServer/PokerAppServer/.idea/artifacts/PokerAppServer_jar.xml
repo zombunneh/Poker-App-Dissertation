@@ -1,0 +1,57 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="PokerAppServer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PokerAppServer_jar</output-path>
+    <root id="archive" name="PokerAppServer.jar">
+      <element id="module-output" name="PokerAppServer" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/gson-2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/guava-20.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/xpp3-1.1.4c.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/jetty-6.1.26.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/jsr305-3.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/httpcore-4.4.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/jdo2-api-2.3-eb.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/httpclient-4.5.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/jetty-util-6.1.26.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/jackson-core-2.9.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/commons-logging-1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/protobuf-java-2.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/transaction-api-1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/jackson-core-asl-1.9.11.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-api-client-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-http-client-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-oauth-client-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-api-client-xml-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-api-client-gson-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-http-client-jdo-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-http-client-xml-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-api-client-java6-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-http-client-gson-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-api-client-android-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-api-client-servlet-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-oauth-client-java6-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-oauth-client-jetty-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-api-client-jackson2-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-api-client-protobuf-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-http-client-android-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-http-client-jackson-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-api-client-appengine-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-http-client-jackson2-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-http-client-protobuf-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-oauth-client-servlet-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-http-client-appengine-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-api-java-client/libs/google-oauth-client-appengine-1.24.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-api/5.4.0-M1/junit-jupiter-api-5.4.0-M1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.4.0-M1/junit-platform-commons-1.4.0-M1.jar" path-in-jar="/" />
+      <element id="library" level="application" name="libs" />
+      <element id="dir-copy" path="$PROJECT_DIR$/lib/google-api-java-client" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/MySQL/Connector J 8.0/src.zip" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/MySQL/Connector J 8.0/mysql-connector-java-8.0.15.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/sqljdbc_7.0/enu/mssql-jdbc-7.0.0.jre8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/sqljdbc_7.0/enu/mssql-jdbc-7.0.0.jre10.jar" path-in-jar="/" />
+      <element id="library" level="project" name="libs" />
+      <element id="library" level="project" name="enu" />
+    </root>
+  </artifact>
+</component>

@@ -20,7 +20,6 @@ public class SendPlayerListCommand implements Command {
      */
     public SendPlayerListCommand(List<PlayerUser> players)
     {
-        System.out.println("player list command");
         this.players = players;
     }
 

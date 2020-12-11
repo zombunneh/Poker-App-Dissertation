@@ -98,7 +98,6 @@ public class GameLogin extends AppCompatActivity {
         if(!loginPrefs.getBoolean(getString(R.string.existingUUID), false));
         {
             UUID id = UUID.randomUUID();
-            Log.d(TAG, id.toString());
             SharedPreferences.Editor edit = loginPrefs.edit();
             edit.putBoolean(getString(R.string.existingUUID), true);
             edit.putString(getString(R.string.currentUUID), id.toString());
@@ -148,8 +147,6 @@ public class GameLogin extends AppCompatActivity {
         {
             serviceInstance = null;
         }
-        Log.d(TAG, "activity stopped");
-        Log.d(TAG, "activity destroyed");
     }
 
     /**
@@ -169,7 +166,6 @@ public class GameLogin extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
-            Log.d(TAG, "onActivityResult");
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
@@ -178,7 +174,6 @@ public class GameLogin extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            Log.d(TAG, "attempting to sign in");
             signInFlow(account, null);
             SharedPreferences.Editor editLoginPrefs = loginPrefs.edit();
             editLoginPrefs.putBoolean(getString(R.string.isLoggedIn), true);
@@ -203,14 +198,12 @@ public class GameLogin extends AppCompatActivity {
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d(TAG, "service connected");
             serviceBinder = (ServerConnectionService.ServerBinder) service;
             serviceInstance = serviceBinder.getService();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            Log.d(TAG, "service disconnected");
             serviceBinder = null;
         }
     };
@@ -223,7 +216,6 @@ public class GameLogin extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("message");
-            Log.d(TAG, "message received: " + message);
             switch(message)
             {
                 case "loginDetailsUpdated":
@@ -269,7 +261,6 @@ public class GameLogin extends AppCompatActivity {
             @Override
             public void run() {
                 //logic flow for logging in
-                Log.d(TAG, "sign in flow started");
                 boolean creatingAccount = false;
                 while(serviceInstance == null)
                 {
@@ -288,11 +279,13 @@ public class GameLogin extends AppCompatActivity {
                     SharedPreferences.Editor edit = loginPrefs.edit();
                     edit.putInt(getString(R.string.accountType), accountType);
                     edit.apply();
-                    //login with google acc
+
                     if(accountType == 0) {
+                        //login with google account
                         serviceInstance.retrieveUserDetailsOnLogin(account);
                     }
                     else {
+                        //login with guest account
                         serviceInstance.retrieveUserDetailsOnLogin(user_id);
                     }
                     while(!loginCompleted)
@@ -334,7 +327,7 @@ public class GameLogin extends AppCompatActivity {
                             //fragment for account creation
                             if(!creatingAccount)
                             {
-                                Log.d(TAG, "account not found");
+
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -381,7 +374,6 @@ public class GameLogin extends AppCompatActivity {
 
         if(account != null)
         {
-            Log.d(TAG, "sign  in flow thread created");
             Thread t = new Thread(new signInRunnable(account));
             t.start();
         }

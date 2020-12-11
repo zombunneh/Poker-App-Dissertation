@@ -61,7 +61,6 @@ public class ClientConnection {
      */
     public PlayerUserTurn getPlayerMove() throws IOException
     {
-        System.out.println("getplayermove");
         PlayerUserTurn turn;
         try
         {

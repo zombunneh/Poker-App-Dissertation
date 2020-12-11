@@ -81,7 +81,7 @@ public class Zoomed_Cards extends Fragment {
                 cards[i][1] = ((GameView)getActivity()).model.myPlayer.getMyHand()[i].getCardRank().ordinal();
             }
 
-            Bitmap handCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards_large, 390, 500);
+            Bitmap handCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 450, 650);
             ClientCard handCardBitmap = new ClientCard(handCardBitmap1, 0, 0, cards[0][0], cards[0][1]);
 
             Bitmap resized = getResizedBitmap(handCardBitmap.getBitmap(), 400, 700);
@@ -113,7 +113,7 @@ public class Zoomed_Cards extends Fragment {
                 }
             }
 
-            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards_large, 390, 500);
+            Bitmap communityCardBitmap1 = decodeSampledBitmapFromResource(getResources(), R.drawable.playing_cards, 390, 500);
             ClientCard communityCardBitmap = new ClientCard(communityCardBitmap1, 0, 0, cards[0][0], cards[0][1]);
 
             for(int i = 0; i < 5; i++)
